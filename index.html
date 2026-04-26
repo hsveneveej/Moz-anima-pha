@@ -56,9 +56,7 @@
             max-width: 480px;
             margin: 0 auto;
         }
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         .flower-container {
             position: absolute;
@@ -134,14 +132,8 @@
             cursor: pointer;
             letter-spacing: 2px;
         }
-        .header-icons {
-            display: flex;
-            gap: 18px;
-            font-size: 20px;
-        }
-        .header-icons i {
-            cursor: pointer;
-        }
+        .header-icons { display: flex; gap: 18px; font-size: 20px; }
+        .header-icons i { cursor: pointer; }
 
         .stats-container {
             display: grid;
@@ -158,20 +150,8 @@
             transform: perspective(500px) rotateX(5deg);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .stat-label {
-            font-size: 9px;
-            color: #dfe6e9;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .stat-value {
-            font-size: 16px;
-            font-weight: 900;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .stat-label { font-size: 9px; color: #dfe6e9; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 16px; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .timer-bar {
             background: linear-gradient(135deg, #2d3436, #636e72);
@@ -195,37 +175,11 @@
             transform: perspective(800px) rotateX(3deg);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .balance-title {
-            font-size: 14px;
-            color: #b2bec3;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 4px;
-        }
-        .balance-amount {
-            font-size: 42px;
-            font-weight: 900;
-            text-align: center;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 5px 0;
-        }
-        .commission-display {
-            text-align: center;
-            color: var(--success);
-            font-size: 14px;
-            font-weight: 700;
-        }
+        .balance-title { font-size: 14px; color: #b2bec3; text-align: center; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 4px; }
+        .balance-amount { font-size: 42px; font-weight: 900; text-align: center; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 5px 0; }
+        .commission-display { text-align: center; color: var(--success); font-size: 14px; font-weight: 700; }
 
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            padding: 0 12px;
-            margin: 12px 0;
-        }
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 12px; margin: 12px 0; }
         .btn-3d {
             padding: 16px 14px;
             border: none;
@@ -244,25 +198,11 @@
             gap: 8px;
             justify-content: center;
         }
-        .btn-3d:active {
-            transform: perspective(500px) rotateX(0deg) translateY(4px) !important;
-        }
-        .btn-deposit {
-            background: linear-gradient(135deg, #20bf6b, #26de81);
-            box-shadow: 0 5px 0 #1e7e34;
-        }
-        .btn-withdraw {
-            background: linear-gradient(135deg, #8854d0, #a55eea);
-            box-shadow: 0 5px 0 #6c3a9e;
-        }
-        .btn-tasks {
-            background: linear-gradient(135deg, #4834d4, #686de0);
-            box-shadow: 0 5px 0 #2e3192;
-        }
-        .btn-friends {
-            background: var(--gradient);
-            box-shadow: 0 5px 0 #d63031;
-        }
+        .btn-3d:active { transform: perspective(500px) rotateX(0deg) translateY(4px) !important; }
+        .btn-deposit { background: linear-gradient(135deg, #20bf6b, #26de81); box-shadow: 0 5px 0 #1e7e34; }
+        .btn-withdraw { background: linear-gradient(135deg, #8854d0, #a55eea); box-shadow: 0 5px 0 #6c3a9e; }
+        .btn-tasks { background: linear-gradient(135deg, #4834d4, #686de0); box-shadow: 0 5px 0 #2e3192; }
+        .btn-friends { background: var(--gradient); box-shadow: 0 5px 0 #d63031; }
 
         .section-title-3d {
             font-size: 20px;
@@ -276,19 +216,9 @@
             gap: 10px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
-        .section-title-3d::after {
-            content: '';
-            flex: 1;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold), transparent);
-            border-radius: 2px;
-        }
+        .section-title-3d::after { content: ''; flex: 1; height: 4px; background: linear-gradient(90deg, var(--gold), transparent); border-radius: 2px; }
 
-        .vip-grid {
-            display: grid;
-            gap: 10px;
-            padding: 0 12px;
-        }
+        .vip-grid { display: grid; gap: 10px; padding: 0 12px; }
 
         .vip-card-3d {
             background: #FFFFFF !important;
@@ -302,7 +232,6 @@
             color: #2D3436;
             border: 2px solid #e0e0e0;
         }
-
         .vip-card-3d.active-vip {
             border: 3px solid #FFD700 !important;
             box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 35px rgba(255, 215, 0, 0.6) !important;
@@ -312,18 +241,8 @@
             0%, 100% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 35px rgba(255, 215, 0, 0.6); }
             50% { box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 55px rgba(255, 215, 0, 0.9); }
         }
-
-        .vip-card-3d.disabled {
-            opacity: 0.55;
-            pointer-events: none;
-            filter: grayscale(30%);
-            border: 2px solid #ddd;
-        }
-
-        .vip-card-3d.purchased {
-            opacity: 0.7;
-            border: 2px solid rgba(0, 184, 148, 0.5);
-        }
+        .vip-card-3d.disabled { opacity: 0.55; pointer-events: none; filter: grayscale(30%); border: 2px solid #ddd; }
+        .vip-card-3d.purchased { opacity: 0.7; border: 2px solid rgba(0, 184, 148, 0.5); }
 
         .vip-badge-3d {
             position: absolute;
@@ -338,37 +257,11 @@
             z-index: 1;
             letter-spacing: 0.5px;
         }
+        .vip-name { position: relative; z-index: 1; font-size: 22px; font-weight: 900; margin-bottom: 4px; color: #2D3436; }
+        .vip-price { position: relative; z-index: 1; font-size: 16px; font-weight: 700; color: #636E72; margin-bottom: 12px; }
+        .vip-price b { font-size: 20px; color: #FF6B35; }
 
-        .vip-name {
-            position: relative;
-            z-index: 1;
-            font-size: 22px;
-            font-weight: 900;
-            margin-bottom: 4px;
-            color: #2D3436;
-        }
-
-        .vip-price {
-            position: relative;
-            z-index: 1;
-            font-size: 16px;
-            font-weight: 700;
-            color: #636E72;
-            margin-bottom: 12px;
-        }
-        .vip-price b {
-            font-size: 20px;
-            color: #FF6B35;
-        }
-
-        .vip-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 6px 0 10px 0;
-            position: relative;
-            z-index: 1;
-        }
+        .vip-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 6px 0 10px 0; position: relative; z-index: 1; }
         .vip-detail-item {
             padding: 12px 8px;
             border-radius: 14px;
@@ -380,22 +273,12 @@
             color: white;
             letter-spacing: 0.5px;
         }
-
         .vip-detail-item.detail-days { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
         .vip-detail-item.detail-daily { background: linear-gradient(135deg, #00B894, #55EFC4); }
         .vip-detail-item.detail-withdraw { background: linear-gradient(135deg, #E17055, #FDCB6E); }
         .vip-detail-item.detail-expiry { background: linear-gradient(135deg, #0984E3, #74B9FF); }
-
-        .vip-detail-item .detail-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            opacity: 0.9;
-            margin-bottom: 2px;
-        }
-        .vip-detail-item .detail-value {
-            font-size: 18px;
-            font-weight: 900;
-        }
+        .vip-detail-item .detail-label { font-size: 10px; text-transform: uppercase; opacity: 0.9; margin-bottom: 2px; }
+        .vip-detail-item .detail-value { font-size: 18px; font-weight: 900; }
 
         .expiry-countdown {
             background: #FFF8E1;
@@ -410,11 +293,7 @@
             z-index: 1;
             border: 1px solid #FFE082;
         }
-        .expiry-countdown.expired {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1px solid #EF9A9A;
-        }
+        .expiry-countdown.expired { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
 
         .btn-invest-3d {
             width: 100%;
@@ -434,43 +313,11 @@
             z-index: 1;
             letter-spacing: 1px;
         }
-        .btn-invest-3d:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        .btn-invest-3d:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #999 !important;
-            box-shadow: 0 4px 0 #777;
-        }
+        .btn-invest-3d:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2); }
+        .btn-invest-3d:disabled { opacity: 0.5; cursor: not-allowed; background: #999 !important; box-shadow: 0 4px 0 #777; }
 
-        .vip-status-active {
-            background: #E8F5E9;
-            padding: 10px;
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            font-weight: 700;
-            font-size: 14px;
-            border: 2px solid #4CAF50;
-            color: #2E7D32;
-            margin-top: 4px;
-        }
-        .vip-status-locked {
-            background: #FFF3E0;
-            padding: 10px;
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            font-weight: 700;
-            font-size: 14px;
-            border: 2px solid #FF9800;
-            color: #E65100;
-            margin-top: 4px;
-        }
+        .vip-status-active { background: #E8F5E9; padding: 10px; border-radius: 10px; position: relative; z-index: 1; text-align: center; font-weight: 700; font-size: 14px; border: 2px solid #4CAF50; color: #2E7D32; margin-top: 4px; }
+        .vip-status-locked { background: #FFF3E0; padding: 10px; border-radius: 10px; position: relative; z-index: 1; text-align: center; font-weight: 700; font-size: 14px; border: 2px solid #FF9800; color: #E65100; margin-top: 4px; }
 
         .fund-total-display {
             background: #E8F5E9;
@@ -485,12 +332,7 @@
             position: relative;
             z-index: 1;
         }
-        .fund-total-display .total-amount {
-            font-size: 22px;
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .fund-total-display .total-amount { font-size: 22px; background: linear-gradient(135deg, #2E7D32, #4CAF50); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .nav-3d {
             position: fixed;
@@ -505,320 +347,73 @@
             transform: perspective(800px) rotateX(-2deg);
             border-top: 2px solid rgba(255, 255, 255, 0.1);
         }
-        .nav-item-3d {
-            flex: 1;
-            text-align: center;
-            color: #888;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: all 0.3s;
-        }
-        .nav-item-3d.active {
-            color: var(--gold);
-            transform: translateY(-5px);
-        }
-        .nav-item-3d i {
-            font-size: 22px;
-            display: block;
-            margin-bottom: 3px;
-        }
+        .nav-item-3d { flex: 1; text-align: center; color: #888; font-size: 10px; font-weight: 700; cursor: pointer; background: none; border: none; transition: all 0.3s; }
+        .nav-item-3d.active { color: var(--gold); transform: translateY(-5px); }
+        .nav-item-3d i { font-size: 22px; display: block; margin-bottom: 3px; }
 
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-        .modal-3d {
-            background: white;
-            border-radius: 22px;
-            padding: 22px;
-            width: 100%;
-            max-width: 420px;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 0 #636e72;
-            color: #2D3436;
-        }
-        .modal-3d h3, .modal-3d h4 {
-            color: #2D3436;
-            font-size: 18px;
-        }
-        .input-3d {
-            width: 100%;
-            padding: 14px 16px;
-            border: 3px solid #dfe6e9;
-            border-radius: 14px;
-            font-size: 16px;
-            margin: 8px 0;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: white;
-            color: #2D3436;
-        }
-        .input-3d:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        .input-3d::placeholder {
-            color: #aaa;
-        }
-        .btn-modal-3d {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            color: white;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 8px;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn-modal-3d:active {
-            transform: translateY(3px);
-        }
-        .btn-modal-3d:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #999 !important;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 15px; }
+        .modal-3d { background: white; border-radius: 22px; padding: 22px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 0 #636e72; color: #2D3436; }
+        .modal-3d h3, .modal-3d h4 { color: #2D3436; font-size: 18px; }
+        .input-3d { width: 100%; padding: 14px 16px; border: 3px solid #dfe6e9; border-radius: 14px; font-size: 16px; margin: 8px 0; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); background: white; color: #2D3436; }
+        .input-3d:focus { outline: none; border-color: var(--primary); }
+        .input-3d::placeholder { color: #aaa; }
+        .btn-modal-3d { width: 100%; padding: 14px; border: none; border-radius: 14px; color: white; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 8px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25); transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-modal-3d:active { transform: translateY(3px); }
+        .btn-modal-3d:disabled { opacity: 0.5; cursor: not-allowed; background: #999 !important; }
 
-        .withdrawal-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin: 14px 0;
-        }
-        .withdrawal-btn {
-            padding: 10px 6px;
-            border: 2px solid #dfe6e9;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-            background: white;
-            color: #2D3436;
-        }
-        .withdrawal-btn.selected {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        .withdrawal-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #f5f5f5;
-            color: #999;
-            text-decoration: line-through;
-        }
-        .withdrawal-btn.allowed {
-            border-color: var(--success);
-            background: #f0fff4;
-        }
+        .withdrawal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 14px 0; }
+        .withdrawal-btn { padding: 10px 6px; border: 2px solid #dfe6e9; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.3s; background: white; color: #2D3436; }
+        .withdrawal-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .withdrawal-btn:disabled { opacity: 0.5; cursor: not-allowed; background: #f5f5f5; color: #999; text-decoration: line-through; }
+        .withdrawal-btn.allowed { border-color: var(--success); background: #f0fff4; }
 
-        .history-item {
-            background: white;
-            padding: 12px;
-            margin: 4px 0;
-            border-radius: 12px;
-            border-left: 5px solid var(--primary);
-            font-size: 13px;
-            color: #2D3436;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+        .history-item { background: white; padding: 12px; margin: 4px 0; border-radius: 12px; border-left: 5px solid var(--primary); font-size: 13px; color: #2D3436; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
 
-        .login-bubbles {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-        }
-        .login-bubble {
-            background: linear-gradient(135deg, #2d3436, #434a54);
-            border-radius: 16px;
-            padding: 10px 14px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 12px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            animation: float 2s ease-in-out infinite;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .login-bubbles { display: flex; justify-content: space-around; padding: 10px; }
+        .login-bubble { background: linear-gradient(135deg, #2d3436, #434a54); border-radius: 16px; padding: 10px 14px; text-align: center; font-weight: 700; font-size: 12px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); animation: float 2s ease-in-out infinite; color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
-        .invite-message {
-            background: rgba(0, 184, 148, 0.2);
-            color: #4caf50;
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            margin: 12px 0;
-            font-weight: 700;
-            font-size: 14px;
-            border: 1px solid rgba(0, 184, 148, 0.3);
-        }
-        .fake-activity {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 6px 12px;
-            border-radius: 8px;
-            margin: 4px 0;
-            font-size: 11px;
-            text-align: center;
-            animation: slideIn 3s ease-in-out infinite;
-            color: #dfe6e9;
-        }
+        .invite-message { background: rgba(0, 184, 148, 0.2); color: #4caf50; padding: 12px; border-radius: 12px; text-align: center; margin: 12px 0; font-weight: 700; font-size: 14px; border: 1px solid rgba(0, 184, 148, 0.3); }
+        .fake-activity { background: rgba(255, 215, 0, 0.1); padding: 6px 12px; border-radius: 8px; margin: 4px 0; font-size: 11px; text-align: center; animation: slideIn 3s ease-in-out infinite; color: #dfe6e9; }
         @keyframes slideIn {
             0% { opacity: 0; transform: translateX(-20px); }
             50% { opacity: 1; transform: translateX(0); }
             100% { opacity: 0; transform: translateX(20px); }
         }
 
-        .switch-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin: 8px 0;
-            color: #2D3436;
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #f8f9fa; border-radius: 10px; margin: 8px 0; color: #2D3436; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 26px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked+.slider { background-color: var(--success); }
         input:checked+.slider:before { transform: translateX(24px); }
 
-        .referral-card {
-            background: white;
-            border: 2px solid var(--gold);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 12px;
-            color: #2D3436;
-        }
-        .referral-link {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 11px;
-            word-break: break-all;
-            margin: 10px 0;
-            border: 1px dashed var(--primary);
-            color: #636E72;
-        }
-        .referral-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-            padding: 0 12px;
-        }
-        .referral-stat {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 12px;
-            color: #2D3436;
-        }
-        .referred-user {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 4px 12px;
-            font-size: 11px;
-            border-left: 4px solid var(--success);
-            color: #2D3436;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+        .referral-card { background: white; border: 2px solid var(--gold); border-radius: 16px; padding: 16px; margin: 12px; color: #2D3436; }
+        .referral-link { background: #f8f9fa; padding: 10px; border-radius: 10px; font-size: 11px; word-break: break-all; margin: 10px 0; border: 1px dashed var(--primary); color: #636E72; }
+        .referral-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 0 12px; }
+        .referral-stat { background: #f8f9fa; padding: 10px; border-radius: 10px; text-align: center; font-size: 12px; color: #2D3436; }
+        .referred-user { background: white; padding: 10px; border-radius: 10px; margin: 4px 12px; font-size: 11px; border-left: 4px solid var(--success); color: #2D3436; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
 
-        .withdraw-status-bar {
-            background: #f8f9fa;
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin: 10px 12px;
-            font-size: 12px;
-            text-align: center;
-            color: #636E72;
-        }
-        .withdraw-status-bar.allowed {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .withdraw-status-bar.blocked {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        .withdraw-status-bar { background: #f8f9fa; padding: 10px 14px; border-radius: 12px; margin: 10px 12px; font-size: 12px; text-align: center; color: #636E72; }
+        .withdraw-status-bar.allowed { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .withdraw-status-bar.blocked { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
         .admin-search { display: flex; gap: 6px; }
         .admin-search input { flex: 1; }
         .admin-search button { width: auto; padding: 14px 18px; white-space: nowrap; }
-        .pending-item {
-            border: 1px solid #eee;
-            padding: 10px;
-            margin: 4px 0;
-            border-radius: 10px;
-            font-size: 12px;
-            color: #2D3436;
-            background: #fafafa;
-        }
+        .pending-item { border: 1px solid #eee; padding: 10px; margin: 4px 0; border-radius: 10px; font-size: 12px; color: #2D3436; background: #fafafa; }
 
-        #login-screen>div {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
-            color: white;
-        }
-        #login-screen .input-3d {
-            background: rgba(255, 255, 255, 0.95);
-            color: #2D3436;
-            border-color: rgba(255, 255, 255, 0.3);
-            font-size: 16px;
-        }
+        #login-screen>div { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important; color: white; }
+        #login-screen .input-3d { background: rgba(255, 255, 255, 0.95); color: #2D3436; border-color: rgba(255, 255, 255, 0.3); font-size: 16px; }
         #login-screen .input-3d::placeholder { color: #999; }
         #tab-history .section-title-3d { color: #FFD700; }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- TELA DE LOGIN -->
         <div id="login-screen">
             <div style="min-height:100vh;display:flex;flex-direction:column;padding:20px;">
                 <div style="text-align:center;padding:20px 0;">
@@ -847,7 +442,6 @@
             </div>
         </div>
 
-        <!-- TELA DO APP -->
         <div id="app-screen" class="hidden">
             <div class="header-3d">
                 <span class="logo-text" id="admin-trigger">👑 MOZ ANIMA PHA</span>
@@ -857,10 +451,10 @@
                 </div>
             </div>
             <div class="stats-container">
-                <div class="stat-card-3d"><div class="stat-label">📅 Ontem</div><div class="stat-value" id="stat-yesterday">0</div></div>
-                <div class="stat-card-3d"><div class="stat-label">☀️ Hoje</div><div class="stat-value" id="stat-today">0</div></div>
-                <div class="stat-card-3d"><div class="stat-label">📊 Mês</div><div class="stat-value" id="stat-month">0</div></div>
-                <div class="stat-card-3d"><div class="stat-label">🎯 Ano</div><div class="stat-value" id="stat-year">0</div></div>
+                <div class="stat-card-3d"><div class="stat-label">📅 Ontem</div><div class="stat-value" id="stat-yesterday">0.00</div></div>
+                <div class="stat-card-3d"><div class="stat-label">☀️ Hoje</div><div class="stat-value" id="stat-today">0.00</div></div>
+                <div class="stat-card-3d"><div class="stat-label">📊 Mês</div><div class="stat-value" id="stat-month">0.00</div></div>
+                <div class="stat-card-3d"><div class="stat-label">🎯 Ano</div><div class="stat-value" id="stat-year">0.00</div></div>
             </div>
             <div class="timer-bar">⏰ <span id="timer-label">Próxima coleta:</span> <span id="global-timer">24:00:00</span></div>
             <div id="withdraw-status-bar" class="withdraw-status-bar">Verificando...</div>
@@ -898,7 +492,7 @@
                 </div>
                 <div class="referral-stats">
                     <div class="referral-stat"><small>👥 Indicados</small><br><b style="font-size:24px;" id="referral-count">0</b></div>
-                    <div class="referral-stat"><small>💰 Ganhos</small><br><b style="font-size:18px;" id="referral-total">MT 0</b></div>
+                    <div class="referral-stat"><small>💰 Ganhos</small><br><b style="font-size:18px;" id="referral-total">MT 0.00</b></div>
                 </div>
                 <div id="referred-users-list" style="margin:5px 12px;"></div>
             </div>
@@ -934,7 +528,6 @@
             </nav>
         </div>
 
-        <!-- MODAIS -->
         <div id="deposit-modal" class="modal-overlay hidden">
             <div class="modal-3d">
                 <h3>💰 Depositar</h3>
@@ -1192,8 +785,10 @@
                     if (u.password !== pw) return alert('Senha incorreta!');
                     if (!u.vipPurchased) u.vipPurchased = {};
                     if (!u.stats) u.stats = { yesterday: 0, today: 0, month: 0, year: 0 };
-                    if (!u.investments) u.investments = [];
-                    if (!u.balance) u.balance = 0;
+                    // Garante que balance seja número
+                    u.balance = Number(u.balance) || 0;
+                    u.commission = Number(u.commission) || 0;
+                    u.referralBonus = Number(u.referralBonus) || 0;
                     currentUser = u;
                     isLoggedIn = true;
                     showApp();
@@ -1226,7 +821,7 @@
             document.getElementById('login-screen').classList.remove('hidden');
         }
 
-        async function refreshAll() { updateUI(); updateWithdrawUI(); await loadVIPs(); await loadFunds(); loadProfitHistory(); loadWithdrawalHistory(); loadDepositHistory(); loadMyVIPs(); loadReferralTab(); }
+        async function refreshAll() { updateUI(); updateWithdrawUI(); await loadVIPs(); await loadFunds(); loadActiveInvestments(); loadProfitHistory(); loadWithdrawalHistory(); loadDepositHistory(); loadMyVIPs(); loadReferralTab(); }
 
         function startAutoCollect() {
             if (!isLoggedIn) return;
@@ -1240,10 +835,12 @@
                 if (currentUser.vipLevel) {
                     const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
                     if (v && (!currentUser.vipLastCollect || new Date(currentUser.vipLastCollect).toDateString() !== today)) {
-                        currentUser.balance += v.daily;
+                        currentUser.balance = (Number(currentUser.balance) || 0) + v.daily;
                         currentUser.vipLastCollect = new Date().toISOString();
                         if (!currentUser.stats) currentUser.stats = { yesterday: 0, today: 0, month: 0, year: 0 };
-                        currentUser.stats.today += v.daily; currentUser.stats.month += v.daily; currentUser.stats.year += v.daily;
+                        currentUser.stats.today = (Number(currentUser.stats.today) || 0) + v.daily;
+                        currentUser.stats.month = (Number(currentUser.stats.month) || 0) + v.daily;
+                        currentUser.stats.year = (Number(currentUser.stats.year) || 0) + v.daily;
                         await saveUser(currentUser);
                         await addTransaction({ phone: currentUser.phone, type: 'vip_return', amount: v.daily, date: new Date().toISOString(), auto: true });
                         updateUI(); loadMyVIPs(); loadProfitHistory();
@@ -1309,52 +906,13 @@
         }
 
         async function loadFunds() {
-            const c = document.getElementById('funds-list'); 
-            if (!c) return;
-            
-            if (!currentUser.investments) currentUser.investments = [];
-            
+            const c = document.getElementById('funds-list'); if (!c) return;
             const sun = new Date().getDay() === 0;
             c.innerHTML = FUNDS_CONFIG.map(f => {
-                const activeInvestment = currentUser.investments?.find(i => i.fundId === f.id && !i.completed);
-                const completedInvestment = currentUser.investments?.some(i => i.fundId === f.id && i.completed);
+                const act = currentUser?.investments?.find(i => i.fundId === f.id && !i.completed);
+                const inv = currentUser?.investments?.some(i => i.fundId === f.id);
                 const flowerHTML = createFlowerHTML(f.flowerColor, f.id * 0.2);
-                
-                let actionHTML = '';
-                if (activeInvestment) {
-                    const endDate = new Date(activeInvestment.endDate);
-                    const now = new Date();
-                    const canRedeem = now >= endDate;
-                    const daysLeft = Math.ceil((endDate - now) / 86400000);
-                    
-                    actionHTML = canRedeem 
-                        ? `<button onclick="completeFund(${currentUser.investments.indexOf(activeInvestment)})" class="btn-invest-3d" style="background:#FFD700;color:#000;">🎉 Resgatar MT ${activeInvestment.totalReturn.toLocaleString()}</button>`
-                        : `<div class="vip-status-active">⏳ Ativo - ${daysLeft} dias restantes</div>`;
-                } else if (completedInvestment) {
-                    actionHTML = `<div class="vip-status-active">✅ Concluído</div>`;
-                } else {
-                    actionHTML = `<button onclick="investFund(${f.id})" class="btn-invest-3d" style="background:#4CAF50;" ${sun ? 'disabled' : ''}>${sun ? '🚫 Domingo' : '💰 Investir'}</button>`;
-                }
-                
-                return `<div class="vip-card-3d" style="border:2px solid #4CAF50;">
-                    ${flowerHTML}
-                    <h3 class="vip-name">🌱 Fundo ${f.id}</h3>
-                    <div class="vip-price">Investimento: <b>MT ${f.amount.toLocaleString()}</b></div>
-                    <div class="vip-details">
-                        <div class="vip-detail-item detail-days">
-                            <div class="detail-label">📅 Duração</div>
-                            <div class="detail-value">${f.duration}d</div>
-                        </div>
-                        <div class="vip-detail-item detail-daily">
-                            <div class="detail-label">💰 Diário</div>
-                            <div class="detail-value">MT ${f.dailyReturn}</div>
-                        </div>
-                    </div>
-                    <div class="fund-total-display">
-                        🎯 Retorno total: <span class="total-amount">MT ${f.totalReturn.toLocaleString()}</span>
-                    </div>
-                    ${actionHTML}
-                </div>`;
+                return `<div class="vip-card-3d" style="border:2px solid #4CAF50;">${flowerHTML}<h3 class="vip-name">🌱 Fundo ${f.id}</h3><div class="vip-price">Investimento: <b>MT ${f.amount.toLocaleString()}</b></div><div class="vip-details"><div class="vip-detail-item detail-days"><div class="detail-label">📅 Duração</div><div class="detail-value">${f.duration}d</div></div><div class="vip-detail-item detail-daily"><div class="detail-label">💰 Diário</div><div class="detail-value">MT ${f.dailyReturn}</div></div></div><div class="fund-total-display">🎯 Retorno total: <span class="total-amount">MT ${f.totalReturn.toLocaleString()}</span></div>${act?`<button onclick="completeFund(${currentUser.investments.indexOf(act)})" class="btn-invest-3d" style="background:#FFD700;color:#000;">🎉 Resgatar</button>`:inv?`<div class="vip-status-active">✅ Concluído</div>`:`<button onclick="investFund(${f.id})" class="btn-invest-3d" style="background:#4CAF50;" ${sun?'disabled':''}>${sun?'🚫 Domingo':'💰 Investir'}</button>`}</div>`;
             }).join('');
         }
 
@@ -1364,7 +922,7 @@
             const all = await getAllUsers();
             const my = all.filter(u => u.referredBy === currentUser.phone);
             document.getElementById('referral-count').textContent = my.length;
-            document.getElementById('referral-total').textContent = 'MT ' + (currentUser.referralBonus || 0).toFixed(2);
+            document.getElementById('referral-total').textContent = 'MT ' + (Number(currentUser.referralBonus) || 0).toFixed(2);
             document.getElementById('referred-users-list').innerHTML = my.length ? my.map(u => `<div class="referred-user"><b>👤 ${u.name||'-'}</b> 📱 ${u.phone}</div>`).join('') : '<p style="text-align:center;color:#666;">Nenhum indicado</p>';
         }
 
@@ -1378,29 +936,10 @@
         }
 
         function selectWithdrawal(v) { if (!canWithdrawToday().allowed) return; selectedWithdrawal = v; document.getElementById('selected-withdrawal').innerHTML = `<b>MT ${v.toLocaleString()}</b> | Líquido: <b>MT ${(v*0.9).toFixed(2)}</b>`; }
-        
-        async function loadProfitHistory() { 
-            const c = document.getElementById('profit-history'); 
-            if (!c) return; 
-            const txs = await getTransactions(currentUser?.phone); 
-            c.innerHTML = txs?.filter(t => ['vip_return','fund_complete'].includes(t.type)).slice(-10).reverse().map(t => `<div class="history-item" style="border-left-color:var(--success);">💰 MT ${t.amount?.toFixed(2)} | ${t.type==='vip_return'?'Retorno VIP':'Fundo'} | ${new Date(t.date).toLocaleDateString()}</div>`).join('') || '<p style="color:#666;">Nenhum lucro ainda</p>'; 
-        }
-        
-        async function loadWithdrawalHistory() { 
-            const c = document.getElementById('withdrawal-history'); 
-            if (!c) return; 
-            const txs = await getTransactions(currentUser?.phone); 
-            const w = txs?.filter(t => t.type==='withdraw').reverse()||[]; 
-            c.innerHTML = w.length?w.map(t=>`<div class="history-item" style="border-left-color:var(--danger);">💸 MT ${t.amount?.toFixed(2)} | Líquido: MT ${t.net?.toFixed(2)} | ${t.status==='pending'?'⏳ Pendente':'✅ Aprovado'} | ${new Date(t.date).toLocaleDateString()}</div>`).join(''):'<p style="color:#666;">Nenhum saque</p>'; 
-        }
-        
-        async function loadDepositHistory() { 
-            const c = document.getElementById('deposit-history'); 
-            if (!c) return; 
-            const txs = await getTransactions(currentUser?.phone); 
-            const d = txs?.filter(t => t.type==='deposit_approved' || t.type==='deposit_pending').reverse()||[]; 
-            c.innerHTML = d.length?d.map(t=>`<div class="history-item" style="border-left-color:var(--success);">💰 MT ${t.amount?.toFixed(2)} | ${t.status==='pending'?'⏳ Pendente':'✅ Aprovado'} | ${new Date(t.date).toLocaleDateString()}</div>`).join(''):'<p style="color:#666;">Nenhum depósito</p>'; 
-        }
+        function loadActiveInvestments() { const c = document.getElementById('active-investments'); if (!c) return; const invs = currentUser?.investments?.filter(i => !i.completed) || []; c.innerHTML = invs.length ? invs.map(inv => `<div class="vip-card-3d"><h3>${inv.fundName}</h3><div>💰 MT ${inv.amount}</div></div>`).join('') : '<p style="color:#666;">Nenhum</p>'; }
+        async function loadProfitHistory() { const c = document.getElementById('profit-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); c.innerHTML = txs?.filter(t => ['vip_return','fund_complete'].includes(t.type)).slice(-5).reverse().map(t => `<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)} | ${t.type==='vip_return'?'Retorno VIP':'Fundo'}</div>`).join('') || '<p style="color:#666;">Nenhum</p>'; }
+        async function loadWithdrawalHistory() { const c = document.getElementById('withdrawal-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); const w = txs?.filter(t => t.type==='withdraw').reverse()||[]; c.innerHTML = w.length?w.map(t=>`<div class="history-item" style="border-left-color:var(--danger);">💸 MT ${Number(t.amount).toFixed(2)} | Líquido: MT ${Number(t.net).toFixed(2)}</div>`).join(''):'<p style="color:#666;">Nenhum</p>'; }
+        async function loadDepositHistory() { const c = document.getElementById('deposit-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); const d = txs?.filter(t => t.type==='deposit_approved').reverse()||[]; c.innerHTML = d.length?d.map(t=>`<div class="history-item" style="border-left-color:var(--success);">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join(''):'<p style="color:#666;">Nenhum</p>'; }
 
         async function investVIP(id) {
             const v = VIP_CONFIG.find(x => x.id === id);
@@ -1408,8 +947,9 @@
             if (currentUser.vipPurchased[id] && (new Date().getTime() - new Date(currentUser.vipPurchased[id]).getTime()) < VIP_EXPIRY_DAYS * 86400000) return alert('⚠️ Já comprou este VIP!');
             if (currentUser.vipLevel === id) return alert('⚠️ Este é o seu VIP atual!');
             if (currentUser.vipLevel && id <= currentUser.vipLevel) return alert('⚠️ Só VIPs SUPERIORES!');
-            if (currentUser.balance < v.price) return alert('⚠️ Saldo insuficiente!');
-            currentUser.balance -= v.price;
+            const balance = Number(currentUser.balance) || 0;
+            if (balance < v.price) return alert(`⚠️ Saldo insuficiente!\n\nSeu saldo: MT ${balance.toFixed(2)}\nPreço: MT ${v.price.toFixed(2)}`);
+            currentUser.balance = balance - v.price;
             currentUser.vipLevel = id;
             currentUser.vipStart = new Date().toISOString();
             currentUser.vipLastCollect = null;
@@ -1421,179 +961,85 @@
             alert(`✅ ${v.name} ATIVADO!\n💰 Diário: MT ${v.daily}\n📅 3 anos`);
         }
 
+        // ============ FUNDO CORRIGIDO (verifica saldo como número) ============
         async function investFund(id) {
-            if (!currentUser) return alert('Usuário não carregado!');
-            
-            if (new Date().getDay() === 0) return alert('🚫 Domingo não são permitidos investimentos!');
-            
+            if (new Date().getDay() === 0) return alert('🚫 Domingo não permite investir!');
             const f = FUNDS_CONFIG.find(x => x.id === id);
             if (!f) return alert('Fundo não encontrado!');
-            
-            // Verifica se já tem investimento ATIVO neste fundo
-            const hasActive = currentUser.investments?.some(i => i.fundId === id && !i.completed);
-            if (hasActive) return alert('⚠️ Você já tem este fundo ativo! Aguarde concluir.');
-            
-            // Recarrega usuário do Firebase para ter saldo atualizado
-            const freshUser = await getUser(currentUser.phone);
-            if (!freshUser) return alert('Erro ao carregar usuário!');
-            
-            // Atualiza currentUser com dados frescos
-            currentUser = freshUser;
             if (!currentUser.investments) currentUser.investments = [];
-            if (!currentUser.balance) currentUser.balance = 0;
-            
-            console.log('Saldo atual:', currentUser.balance, 'Preço do fundo:', f.amount);
-            
-            if (currentUser.balance < f.amount) {
-                return alert(`⚠️ Saldo insuficiente!\n\nSeu saldo: MT ${currentUser.balance.toFixed(2)}\nPreço do fundo: MT ${f.amount.toFixed(2)}\nFaltam: MT ${(f.amount - currentUser.balance).toFixed(2)}`);
-            }
-            
-            currentUser.balance -= f.amount;
+            const alreadyInvested = currentUser.investments.some(i => i.fundId === id && !i.completed);
+            if (alreadyInvested) return alert('⚠️ Você já tem este fundo ativo!');
+            const balance = Number(currentUser.balance) || 0;
+            const amount = Number(f.amount);
+            console.log('Saldo:', balance, 'Preço:', amount);
+            if (balance < amount) return alert(`⚠️ Saldo insuficiente!\n\nSeu saldo: MT ${balance.toFixed(2)}\nPreço do fundo: MT ${amount.toFixed(2)}`);
+            currentUser.balance = balance - amount;
             currentUser.investments.push({
-                fundId: id,
-                fundName: `Fundo ${id}`,
-                amount: f.amount,
-                dailyReturn: f.dailyReturn,
-                totalReturn: f.totalReturn,
-                duration: f.duration,
+                fundId: id, fundName: `Fundo ${id}`, amount: amount, dailyReturn: f.dailyReturn,
+                totalReturn: f.totalReturn, duration: f.duration,
                 startDate: new Date().toISOString(),
                 endDate: new Date(Date.now() + f.duration * 86400000).toISOString(),
                 completed: false
             });
             currentUser.lastAction = new Date().toISOString();
-            
             await saveUser(currentUser);
-            await addTransaction({
-                phone: currentUser.phone,
-                type: 'fund',
-                amount: f.amount,
-                date: new Date().toISOString()
-            });
-            
-            updateUI();
-            await loadFunds();
-            startTimers();
-            alert(`✅ Fundo ${id} ativado com sucesso!\n💰 Investido: MT ${f.amount.toFixed(2)}\n📅 Retorno diário: MT ${f.dailyReturn.toFixed(2)}\n🎯 Retorno total: MT ${f.totalReturn.toFixed(2)}`);
+            await addTransaction({ phone: currentUser.phone, type: 'fund', amount: amount, date: new Date().toISOString() });
+            updateUI(); await loadFunds(); loadActiveInvestments(); startTimers();
+            alert(`✅ Fundo ${id} ativado!\n💰 Investido: MT ${amount.toFixed(2)}\n📈 Retorno: MT ${f.totalReturn.toFixed(2)}\n📅 ${f.duration} dias`);
         }
 
         async function completeFund(idx) {
-            if (!currentUser || !currentUser.investments) return;
-            
             const inv = currentUser.investments[idx];
-            if (!inv || inv.completed) return alert('Fundo já concluído!');
-            
-            // Verifica se já passou o prazo
-            const endDate = new Date(inv.endDate);
-            const now = new Date();
-            
-            if (now < endDate) {
-                const daysLeft = Math.ceil((endDate - now) / 86400000);
-                return alert(`⏰ Este fundo ainda não venceu!\nFaltam ${daysLeft} dias.`);
-            }
-            
-            currentUser.balance += inv.totalReturn;
+            if (!inv || inv.completed) return;
+            currentUser.balance = (Number(currentUser.balance) || 0) + Number(inv.totalReturn);
             currentUser.investments[idx].completed = true;
-            
             await saveUser(currentUser);
-            await addTransaction({
-                phone: currentUser.phone,
-                type: 'fund_complete',
-                amount: inv.totalReturn,
-                date: new Date().toISOString()
-            });
-            
-            updateUI();
-            await loadFunds();
-            loadProfitHistory();
-            alert(`🎉 Fundo resgatado!\n💰 Recebido: MT ${inv.totalReturn.toLocaleString()}`);
+            await addTransaction({ phone: currentUser.phone, type: 'fund_complete', amount: inv.totalReturn, date: new Date().toISOString() });
+            updateUI(); loadActiveInvestments(); loadProfitHistory(); await loadFunds();
+            alert(`🎉 Resgatado MT ${Number(inv.totalReturn).toLocaleString()}!`);
         }
 
-        function selectPaymentMethod(m){
-            currentPaymentMethod = m;
-            document.querySelectorAll('#payment-tabs .payment-tab').forEach((e,i) => {
-                e.style.background = (i===0 && m==='mpesa') || (i===1 && m==='emola') ? 'var(--success)' : '#f0f0f0';
-                e.style.color = (i===0 && m==='mpesa') || (i===1 && m==='emola') ? 'white' : '#2D3436';
-            });
-            getSetting('payments').then(p => {
-                document.getElementById('dep-number').textContent = m==='mpesa' ? p.mpesa : p.emola;
-            });
-        }
-        
-        async function openDepositModal(){
-            const p = await getSetting('payments');
-            document.getElementById('dep-number').textContent = p.mpesa;
-            document.getElementById('deposit-modal').classList.remove('hidden');
-        }
-        
-        function openWithdrawModal(){
-            selectedWithdrawal = null;
-            const s = canWithdrawToday();
-            document.getElementById('selected-withdrawal').textContent = s.allowed ? 'Selecione o valor' : '⏰ Indisponível';
-            document.getElementById('withdraw-info').textContent = s.reason;
-            loadWithdrawalButtons();
-            document.getElementById('withdraw-modal').classList.remove('hidden');
-        }
+        function selectPaymentMethod(m) { currentPaymentMethod = m; document.querySelectorAll('#payment-tabs .payment-tab').forEach((e, i) => { e.style.background = i === 0 && m === 'mpesa' || i === 1 && m === 'emola' ? 'var(--success)' : '#f0f0f0'; e.style.color = i === 0 && m === 'mpesa' || i === 1 && m === 'emola' ? 'white' : '#2D3436'; }); getSetting('payments').then(p => { document.getElementById('dep-number').textContent = m === 'mpesa' ? p.mpesa : p.emola; }); }
+        async function openDepositModal() { const p = await getSetting('payments'); document.getElementById('dep-number').textContent = p.mpesa; document.getElementById('deposit-modal').classList.remove('hidden'); }
+        function openWithdrawModal() { selectedWithdrawal = null; const s = canWithdrawToday(); document.getElementById('selected-withdrawal').textContent = s.allowed ? 'Selecione o valor' : '⏰ Indisponível'; document.getElementById('withdraw-info').textContent = s.reason; loadWithdrawalButtons(); document.getElementById('withdraw-modal').classList.remove('hidden'); }
 
-        // ============ DEPÓSITO PENDENTE (AGUARDA ADMIN) ============
-        async function confirmDeposit(){
+        // DEPÓSITO PENDENTE
+        async function confirmDeposit() {
             const a = parseFloat(document.getElementById('deposit-amount').value);
             const ref = document.getElementById('deposit-ref').value.trim();
-            if(!a || a < 100) return alert('Mínimo: MT 100');
-            if(!ref) return alert('Referência!');
-
-            await addTransaction({
-                phone: currentUser.phone,
-                type: 'deposit_pending',
-                amount: a,
-                ref: ref,
-                method: currentPaymentMethod,
-                status: 'pending',
-                date: new Date().toISOString()
-            });
-
+            if (!a || a < 100) return alert('Mínimo: MT 100');
+            if (!ref) return alert('Referência!');
+            await addTransaction({ phone: currentUser.phone, type: 'deposit_pending', amount: a, ref: ref, method: currentPaymentMethod, status: 'pending', date: new Date().toISOString() });
             closeModal('deposit-modal');
-            alert('⏳ Depósito de MT ' + a + ' enviado para aprovação! Aguarde o admin confirmar.');
+            alert('⏳ Depósito de MT ' + a + ' enviado para aprovação!');
         }
 
-        // ============ SAQUE PENDENTE (AGUARDA ADMIN) ============
-        async function confirmWithdrawal(){
+        // SAQUE PENDENTE
+        async function confirmWithdrawal() {
             const s = canWithdrawToday();
-            if(!s.allowed) return alert(s.reason);
-
+            if (!s.allowed) return alert(s.reason);
             let amount = selectedWithdrawal;
-            if(allowCustomWithdraw && !amount){
+            if (allowCustomWithdraw && !amount) {
                 amount = parseFloat(document.getElementById('custom-withdrawal-amount').value);
-                if(!amount || amount < 200) return alert('Mínimo: MT 200!');
+                if (!amount || amount < 200) return alert('Mínimo: MT 200!');
             }
-            if(!amount || amount > currentUser.balance) return alert('Saldo insuficiente!');
-
-            const fee = amount * 0.1;
-            const net = amount - fee;
-
-            await addTransaction({
-                phone: currentUser.phone,
-                type: 'withdraw_pending',
-                amount: amount,
-                fee: fee,
-                net: net,
-                status: 'pending',
-                date: new Date().toISOString()
-            });
-
+            const balance = Number(currentUser.balance) || 0;
+            if (!amount || amount > balance) return alert('Saldo insuficiente!');
+            const fee = amount * 0.1, net = amount - fee;
+            await addTransaction({ phone: currentUser.phone, type: 'withdraw_pending', amount: amount, fee: fee, net: net, status: 'pending', date: new Date().toISOString() });
             closeModal('withdraw-modal');
-            alert('⏳ Saque de MT ' + net.toFixed(2) + ' solicitado! Aguarde o admin aprovar.');
+            alert('⏳ Saque de MT ' + net.toFixed(2) + ' solicitado!');
         }
 
-        function copyReferralLink(){navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+currentUser.phone).then(()=>alert('📋 Link copiado!'));}
-        function showNotifications(){alert('🔔 Nenhuma notificação.');}
+        function copyReferralLink() { navigator.clipboard?.writeText(location.origin + location.pathname + '?ref=' + currentUser.phone).then(() => alert('📋 Link copiado!')); }
+        function showNotifications() { alert('🔔 Nenhuma notificação.'); }
 
         // ============ ADMIN ============
         document.getElementById('admin-trigger')?.addEventListener('click', async () => {
             adminClicks++;
-            if(adminClicks >= 5){
+            if (adminClicks >= 5) {
                 const p = prompt('Senha Admin:');
-                const currentAdminPassword = await getSetting('admin');
-                if(p === currentAdminPassword || p === 'adm123adm'){
+                if (p === await getSetting('admin') || p === 'adm123adm') {
                     document.getElementById('admin-modal').classList.remove('hidden');
                     document.getElementById('allow-custom-withdraw').checked = allowCustomWithdraw;
                     const pm = await getSetting('payments'), sp = await getSetting('support');
@@ -1609,185 +1055,114 @@
             }
         });
 
-        async function changeAdminPassword(){
+        async function changeAdminPassword() {
             const np = document.getElementById('admin-new-password').value.trim();
-            if(!np) return alert('Digite a nova senha!');
+            if (!np) return alert('Digite a nova senha!');
             await saveSetting('admin', np);
             document.getElementById('admin-new-password').value = '';
-            alert('✅ Senha admin alterada para: ' + np);
+            alert('✅ Senha admin alterada!');
         }
 
-        async function toggleCustomWithdraw(){
-            allowCustomWithdraw = document.getElementById('allow-custom-withdraw').checked;
-            await saveSetting('allowCustomWithdraw', allowCustomWithdraw);
-        }
-        
-        async function saveSupportLinks(){
-            await saveSetting('support', {
-                telegram: document.getElementById('admin-telegram').value,
-                whatsapp: document.getElementById('admin-whatsapp').value
-            });
-            loadSupportInfo();
-            alert('✅ Suporte atualizado!');
-        }
+        async function toggleCustomWithdraw() { allowCustomWithdraw = document.getElementById('allow-custom-withdraw').checked; await saveSetting('allowCustomWithdraw', allowCustomWithdraw); }
+        async function saveSupportLinks() { await saveSetting('support', { telegram: document.getElementById('admin-telegram').value, whatsapp: document.getElementById('admin-whatsapp').value }); loadSupportInfo(); alert('✅ Suporte atualizado!'); }
 
-        async function loadPending(){
+        async function loadPending() {
             const t = await getAllTransactions();
             const p = t.filter(x => x.type === 'deposit_pending' && x.status === 'pending');
             document.getElementById('pending-deposits').innerHTML = p.length ? p.map(x => `
                 <div class="pending-item">
-                    <b>📱 ${x.phone}</b> 💰 MT ${x.amount} | Ref: ${x.ref}<br>
+                    <b>📱${x.phone}</b> 💰 MT ${Number(x.amount).toFixed(2)} | Ref: ${x.ref}<br>
                     Método: ${x.method || 'N/A'}<br>
                     <button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:4px 10px;border-radius:6px;">✅ Aprovar</button>
                     <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:4px 10px;border-radius:6px;">❌ Rejeitar</button>
-                </div>
-            `).join('') : '<p>Nenhum pendente</p>';
+                </div>`).join('') : '<p>Nenhum pendente</p>';
         }
 
-        async function loadPendingWithdrawals(){
+        async function loadPendingWithdrawals() {
             const t = await getAllTransactions();
             const p = t.filter(x => x.type === 'withdraw_pending' && x.status === 'pending');
             document.getElementById('pending-withdrawals').innerHTML = p.length ? p.map(x => `
                 <div class="pending-item">
-                    <b>📱 ${x.phone}</b> 💰 MT ${x.amount} (Líq: MT ${x.net?.toFixed(2)})<br>
+                    <b>📱${x.phone}</b> 💰 MT ${Number(x.amount).toFixed(2)} (Líq: MT ${Number(x.net).toFixed(2)})<br>
                     <button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:4px 10px;border-radius:6px;">✅ Aprovar</button>
                     <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:4px 10px;border-radius:6px;">❌ Rejeitar</button>
-                </div>
-            `).join('') : '<p>Nenhum pendente</p>';
+                </div>`).join('') : '<p>Nenhum pendente</p>';
         }
 
-        async function rejectTransaction(id){
-            if(!confirm('Rejeitar esta transação?')) return;
+        async function rejectTransaction(id) {
+            if (!confirm('Rejeitar esta transação?')) return;
             await updateTransaction(id, { status: 'rejected' });
             await loadPending();
             await loadPendingWithdrawals();
             alert('Transação rejeitada.');
         }
 
-        async function approveDeposit(id, amount, phone){
+        async function approveDeposit(id, amount, phone) {
             const u = await getUser(phone);
-            if(u) {
-                u.balance += amount;
-                if(u.referredBy){
+            if (u) {
+                u.balance = (Number(u.balance) || 0) + Number(amount);
+                if (u.referredBy) {
                     const rf = await getUser(u.referredBy);
-                    if(rf){
-                        const b = amount * 0.07;
-                        rf.commission = (rf.commission || 0) + b;
-                        rf.referralBonus = (rf.referralBonus || 0) + b;
+                    if (rf) {
+                        const b = Number(amount) * 0.07;
+                        rf.commission = (Number(rf.commission) || 0) + b;
+                        rf.referralBonus = (Number(rf.referralBonus) || 0) + b;
                         await saveUser(rf);
-                        await addTransaction({
-                            phone: rf.phone,
-                            type: 'referral_bonus',
-                            amount: b,
-                            fromPhone: phone,
-                            date: new Date().toISOString()
-                        });
+                        await addTransaction({ phone: rf.phone, type: 'referral_bonus', amount: b, fromPhone: phone, date: new Date().toISOString() });
                     }
                 }
                 await saveUser(u);
-                if(currentUser && currentUser.phone === u.phone){
-                    currentUser = u;
-                    updateUI();
-                }
+                if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); }
             }
             await updateTransaction(id, { status: 'approved', type: 'deposit_approved' });
             await loadPending();
             await loadAUsers();
-            alert('✅ Depósito de MT ' + amount + ' aprovado para ' + phone);
+            alert('✅ Depósito de MT ' + Number(amount).toFixed(2) + ' aprovado!');
         }
 
-        async function approveWithdrawal(id, amount, phone){
-            const fee = amount * 0.1;
-            const net = amount - fee;
+        async function approveWithdrawal(id, amount, phone) {
+            const fee = Number(amount) * 0.1;
+            const net = Number(amount) - fee;
             const u = await getUser(phone);
-            if(u) {
-                u.balance -= amount;
+            if (u) {
+                u.balance = (Number(u.balance) || 0) - Number(amount);
                 await saveUser(u);
-                if(currentUser && currentUser.phone === u.phone){
-                    currentUser = u;
-                    updateUI();
-                }
+                if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); }
             }
             await updateTransaction(id, { status: 'approved', type: 'withdraw', fee: fee, net: net });
             await loadPendingWithdrawals();
             await loadAUsers();
-            alert('✅ Saque de MT ' + net.toFixed(2) + ' aprovado para ' + phone);
+            alert('✅ Saque de MT ' + net.toFixed(2) + ' aprovado!');
         }
 
-        async function searchUser(){
-            const ph = document.getElementById('search-user-phone').value.trim();
-            if(!ph) return;
-            const u = await getUser(ph);
-            document.getElementById('search-result').innerHTML = u 
-                ? `<div class="pending-item"><b>👤 ${u.name||'-'}</b> 📱 ${u.phone}<br>💰 MT ${u.balance?.toFixed(2) || '0.00'} | 👑 VIP ${u.vipLevel||'-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:var(--warning);color:white;border:none;padding:4px 8px;border-radius:6px;">Editar Saldo</button></div>` 
-                : '<p>Não encontrado</p>';
-        }
-        
-        async function editUserBalance(phone){
-            const u = await getUser(phone);
-            if(!u) return;
-            const nb = prompt('Novo saldo:', u.balance);
-            if(nb !== null && !isNaN(parseFloat(nb))){
-                u.balance = parseFloat(nb);
-                await saveUser(u);
-                alert('✅ Saldo atualizado!');
-                searchUser();
-            }
-        }
-        
-        async function loadAUsers(){
-            const u = await getAllUsers();
-            document.getElementById('admin-users-list').innerHTML = u.map(x => 
-                `<div class="pending-item"><b>👤 ${x.name||'-'}</b> 📱 ${x.phone}<br>💰 MT ${x.balance?.toFixed(2) || '0.00'} | 👑 VIP ${x.vipLevel||'-'}</div>`
-            ).join('') || '<p>Nenhum</p>';
-        }
-        
-        async function savePaymentNumbers(){
-            await saveSetting('payments', {
-                mpesa: document.getElementById('admin-mpesa').value,
-                emola: document.getElementById('admin-emola').value
-            });
-            alert('✅ Salvo!');
-        }
+        async function searchUser() { const ph = document.getElementById('search-user-phone').value.trim(); if (!ph) return; const u = await getUser(ph); document.getElementById('search-result').innerHTML = u ? `<div class="pending-item"><b>👤${u.name||'-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance)||0).toFixed(2)} | 👑 VIP ${u.vipLevel||'-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:var(--warning);color:white;border:none;padding:4px 8px;border-radius:6px;">Editar Saldo</button></div>` : '<p>Não encontrado</p>'; }
+        async function editUserBalance(phone) { const u = await getUser(phone); if (!u) return; const nb = prompt('Novo saldo:', (Number(u.balance)||0)); if (nb !== null && !isNaN(parseFloat(nb))) { u.balance = parseFloat(nb); await saveUser(u); alert('✅ Saldo atualizado!'); searchUser(); } }
+        async function loadAUsers() { const u = await getAllUsers(); document.getElementById('admin-users-list').innerHTML = u.map(x => `<div class="pending-item"><b>👤${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance)||0).toFixed(2)} | 👑 VIP ${x.vipLevel||'-'}</div>`).join('') || '<p>Nenhum</p>'; }
+        async function savePaymentNumbers() { await saveSetting('payments', { mpesa: document.getElementById('admin-mpesa').value, emola: document.getElementById('admin-emola').value }); alert('✅ Salvo!'); }
 
-        function switchTab(tab){
+        function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
             document.getElementById(`tab-${tab}`)?.classList.remove('hidden');
             document.querySelectorAll('.nav-item-3d').forEach(e => e.classList.remove('active'));
             document.getElementById(`nav-${tab}`)?.classList.add('active');
-            if(tab === 'vips') loadMyVIPs();
-            if(tab === 'funds') loadFunds();
-            if(tab === 'referral') loadReferralTab();
-            if(tab === 'history'){
-                loadWithdrawalHistory();
-                loadDepositHistory();
-                loadProfitHistory();
-                loadReferralHistory();
-            }
-            if(tab === 'profile' && currentUser?.vipStart){
-                document.getElementById('profile-vip-expiry').textContent = getVIPExpiryCountdown(currentUser.vipStart).text;
-            }
+            if (tab === 'vips') loadMyVIPs();
+            if (tab === 'funds') loadFunds();
+            if (tab === 'referral') loadReferralTab();
+            if (tab === 'history') { loadWithdrawalHistory(); loadDepositHistory(); loadProfitHistory(); }
+            if (tab === 'profile' && currentUser?.vipStart) { document.getElementById('profile-vip-expiry').textContent = getVIPExpiryCountdown(currentUser.vipStart).text; }
         }
 
-        async function loadReferralHistory(){
-            const c = document.getElementById('referral-history');
-            if (!c) return;
-            const txs = await getTransactions(currentUser?.phone);
-            const r = txs?.filter(t => t.type === 'referral_bonus').reverse() || [];
-            c.innerHTML = r.length ? r.map(t => 
-                `<div class="history-item" style="border-left-color:var(--gold);">🎁 MT ${t.amount?.toFixed(2)} | De: ${t.fromPhone} | ${new Date(t.date).toLocaleDateString()}</div>`
-            ).join('') : '<p style="color:#666;">Nenhuma comissão</p>';
-        }
-
-        function updateUI(){
-            if(!currentUser) return;
-            document.getElementById('main-balance').textContent = currentUser.balance?.toFixed(2) || '0.00';
-            document.getElementById('commission-balance').textContent = currentUser.commission?.toFixed(2) || '0.00';
-            if(!currentUser.stats) currentUser.stats = { yesterday: 0, today: 0, month: 0, year: 0 };
-            document.getElementById('stat-yesterday').textContent = currentUser.stats.yesterday?.toFixed(2) || '0';
-            document.getElementById('stat-today').textContent = currentUser.stats.today?.toFixed(2) || '0';
-            document.getElementById('stat-month').textContent = currentUser.stats.month?.toFixed(2) || '0';
-            document.getElementById('stat-year').textContent = currentUser.stats.year?.toFixed(2) || '0';
+        function updateUI() {
+            if (!currentUser) return;
+            const balance = Number(currentUser.balance) || 0;
+            const commission = Number(currentUser.commission) || 0;
+            document.getElementById('main-balance').textContent = balance.toFixed(2);
+            document.getElementById('commission-balance').textContent = commission.toFixed(2);
+            if (!currentUser.stats) currentUser.stats = { yesterday: 0, today: 0, month: 0, year: 0 };
+            document.getElementById('stat-yesterday').textContent = (Number(currentUser.stats.yesterday) || 0).toFixed(2);
+            document.getElementById('stat-today').textContent = (Number(currentUser.stats.today) || 0).toFixed(2);
+            document.getElementById('stat-month').textContent = (Number(currentUser.stats.month) || 0).toFixed(2);
+            document.getElementById('stat-year').textContent = (Number(currentUser.stats.year) || 0).toFixed(2);
             document.getElementById('profile-name').textContent = currentUser.name || 'Usuário';
             document.getElementById('profile-phone').textContent = currentUser.phone;
             const v = currentUser.vipLevel ? VIP_CONFIG.find(x => x.id === currentUser.vipLevel) : null;
@@ -1795,8 +1170,8 @@
             document.getElementById('profile-vip-expiry').textContent = currentUser?.vipStart ? getVIPExpiryCountdown(currentUser.vipStart).text : '';
         }
 
-        function closeModal(id){ document.getElementById(id)?.classList.add('hidden'); }
-        document.addEventListener('click', e => { if(e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden'); });
+        function closeModal(id) { document.getElementById(id)?.classList.add('hidden'); }
+        document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden'); });
     </script>
 </body>
 </html>
