@@ -162,7 +162,6 @@
                 <div class="stat-card-3d"><div class="stat-label">📊 Mês</div><div class="stat-value" id="stat-month">0.00</div></div>
                 <div class="stat-card-3d"><div class="stat-label">🎯 Ano</div><div class="stat-value" id="stat-year">0.00</div></div>
             </div>
-            <!-- 2 TEMPORIZADORES SEPARADOS -->
             <div class="timer-bar collect" id="collect-timer-bar">💎 <span id="collect-timer-label">Próxima coleta:</span> <span id="collect-timer">00:00:00</span></div>
             <div class="timer-bar withdraw" id="withdraw-timer-bar">💸 <span id="withdraw-timer-label">Próximo saque:</span> <span id="withdraw-timer">00:00:00</span></div>
             <div id="cooldown-notice" class="cooldown-info hidden"></div>
@@ -230,7 +229,6 @@
         const STARTER_DAYS = 3;
         const COOLDOWN_HOURS = 24;
         
-        // ⭐ VIP ESTAGIÁRIO + VIP 1 ajustado (10/dia)
         const VIP_CONFIG = [
             { id: 0, name: 'Estagiário', price: 0, daily: 3, totalReturn: 9, duration: 3, withdrawDay: 'Diário', icon: '🎓', color: '#FF9800', isStarter: true },
             { id: 1, name: 'VIP 1', price: 200, daily: 10, withdrawDay: 'Quinta-feira', icon: '🥉', color: '#CD7F32' }, { id: 2, name: 'VIP 2', price: 750, daily: 30, withdrawDay: 'Quinta-feira', icon: '🥈', color: '#C0C0C0' }, { id: 3, name: 'VIP 3', price: 1300, daily: 50, withdrawDay: 'Quinta-feira', icon: '🥇', color: '#FFD700' }, { id: 4, name: 'VIP 4', price: 1700, daily: 68, withdrawDay: 'Quinta-feira', icon: '💎', color: '#E6E6FA' }, { id: 5, name: 'VIP 5', price: 2000, daily: 80, withdrawDay: 'Quinta-feira', icon: '👑', color: '#4834d4' }, { id: 6, name: 'VIP 6', price: 2500, daily: 100, withdrawDay: 'Quarta-feira', icon: '💚', color: '#00b894' }, { id: 7, name: 'VIP 7', price: 3000, daily: 120, withdrawDay: 'Quarta-feira', icon: '🔴', color: '#e84393' }, { id: 8, name: 'VIP 8', price: 3500, daily: 140, withdrawDay: 'Quarta-feira', icon: '💙', color: '#0984e3' }, { id: 9, name: 'VIP 9', price: 4000, daily: 160, withdrawDay: 'Quarta-feira', icon: '💜', color: '#6c5ce7' }, { id: 10, name: 'VIP 10', price: 4800, daily: 192, withdrawDay: 'Quarta-feira', icon: '❤️', color: '#d63031' }, { id: 11, name: 'VIP 11', price: 5500, daily: 220, withdrawDay: 'Terça-feira', icon: '💛', color: '#fdcb6e' }, { id: 12, name: 'VIP 12', price: 6500, daily: 260, withdrawDay: 'Terça-feira', icon: '🩵', color: '#00cec9' }, { id: 13, name: 'VIP 13', price: 7500, daily: 300, withdrawDay: 'Terça-feira', icon: '💚', color: '#a29bfe' }, { id: 14, name: 'VIP 14', price: 8500, daily: 340, withdrawDay: 'Terça-feira', icon: '🩷', color: '#fd79a8' }, { id: 15, name: 'VIP 15', price: 10000, daily: 400, withdrawDay: 'Terça-feira', icon: '🖤', color: '#636e72' }, { id: 16, name: 'VIP 16', price: 12000, daily: 480, withdrawDay: 'Segunda-feira', icon: '🧡', color: '#f39c12' }, { id: 17, name: 'VIP 17', price: 15000, daily: 600, withdrawDay: 'Segunda-feira', icon: '💚', color: '#2ecc71' }, { id: 18, name: 'VIP 18', price: 18000, daily: 720, withdrawDay: 'Segunda-feira', icon: '🔥', color: '#e74c3c' }, { id: 19, name: 'VIP 19', price: 22000, daily: 880, withdrawDay: 'Segunda-feira', icon: '⭐', color: '#9b59b6' }, { id: 20, name: 'VIP 20', price: 26000, daily: 1040, withdrawDay: 'Segunda-feira', icon: '🌟', color: '#1abc9c' }
@@ -264,35 +262,28 @@
         function getVIPExpiryDate(vs, isStarter) { return new Date(new Date(vs).getTime() + (isStarter ? STARTER_DAYS : VIP_EXPIRY_DAYS) * 86400000); }
         function getVIPExpiryCountdown(vs, isStarter) { if (!vs) return { expired: true, text: '⏰ VIP não ativo' }; const e = getVIPExpiryDate(vs, isStarter), n = new Date(), diff = e - n; if (diff <= 0) return { expired: true, text: '⏰ Expirado!' }; const days = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000); if (days === 0) return { expired: false, text: `⏳ ${h}h restantes` }; return { expired: false, text: `⏳ ${days}d ${h}h` }; }
         
-        // ⭐ Cooldown separado para coleta
         function isCollectOnCooldown() {
             if (!currentUser || !currentUser.lastCollectDate) return false;
-            const lastTime = new Date(currentUser.lastCollectDate).getTime();
-            return Date.now() < lastTime + (COOLDOWN_HOURS * 3600000);
+            return Date.now() < new Date(currentUser.lastCollectDate).getTime() + (COOLDOWN_HOURS * 3600000);
         }
         function getCollectRemaining() {
             if (!currentUser || !currentUser.lastCollectDate) return 0;
             return Math.max(0, new Date(currentUser.lastCollectDate).getTime() + (COOLDOWN_HOURS * 3600000) - Date.now());
         }
-        
-        // ⭐ Cooldown separado para saque
         function isWithdrawOnCooldown() {
             if (!currentUser || !currentUser.lastWithdrawDate) return false;
-            const lastTime = new Date(currentUser.lastWithdrawDate).getTime();
-            return Date.now() < lastTime + (COOLDOWN_HOURS * 3600000);
+            return Date.now() < new Date(currentUser.lastWithdrawDate).getTime() + (COOLDOWN_HOURS * 3600000);
         }
         function getWithdrawRemaining() {
             if (!currentUser || !currentUser.lastWithdrawDate) return 0;
             return Math.max(0, new Date(currentUser.lastWithdrawDate).getTime() + (COOLDOWN_HOURS * 3600000) - Date.now());
         }
-        
         function formatCooldown(ms) {
             if (ms <= 0) return '00:00:00';
             const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000);
             return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
         
-        // ⭐ Verifica se pode sacar (usa cooldown de saque)
         function canWithdrawToday() {
             if (!currentUser || !currentUser.vipLevel && currentUser.vipLevel !== 0) return { allowed: false, reason: 'Ative um VIP para sacar' };
             const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
@@ -304,7 +295,6 @@
             if (currentUser.lastWithdrawDate && new Date(currentUser.lastWithdrawDate).toDateString() === today) {
                 return { allowed: false, reason: '❌ Já sacou hoje! 1 saque/dia' };
             }
-            // Estagiário pode sacar qualquer dia
             if (isStarter) return { allowed: true, reason: '✅ Estagiário - Saque diário' };
             const d = new Date().getDay();
             if (d === 0) return { allowed: false, reason: '🚫 Domingo' };
@@ -316,7 +306,6 @@
             return { allowed: false, reason: `❌ Seu dia: ${v? v.withdrawDay : 'N/A'}` };
         }
 
-        // ⭐ Verifica se pode coletar (usa cooldown de coleta)
         function canCollectToday() {
             if (!currentUser || !currentUser.vipLevel && currentUser.vipLevel !== 0) return false;
             const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
@@ -517,20 +506,36 @@
         function openWithdrawModal() { selectedWithdrawal = null; document.getElementById('selected-withdrawal').textContent = 'Selecione um valor'; loadWithdrawalButtons(); document.getElementById('withdraw-modal').classList.remove('hidden'); }
         async function confirmDeposit() { const a = parseFloat(document.getElementById('deposit-amount').value); const ref = document.getElementById('deposit-ref').value.trim(); if (!a || a < 100) return alert('Mínimo: MT 100'); if (!ref) return alert('Referência!'); const p = await getSetting('payments'); const info = currentPaymentMethod === 'mpesa' ? `${p.mpesa.num} - ${p.mpesa.name}` : `${p.emola.num} - ${p.emola.name}`; await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'deposit_pending', amount: a, ref: ref, method: currentPaymentMethod, methodInfo: info, status: 'pending', date: new Date().toISOString() }); closeModal('deposit-modal'); alert('⏳ Depósito enviado!'); }
         
+        // ⭐ SAQUE - Desconta IMEDIATAMENTE ao solicitar
         async function confirmWithdrawal() {
-            const s = canWithdrawToday(); if (!s.allowed) return alert(s.reason);
+            const s = canWithdrawToday(); 
+            if (!s.allowed) return alert(s.reason);
             if (isWithdrawOnCooldown()) return alert(`⏰ Aguarde: ${formatCooldown(getWithdrawRemaining())}`);
             const today = new Date().toDateString();
-            if (currentUser.lastWithdrawDate && new Date(currentUser.lastWithdrawDate).toDateString() === today) return alert('❌ Já sacou hoje!');
-            const amt = selectedWithdrawal; if (!amt) return alert('Selecione um valor!');
-            const bal = Number(currentUser.balance) || 0; if (amt > bal) return alert('Saldo insuficiente!');
+            if (currentUser.lastWithdrawDate && new Date(currentUser.lastWithdrawDate).toDateString() === today) 
+                return alert('❌ Já sacou hoje!');
+            const amt = selectedWithdrawal; 
+            if (!amt) return alert('Selecione um valor!');
+            const bal = Number(currentUser.balance) || 0; 
+            if (amt > bal) return alert('Saldo insuficiente!');
             const fee = amt * 0.1, net = amt - fee;
-            currentUser.lastWithdrawDate = new Date().toISOString();
+            
+            // DESCONTA IMEDIATAMENTE
             currentUser.balance = bal - amt;
+            currentUser.lastWithdrawDate = new Date().toISOString();
             await saveUser(currentUser);
-            await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'withdraw_pending', amount: amt, fee, net, status: 'pending', date: new Date().toISOString() });
-            closeModal('withdraw-modal'); updateWithdrawUI(); updateTimersDisplay();
-            alert('⏳ Saque solicitado!');
+            
+            await addTransaction({ 
+                phone: currentUser.phone, name: currentUser.name, 
+                type: 'withdraw_pending', amount: amt, fee: fee, net: net, 
+                status: 'pending', date: new Date().toISOString() 
+            });
+            
+            closeModal('withdraw-modal'); 
+            updateUI(); 
+            updateWithdrawUI(); 
+            updateTimersDisplay();
+            alert(`⏳ Saque solicitado!\n💰 Solicitado: MT ${amt}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 Receberá: MT ${net.toFixed(2)}`);
         }
         
         function copyReferralLink() { navigator.clipboard?.writeText(location.origin + location.pathname + '?ref=' + currentUser.phone).then(() => alert('📋 Copiado!')); }
@@ -546,10 +551,81 @@
         async function loadPasswordResets() { const d = await getData('password_resets'); const list = d ? Object.entries(d).map(([id, val]) => ({ id, ...val })) : []; const pending = list.filter(x => x.status === 'pending'); document.getElementById('password-reset-requests').innerHTML = pending.length ? pending.map(x => `<div class="pending-item"><b>📱${x.phone}</b><br><button onclick="adminResetPassword('${x.phone}','${x.id}')" style="background:var(--info);color:white;border:none;padding:4px 8px;border-radius:6px;">🔑 Redefinir</button></div>`).join('') : '<p>Nenhuma</p>'; }
         async function adminResetPassword(phone, resetId) { const np = prompt('Nova senha:', '123456'); if (!np) return; const u = await getUser(phone); if (u) { u.password = np; await saveUser(u); try { await auth.createUserWithEmailAndPassword(phone+'@moz.com', np); } catch(e) {} } if (resetId) await updateData(`password_resets/${resetId}`, { status: 'resolved' }); await loadPasswordResets(); alert('✅ Senha: ' + np); }
         async function loadPending() { const t = await getAllTransactions(); const p = t.filter(x => x.type === 'deposit_pending' && x.status === 'pending'); document.getElementById('pending-deposits').innerHTML = p.length ? p.map(x => `<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br><button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:4px 10px;border-radius:6px;">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:4px 10px;border-radius:6px;">❌ Rejeitar</button></div>`).join('') : '<p>Nenhum</p>'; }
-        async function loadPendingWithdrawals() { const t = await getAllTransactions(); const p = t.filter(x => x.type === 'withdraw_pending' && x.status === 'pending'); document.getElementById('pending-withdrawals').innerHTML = p.length ? p.map(x => `<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)} (Líq: ${Number(x.net).toFixed(2)})<br><button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:4px 10px;border-radius:6px;">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:4px 10px;border-radius:6px;">❌ Rejeitar</button></div>`).join('') : '<p>Nenhum</p>'; }
-        async function rejectTransaction(id) { if (!confirm('Rejeitar?')) return; await updateTransaction(id, { status: 'rejected' }); await loadPending(); await loadPendingWithdrawals(); }
-        async function approveDeposit(id, amount, phone) { const u = await getUser(phone); if (u) { u.balance = (Number(u.balance) || 0) + Number(amount); if (u.referredBy) { const rf = await getUser(u.referredBy); if (rf) { const b = Number(amount) * 0.07; rf.commission = (Number(rf.commission) || 0) + b; rf.referralBonus = (Number(rf.referralBonus) || 0) + b; await saveUser(rf); await addTransaction({ phone: rf.phone, type: 'referral_bonus', amount: b, fromPhone: phone, date: new Date().toISOString() }); } } await saveUser(u); if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); } } await updateTransaction(id, { status: 'approved', type: 'deposit_approved' }); await loadPending(); await loadAUsers(); alert('✅ Aprovado!'); }
-        async function approveWithdrawal(id, amount, phone) { const fee = Number(amount) * 0.1; const net = Number(amount) - fee; const u = await getUser(phone); if (u) { u.balance = (Number(u.balance) || 0) - Number(amount); await saveUser(u); if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); } } await updateTransaction(id, { status: 'approved', type: 'withdraw', fee, net }); await loadPendingWithdrawals(); await loadAUsers(); alert('✅ Aprovado!'); }
+        
+        // ⭐ LISTA DE SAQUES PENDENTES - Mostra valor líquido
+        async function loadPendingWithdrawals() { 
+            const t = await getAllTransactions(); 
+            const p = t.filter(x => x.type === 'withdraw_pending' && x.status === 'pending'); 
+            document.getElementById('pending-withdrawals').innerHTML = p.length ? p.map(x => `
+                <div class="pending-item" style="border-left:4px solid var(--danger);">
+                    <b>👤 ${x.name||'-'}</b> 📱 ${x.phone}<br>
+                    💰 Solicitado: <b>MT ${Number(x.amount).toFixed(2)}</b><br>
+                    📊 Taxa 10%: MT ${Number(x.fee).toFixed(2)}<br>
+                    💸 <b style="color:#4CAF50;font-size:15px;">ENVIAR: MT ${Number(x.net).toFixed(2)}</b><br>
+                    <button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" 
+                        style="background:var(--success);color:white;border:none;padding:6px 12px;border-radius:6px;font-weight:700;margin-top:6px;">
+                        ✅ APROVAR - Enviar MT ${Number(x.net).toFixed(2)}
+                    </button> 
+                    <button onclick="rejectTransaction('${x.id}')" 
+                        style="background:var(--danger);color:white;border:none;padding:6px 12px;border-radius:6px;font-weight:700;margin-top:6px;">
+                        ❌ Rejeitar
+                    </button>
+                </div>`
+            ).join('') : '<p style="color:#666;">Nenhum saque pendente</p>'; 
+        }
+        
+        // ⭐ REJEITAR - Devolve o valor ao usuário
+        async function rejectTransaction(id) { 
+            const allTxs = await getAllTransactions();
+            const tx = allTxs.find(t => t.id === id);
+            
+            if (tx && tx.type === 'withdraw_pending' && tx.status === 'pending') {
+                if (!confirm(`⚠️ Rejeitar saque de MT ${Number(tx.amount).toFixed(2)}?\nO valor será DEVOLVIDO ao usuário.`)) return;
+                
+                const u = await getUser(tx.phone);
+                if (u) {
+                    u.balance = (Number(u.balance) || 0) + Number(tx.amount);
+                    u.lastWithdrawDate = null; // Libera para sacar novamente
+                    await saveUser(u);
+                    if (currentUser && currentUser.phone === u.phone) { 
+                        currentUser = u; 
+                        updateUI(); 
+                        updateWithdrawUI();
+                    }
+                }
+            } else {
+                if (!confirm('Rejeitar esta transação?')) return;
+            }
+            
+            await updateTransaction(id, { status: 'rejected' }); 
+            await loadPending(); 
+            await loadPendingWithdrawals(); 
+            if (tx && tx.type === 'withdraw_pending') {
+                alert('❌ Saque rejeitado. Valor devolvido ao usuário.');
+            }
+        }
+        
+        async function approveDeposit(id, amount, phone) { const u = await getUser(phone); if (u) { u.balance = (Number(u.balance) || 0) + Number(amount); if (u.referredBy) { const rf = await getUser(u.referredBy); if (rf) { const b = Number(amount) * 0.07; rf.commission = (Number(rf.commission) || 0) + b; rf.referralBonus = (Number(rf.referralBonus) || 0) + b; await saveUser(rf); await addTransaction({ phone: rf.phone, type: 'referral_bonus', amount: b, fromPhone: phone, date: new Date().toISOString() }); } } await saveUser(u); if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); } } await updateTransaction(id, { status: 'approved', type: 'deposit_approved' }); await loadPending(); await loadAUsers(); alert('✅ Depósito aprovado!'); }
+        
+        // ⭐ APROVAR SAQUE - Não mexe no saldo (já descontado)
+        async function approveWithdrawal(id, amount, phone) { 
+            const fee = Number(amount) * 0.1; 
+            const net = Number(amount) - fee; 
+            const u = await getUser(phone);
+            
+            // NÃO desconta (já foi descontado na solicitação)
+            await updateTransaction(id, { status: 'approved', type: 'withdraw', fee: fee, net: net }); 
+            await loadPendingWithdrawals(); 
+            await loadAUsers(); 
+            
+            if (currentUser && currentUser.phone === phone) { 
+                const updatedUser = await getUser(phone); 
+                if (updatedUser) { currentUser = updatedUser; updateUI(); } 
+            }
+            
+            alert(`✅ SAQUE APROVADO!\n\n👤 ${u ? u.name || phone : phone}\n📱 ${phone}\n💰 Solicitado: MT ${Number(amount).toFixed(2)}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 ENVIAR: MT ${net.toFixed(2)}`);
+        }
+        
         async function searchUser() { const ph = document.getElementById('search-user-phone').value.trim(); if (!ph) return; const u = await getUser(ph); document.getElementById('search-result').innerHTML = u ? `<div class="pending-item"><b>${u.name||'-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance)||0).toFixed(2)} | VIP ${u.vipLevel||'-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:var(--warning);color:white;border:none;padding:4px 8px;border-radius:6px;">💰 Editar</button> <button onclick="adminResetPassword('${u.phone}')" style="background:var(--info);color:white;border:none;padding:4px 8px;border-radius:6px;">🔑 Senha</button> <button onclick="deleteUserAccount('${u.phone}')" style="background:var(--danger);color:white;border:none;padding:4px 8px;border-radius:6px;">🗑️ Excluir</button></div>` : '<p>Não encontrado</p>'; }
         async function editUserBalance(phone) { const u = await getUser(phone); if (!u) return; const nb = prompt('Novo saldo:', (Number(u.balance) || 0)); if (nb !== null && !isNaN(parseFloat(nb))) { u.balance = parseFloat(nb); await saveUser(u); alert('✅ Saldo atualizado!'); searchUser(); } }
         async function deleteUserAccount(phone) { if (!confirm(`⚠️ EXCLUIR ${phone}?`)) return; if (!confirm('IRREVERSÍVEL!')) return; await deleteData(`users/${phone}`); document.getElementById('search-result').innerHTML = '<p style="color:var(--danger);">🗑️ Excluído!</p>'; await loadAUsers(); }
