@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF6B35">
     <title>BRAZ - FUND BANK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;BRAZ - FUND BANK&quot;,&quot;short_name&quot;:&quot;BRAZ FUND&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0a0a15&quot;,&quot;theme_color&quot;:&quot;#FF6B35&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏦&lt;/text&gt;&lt;/svg&gt;&quot;,&quot;sizes&quot;:&quot;100x100&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
         :root{--primary:#FF6B35;--secondary:#FF8C42;--dark:#1A1A2E;--gold:#FFD700;--success:#00B894;--danger:#FF4757;--warning:#FFA502;--info:#3742FA;--gradient:linear-gradient(135deg,#FF6B35,#FF8C42);--green-gradient:linear-gradient(135deg,#00b894,#00cec9);--purple-gradient:linear-gradient(135deg,#6c5ce7,#a29bfe);--pink-gradient:linear-gradient(135deg,#fd79a8,#e84393);--blue-gradient:linear-gradient(135deg,#0984e3,#74b9ff);--orange-gradient:linear-gradient(135deg,#FF6B35,#FF8C42,#FFA502);--aviator-bg:#1a1a2e;--aviator-card:#0d0d1a;--aviator-accent:#FF6B35;--aviator-green:#00B894;--aviator-red:#FF4757;--aviator-gold:#FFD700;--aviator-pink:#e84393;--aviator-purple:#6c5ce7}
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-        body{background:linear-gradient(180deg,#0a0a15 0%,#0d0d1a 30%,#111128 60%,#0a0a15 100%);background-attachment:fixed;padding-bottom:100px;min-height:100vh}
+        body{background:linear-gradient(180deg,#0a0a15 0%,#0d0d1a 30%,#111128 60%,#0a0a15 100%);background-attachment:fixed;padding-bottom:110px;min-height:100vh}
         .app-container{max-width:480px;margin:0 auto}
         .hidden{display:none!important}
         .header-3d{background:linear-gradient(180deg,#1a1a2e,#2d1f3d);color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;box-shadow:0 6px 0 #0a0a15;border-bottom:3px solid var(--aviator-accent)}
@@ -43,6 +47,8 @@
         .btn-collect{background:linear-gradient(135deg,#FFD700,#FFA502);color:#1a1a2e;animation:collectPulse 1.5s infinite}
         @keyframes collectPulse{0%,100%{box-shadow:0 5px 0 rgba(0,0,0,0.3),0 0 20px rgba(255,215,0,0.4)}50%{box-shadow:0 5px 0 rgba(0,0,0,0.3),0 0 40px rgba(255,215,0,0.8)}}
         .btn-friends{background:linear-gradient(135deg,#FF6B35,#e84393)}
+        .btn-install{background:linear-gradient(135deg,#6c5ce7,#a29bfe,#FD79A8);color:#fff;font-size:13px;grid-column:span 2;animation:installPulse 2s infinite}
+        @keyframes installPulse{0%,100%{box-shadow:0 5px 0 rgba(0,0,0,0.3),0 0 15px rgba(108,92,231,0.3)}50%{box-shadow:0 5px 0 rgba(0,0,0,0.3),0 0 35px rgba(108,92,231,0.6)}}
         .section-title-3d{font-size:20px;font-weight:900;color:#FFD700;padding:0 12px;margin:18px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
         .section-title-3d::after{content:'';flex:1;height:4px;background:linear-gradient(90deg,var(--aviator-gold),transparent);border-radius:2px}
         .vip-grid{display:grid;gap:10px;padding:0 12px}
@@ -150,20 +156,6 @@
         @keyframes countChange{0%,100%{opacity:1}50%{opacity:0.8}}
         .admin-key-info{background:#0d0d1a;padding:8px 12px;border-radius:8px;margin:4px 0;font-size:11px;border-left:4px solid var(--success);color:#b2bec3}
         .admin-key-info.active{border-left-color:#00B894;background:rgba(0,184,148,0.1)}
-        .app-dl-banner{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9997;width:92%;max-width:440px;animation:dlSlideUp 0.5s ease-out}
-        @keyframes dlSlideUp{from{transform:translate(-50%,100%);opacity:0}to{transform:translate(-50%,0);opacity:1}}
-        .app-dl-card{background:linear-gradient(145deg,#1a1a2e,#2d1f3d);border-radius:18px;padding:14px 16px;box-shadow:0 10px 35px rgba(0,0,0,0.6),0 0 0 2px var(--aviator-gold);position:relative;color:#fff}
-        .app-dl-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-        .app-dl-icon{font-size:36px;background:linear-gradient(135deg,#FF6B35,#e84393);width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:14px;flex-shrink:0;box-shadow:0 4px 15px rgba(255,107,53,0.4)}
-        .app-dl-info h3{margin:0;font-size:15px;font-weight:900;color:var(--aviator-gold)}
-        .app-dl-info p{margin:2px 0 0;font-size:11px;opacity:0.85}
-        .app-dl-stars{color:#ffc107;font-size:11px;margin-top:2px}
-        .app-dl-btn{width:100%;padding:13px;background:linear-gradient(135deg,#FF6B35,#e84393);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:1px;box-shadow:0 5px 0 #c0392b,0 8px 20px rgba(255,107,53,0.3);transition:all 0.15s;position:relative;overflow:hidden}
-        .app-dl-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #c0392b}
-        .app-dl-btn::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);animation:dlShine 2s infinite}
-        @keyframes dlShine{0%{transform:translateX(-100%)rotate(45deg)}100%{transform:translateX(100%)rotate(45deg)}}
-        .app-dl-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-        .app-dl-close:hover{background:rgba(255,71,87,0.6)}
         .funds-admin-box{background:#0d0d1a;padding:16px;border-radius:14px;margin:12px 0;border:2px solid rgba(255,255,255,0.1);position:relative;overflow:hidden}
         .funds-admin-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(135deg,#FF6B35,#e84393);border-radius:4px 0 0 4px}
         .funds-admin-title{font-size:14px;font-weight:900;color:#FFD700;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
@@ -182,6 +174,15 @@
         .funds-alert-msg{background:rgba(255,193,7,0.2);border:2px solid #ffc107;color:#FFD700;padding:12px;border-radius:10px;margin-top:10px;text-align:center;font-weight:800;font-size:13px;display:none;animation:shakeAlert 0.5s ease-in-out}
         .funds-alert-msg.show{display:block}
         @keyframes shakeAlert{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+        .install-instructions-box{background:linear-gradient(145deg,#1a1a2e,#2d1f3d);border-radius:18px;padding:18px;margin:12px 0;border:2px solid var(--aviator-purple);position:relative;overflow:hidden}
+        .install-instructions-box::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 20%,rgba(108,92,231,0.08) 0%,transparent 60%);pointer-events:none}
+        .install-step{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .install-step:last-child{border-bottom:none}
+        .install-step-num{background:var(--aviator-purple);color:#fff;width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;box-shadow:0 3px 10px rgba(108,92,231,0.4)}
+        .install-step p{font-size:13px;color:#b2bec3;line-height:1.6}
+        .install-step b{color:#fff}
+        .install-benefits{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+        .install-benefit-item{background:rgba(0,184,148,0.08);border:1px solid rgba(0,184,148,0.2);border-radius:12px;padding:10px;text-align:center;font-size:11px;color:#00B894;font-weight:700}
     </style>
 </head>
 <body>
@@ -204,7 +205,13 @@
             <div id="withdraw-status-bar" class="withdraw-status-bar">Verificando...</div>
             <div id="tab-home" class="tab-content">
                 <div class="balance-card-3d"><div class="balance-title">💎 Saldo Principal</div><div class="balance-amount" id="main-balance">0.00</div><div class="commission-display">💰 Comissão: <span id="commission-balance">0.00</span></div></div>
-                <div class="actions-grid"><button class="btn-3d btn-deposit" onclick="openDepositModal()"><i class="fas fa-plus-circle"></i> Depositar</button><button class="btn-3d btn-withdraw" id="btn-withdraw-main" onclick="openWithdrawModal()"><i class="fas fa-minus-circle"></i> Levantar</button><button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()"><i class="fas fa-hand-holding-usd"></i> Coletar</button><button class="btn-3d btn-friends" onclick="switchTab('referral')"><i class="fas fa-users"></i> Convidar</button></div>
+                <div class="actions-grid">
+                    <button class="btn-3d btn-deposit" onclick="openDepositModal()"><i class="fas fa-plus-circle"></i> Depositar</button>
+                    <button class="btn-3d btn-withdraw" id="btn-withdraw-main" onclick="openWithdrawModal()"><i class="fas fa-minus-circle"></i> Levantar</button>
+                    <button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()"><i class="fas fa-hand-holding-usd"></i> Coletar</button>
+                    <button class="btn-3d btn-friends" onclick="switchTab('referral')"><i class="fas fa-users"></i> Convidar</button>
+                    <button class="btn-3d btn-install" onclick="showInstallInstructions()"><i class="fas fa-mobile-alt"></i> 📲 ADICIONAR À TELA INICIAL</button>
+                </div>
                 <div id="collect-status" style="text-align:center;padding:8px;font-size:12px;font-weight:700"></div>
                 <h3 class="section-title-3d">👑 Tabela de Investimento</h3>
                 <div class="vip-grid" id="vip-groups"></div>
@@ -212,15 +219,24 @@
             <div id="tab-vips" class="tab-content hidden"><h3 class="section-title-3d">👑 Meus VIPs</h3><div id="my-vips" style="margin:5px 12px"></div></div>
             <div id="tab-funds" class="tab-content hidden"><h3 class="section-title-3d">💰 Tabela de Fundos</h3><div class="vip-grid" id="funds-list"></div></div>
             <div id="tab-referral" class="tab-content hidden"><h3 class="section-title-3d">👥 Convidar Amigos</h3><div style="background:#1a1a2e;border:2px solid var(--aviator-gold);border-radius:16px;padding:16px;margin:12px;color:#fff"><h4>🎁 10% de Comissão</h4><p style="font-size:12px;color:#b2bec3">Por cada depósito dos indicados!</p><div id="referral-link-text" style="background:#0d0d1a;padding:10px;border-radius:10px;font-size:11px;word-break:break-all;margin:10px 0;border:1px dashed var(--aviator-accent);color:#b2bec3"></div><button onclick="copyReferralLink()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF6B35,#e84393);font-size:14px">📋 Copiar Link</button></div><div class="referral-stats"><div class="referral-stat-card"><div class="referral-stat-icon">👥</div><div class="referral-stat-value" id="referral-count">0</div><div class="referral-stat-label">TOTAL</div><div style="font-size:10px;color:#00B894">QUALIFICADOS</div></div><div class="referral-stat-card"><div class="referral-stat-icon">👑</div><div class="referral-stat-value" id="referral-vip-count">0</div><div class="referral-stat-label">COM VIP</div><div style="font-size:10px;color:#FFD700">MT <span id="referral-total">0.00</span> COMISSÕES</div></div></div><div id="referred-users-list" style="margin:5px 12px"></div></div>
-            <div id="tab-profile" class="tab-content hidden"><div style="text-align:center;padding:30px;color:white"><i class="fas fa-user-circle" style="font-size:75px;color:var(--aviator-gold)"></i><h3 id="profile-name" style="color:white;font-size:24px"></h3><p id="profile-phone" style="color:#b2bec3"></p><p id="profile-vip" style="color:var(--aviator-gold);font-weight:700"></p><p id="profile-vip-expiry" style="font-size:12px;color:#999"></p><div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div><div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div><button onclick="switchTab('history')" class="btn-modal-3d" style="background:var(--info)">📋 Histórico</button><button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);margin-top:10px">🚪 Sair</button></div></div>
+            <div id="tab-profile" class="tab-content hidden"><div style="text-align:center;padding:30px;color:white"><i class="fas fa-user-circle" style="font-size:75px;color:var(--aviator-gold)"></i><h3 id="profile-name" style="color:white;font-size:24px"></h3><p id="profile-phone" style="color:#b2bec3"></p><p id="profile-vip" style="color:var(--aviator-gold);font-weight:700"></p><p id="profile-vip-expiry" style="font-size:12px;color:#999"></p><div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div><div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div><button onclick="showInstallInstructions()" class="btn-modal-3d" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);margin-bottom:8px"><i class="fas fa-download"></i> Adicionar App na Tela Inicial</button><button onclick="switchTab('history')" class="btn-modal-3d" style="background:var(--info)">📋 Histórico</button><button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);margin-top:10px">🚪 Sair</button></div></div>
             <div id="tab-history" class="tab-content hidden"><h3 class="section-title-3d" style="padding:10px">💸 Levantamentos</h3><div id="withdrawal-history" style="margin:5px 12px"></div><h3 class="section-title-3d" style="padding:10px">💰 Depósitos</h3><div id="deposit-history" style="margin:5px 12px"></div><h3 class="section-title-3d" style="padding:10px">🎁 Comissões</h3><div id="referral-history" style="margin:5px 12px"></div><h3 class="section-title-3d" style="padding:10px">📊 Lucros</h3><div id="profit-history" style="margin:5px 12px"></div></div>
             <nav class="nav-3d"><button class="nav-item-3d active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i>Home</button><button class="nav-item-3d" id="nav-vips" onclick="switchTab('vips')"><i class="fas fa-crown"></i>VIPs</button><button class="nav-item-3d" id="nav-funds" onclick="switchTab('funds')"><i class="fas fa-coins"></i>Fundos</button><button class="nav-item-3d" id="nav-referral" onclick="switchTab('referral')"><i class="fas fa-users"></i>Convidar</button><button class="nav-item-3d" id="nav-profile" onclick="switchTab('profile')"><i class="fas fa-user"></i>Meu</button></nav>
         </div>
-        <div class="app-dl-banner" id="appDownloadBanner">
-            <div class="app-dl-card">
-                <div class="app-dl-row"><div class="app-dl-icon">🏦</div><div class="app-dl-info"><h3>BRAZ - FUND BANK</h3><p>⚡ Adicione à tela inicial</p><div class="app-dl-stars">★★★★★ 4.9</div></div></div>
-                <button class="app-dl-btn" onclick="downloadApp()">📥 ADICIONAR ATALHO</button>
-                <button class="app-dl-close" onclick="closeDownloadBanner()">✕</button>
+        <div id="install-modal" class="modal-overlay hidden">
+            <div class="modal-3d" style="text-align:center;max-width:440px">
+                <div style="font-size:55px;margin-bottom:5px">📲</div>
+                <h3 style="color:#FFD700;font-size:20px;margin-bottom:6px">Adicionar à Tela Inicial</h3>
+                <p style="color:#b2bec3;font-size:13px;margin-bottom:12px">Acesse o <b style="color:#FF6B35">BRAZ - FUND BANK</b> como um aplicativo!</p>
+                <div class="install-instructions-box" id="install-instructions"></div>
+                <div class="install-benefits">
+                    <div class="install-benefit-item">⚡ Acesso Instantâneo</div>
+                    <div class="install-benefit-item">🔔 Notificações Rápidas</div>
+                    <div class="install-benefit-item">📱 Ícone na Tela</div>
+                    <div class="install-benefit-item">🚀 Sem Abrir Navegador</div>
+                </div>
+                <button onclick="closeModal('install-modal')" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF6B35,#e84393);font-size:15px;padding:15px">👍 ENTENDI!</button>
+                <button onclick="closeModal('install-modal')" class="btn-modal-3d" style="background:#636e72;margin-top:4px">Fechar</button>
             </div>
         </div>
         <div id="deposit-modal" class="modal-overlay hidden"><div class="modal-3d"><h3>💰 Depositar</h3><div id="payment-tabs" style="display:flex;gap:5px"><div class="payment-tab active" onclick="selectPaymentMethod('mpesa')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:var(--success);color:white;font-weight:700">📱 M-Pesa</div><div class="payment-tab" onclick="selectPaymentMethod('emola')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:#444;color:white;font-weight:700">📱 e-Mola</div></div><div class="payment-info" id="payment-info-box"></div><input type="number" id="deposit-amount" class="input-3d" placeholder="Valor (MT)"><input type="text" id="deposit-ref" class="input-3d" placeholder="Referência (ex: 12345)"><button onclick="confirmDeposit()" class="btn-modal-3d" style="background:var(--success)">✅ Solicitar Depósito</button><button onclick="closeModal('deposit-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button></div></div>
@@ -249,6 +265,10 @@
         </div>
     </div>
     <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register("data:application/javascript,"+encodeURIComponent("self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)));"))
+        }
+
         const firebaseConfig={apiKey:"AIzaSyDFWtfZuhLtPY8yq9UJs3PXibh_TJRi1mY",databaseURL:"https://moz-anima-pha-default-rtdb.firebaseio.com/",projectId:"moz-anima-pha"};
         firebase.initializeApp(firebaseConfig);
         const auth=firebase.auth(),rtdb=firebase.database();
@@ -317,6 +337,20 @@
         async function confirmWithdrawal(){const s=canWithdrawToday();if(!s.allowed)return alert(s.reason);if(isWithdrawOnCooldown())return alert(`⏰ Aguarde: ${formatCooldown(getWithdrawRemaining())}`);const today=new Date().toDateString();if(currentUser.lastWithdrawDate&&new Date(currentUser.lastWithdrawDate).toDateString()===today)return alert('❌ Já sacou hoje!');const amt=selectedWithdrawal;if(!amt)return alert('Selecione um valor!');const bal=Number(currentUser.balance)||0;if(amt>bal)return alert('Saldo insuficiente!');const fee=amt*0.1,net=amt-fee;currentUser.balance=bal-amt;currentUser.lastWithdrawDate=new Date().toISOString();await saveUser(currentUser);await addTransaction({phone:currentUser.phone,name:currentUser.name,type:'withdraw_pending',amount:amt,fee:fee,net:net,status:'pending',date:new Date().toISOString()});closeModal('withdraw-modal');updateUI();updateWithdrawUI();updateTimersDisplay();alert(`⏳ Saque solicitado!\n💰 Solicitado: MT ${amt.toLocaleString()}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 Receberá: MT ${net.toFixed(2)}`)}
         function copyReferralLink(){navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+currentUser.phone).then(()=>alert('📋 Copiado!'))}
         function showNotifications(){alert('🔔 Nenhuma notificação.')}
+        function showInstallInstructions(){const instructionsDiv=document.getElementById('install-instructions');const ua=navigator.userAgent;let instructions='';if(/android/i.test(ua)){instructions=`
+            <div class="install-step"><div class="install-step-num">1</div><p>Toque nos <b>3 pontinhos ⋮</b> no canto superior direito do Chrome</p></div>
+            <div class="install-step"><div class="install-step-num">2</div><p>Selecione <b>"Adicionar à tela inicial"</b></p></div>
+            <div class="install-step"><div class="install-step-num">3</div><p>Confirme tocando em <b>"Adicionar"</b></p></div>
+            <div class="install-step"><div class="install-step-num">4</div><p>✅ Pronto! O ícone aparecerá na sua tela!</p></div>
+        `}else if(/iPhone|iPad|iPod/i.test(ua)){instructions=`
+            <div class="install-step"><div class="install-step-num">1</div><p>Toque no botão <b>Compartilhar 📤</b> na barra inferior do Safari</p></div>
+            <div class="install-step"><div class="install-step-num">2</div><p>Role e toque em <b>"Adicionar à Tela de Início"</b></p></div>
+            <div class="install-step"><div class="install-step-num">3</div><p>Dê um nome e toque em <b>"Adicionar"</b></p></div>
+            <div class="install-step"><div class="install-step-num">4</div><p>✅ Pronto! O ícone estará na sua tela inicial!</p></div>
+        `}else{instructions=`
+            <div class="install-step"><div class="install-step-num">📱</div><p>Acesse este site pelo <b>navegador do seu celular</b> para adicionar o atalho à tela inicial.</p></div>
+        `}
+        instructionsDiv.innerHTML=instructions;document.getElementById('install-modal').classList.remove('hidden')}
         function switchTab(tab){document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));const tabEl=document.getElementById(`tab-${tab}`);if(tabEl)tabEl.classList.remove('hidden');document.querySelectorAll('.nav-item-3d').forEach(e=>e.classList.remove('active'));const navEl=document.getElementById(`nav-${tab}`);if(navEl)navEl.classList.add('active');if(tab==='vips'){const c=document.getElementById('my-vips');if(currentUser?.vipLevel!==null&&currentUser?.vipLevel!==undefined){const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(v){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);const wDay=(v.isStarter||allowDailyWithdraw)?'Seg-Sex (Diário)':v.withdrawDay;c.innerHTML=`<div class="vip-card-3d active-vip ${v.isStarter?'starter':''}" style="border-left:6px solid ${v.color}"><h3>${v.icon} ${v.name}</h3><div class="vip-price">💰 <b>MT ${v.daily}/dia</b></div><div class="vip-price">💸 Saque: <b>${wDay}</b>${(v.isStarter||allowDailyWithdraw)?' <span class="daily-badge">🔥</span>':''}</div><div class="expiry-countdown">${ei.text}</div><div class="vip-status-active">✅ ATIVO</div></div>`}}else{c.innerHTML='<p style="text-align:center;color:#666">Nenhum VIP ativo</p>'}}if(tab==='funds')loadFunds();if(tab==='referral')loadReferralTab();if(tab==='history'){loadWithdrawalHistory();loadDepositHistory();loadProfitHistory()}}
         function closeModal(id){const el=document.getElementById(id);if(el)el.classList.add('hidden')}
         document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.add('hidden')})
@@ -339,14 +373,9 @@
         async function deleteUserAccount(phone){if(!confirm(`⚠️ EXCLUIR ${phone}?`))return;if(!confirm('IRREVERSÍVEL!'))return;await deleteData(`users/${phone}`);document.getElementById('search-result').innerHTML='<p style="color:var(--danger)">🗑️ Excluído!</p>';await loadAUsers()}
         async function loadAUsers(){const u=await getAllUsers();document.getElementById('admin-users-list').innerHTML=u.map(x=>`<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance)||0).toFixed(2)} | 👑 VIP ${x.vipLevel||'-'}</div>`).join('')||'<p style="color:#666">Nenhum</p>'}
 
-        // ═══════════════ NOVAS FUNCIONALIDADES ═══════════════
-        function downloadApp(){const os=navigator.userAgent;if(/android/i.test(os)){alert('📱 ADICIONE À TELA INICIAL:\n\n1. Toque nos 3 pontinhos ⋮\n2. "Adicionar à tela inicial"\n3. Pronto! Ícone no ecrã!')}else if(/iPhone|iPad|iPod/i.test(os)){alert('📱 ADICIONE À TELA INICIAL:\n\n1. Toque em Compartilhar 📤\n2. "Adicionar à Tela de Início"\n3. Pronto! Ícone no ecrã!')}else{alert('📱 Acesse pelo celular para adicionar o atalho!')}closeDownloadBanner()}
-        function closeDownloadBanner(){const b=document.getElementById('appDownloadBanner');if(b){b.style.opacity='0';b.style.transform='translate(-50%,20px)';b.style.transition='all 0.3s ease'}setTimeout(()=>{if(b)b.style.display='none'},300);localStorage.setItem('dl_closed','1')}
-        (function(){if(localStorage.getItem('dl_closed')==='1'){const b=document.getElementById('appDownloadBanner');if(b)b.style.display='none'}})()
-
         let globalFundsActive=true
-        async function toggleAllFunds(){globalFundsActive=!globalFundsActive;const badge=document.getElementById('fundsStatusBadge'),dot=document.getElementById('fundsStatusDot'),label=document.getElementById('fundsStatusLabel'),btn=document.getElementById('btnFundsMaster'),alert=document.getElementById('fundsAlertMsg');if(globalFundsActive){if(badge)badge.className='funds-status-mini active';if(dot)dot.className='funds-dot-mini green';if(label)label.textContent='TODOS OS FUNDOS ATIVOS';if(btn){btn.className='btn-funds-toggle on';btn.textContent='🔴 DESLIGAR TODOS OS FUNDOS'}if(alert)alert.classList.remove('show')}else{if(badge)badge.className='funds-status-mini inactive';if(dot)dot.className='funds-dot-mini red';if(label)label.textContent='⚠️ FICA ATENTO - FUNDOS DESLIGADOS';if(btn){btn.className='btn-funds-toggle off';btn.textContent='🟢 ATIVAR TODOS OS FUNDOS'}if(alert)alert.classList.add('show');setTimeout(()=>{if(alert)alert.classList.remove('show')},6000)}try{await rtdb.ref('settings/globalFundsActive').set(globalFundsActive)}catch(e){}localStorage.setItem('globalFundsActive',globalFundsActive?'1':'0');await loadFunds()}
-        async function loadFundsState(){try{const snap=await rtdb.ref('settings/globalFundsActive').once('value');if(snap.val()===false){globalFundsActive=false;updateFundsUIAdmin()}}catch(e){if(localStorage.getItem('globalFundsActive')==='0'){globalFundsActive=false;updateFundsUIAdmin()}}}
+        async function toggleAllFunds(){globalFundsActive=!globalFundsActive;const badge=document.getElementById('fundsStatusBadge'),dot=document.getElementById('fundsStatusDot'),label=document.getElementById('fundsStatusLabel'),btn=document.getElementById('btnFundsMaster'),alert=document.getElementById('fundsAlertMsg');if(globalFundsActive){if(badge)badge.className='funds-status-mini active';if(dot)dot.className='funds-dot-mini green';if(label)label.textContent='TODOS OS FUNDOS ATIVOS';if(btn){btn.className='btn-funds-toggle on';btn.textContent='🔴 DESLIGAR TODOS OS FUNDOS'}if(alert)alert.classList.remove('show')}else{if(badge)badge.className='funds-status-mini inactive';if(dot)dot.className='funds-dot-mini red';if(label)label.textContent='⚠️ FICA ATENTO - FUNDOS DESLIGADOS';if(btn){btn.className='btn-funds-toggle off';btn.textContent='🟢 ATIVAR TODOS OS FUNDOS'}if(alert)alert.classList.add('show');setTimeout(()=>{if(alert)alert.classList.remove('show')},6000)}try{await rtdb.ref('settings/globalFundsActive').set(globalFundsActive)}catch(e){}await loadFunds()}
+        async function loadFundsState(){try{const snap=await rtdb.ref('settings/globalFundsActive').once('value');if(snap.val()===false){globalFundsActive=false;updateFundsUIAdmin()}}catch(e){globalFundsActive=true}}
         function updateFundsUIAdmin(){if(!globalFundsActive){const badge=document.getElementById('fundsStatusBadge'),dot=document.getElementById('fundsStatusDot'),label=document.getElementById('fundsStatusLabel'),btn=document.getElementById('btnFundsMaster');if(badge)badge.className='funds-status-mini inactive';if(dot)dot.className='funds-dot-mini red';if(label)label.textContent='⚠️ FICA ATENTO - FUNDOS DESLIGADOS';if(btn){btn.className='btn-funds-toggle off';btn.textContent='🟢 ATIVAR TODOS OS FUNDOS'}}}
         loadFundsState()
     </script>
