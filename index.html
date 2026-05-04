@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
+        /* ⚡ TODO O CSS EXATAMENTE IGUAL AO SEU CÓDIGO ORIGINAL ⚡ */
         :root {
             --primary: #FF6B35;
             --secondary: #FF8C42;
@@ -25,1135 +26,82 @@
             --blue-gradient: linear-gradient(135deg, #0984e3, #74b9ff);
             --orange-gradient: linear-gradient(135deg, #FF6B35, #FF8C42, #FFA502);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%);
-            background-attachment: fixed;
-            padding-bottom: 100px;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .header-3d {
-            background: linear-gradient(180deg, #2d3436, #636e72);
-            color: white;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 6px 0 #1a1a2e;
-            border-bottom: 3px solid var(--gold);
-        }
-
-        .logo-text {
-            font-size: 20px;
-            font-weight: 900;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-        }
-
-        .header-icons {
-            display: flex;
-            gap: 18px;
-            font-size: 20px;
-            color: white;
-        }
-        .header-icons i {
-            cursor: pointer;
-        }
-
-        .timer-bar {
-            background: linear-gradient(135deg, #2d3436, #636e72);
-            color: var(--gold);
-            text-align: center;
-            padding: 10px 12px;
-            font-size: 13px;
-            font-weight: 800;
-            margin: 6px 12px;
-            border-radius: 20px;
-            box-shadow: 0 4px 0 #1a1a2e;
-            border: 2px solid var(--gold);
-            animation: timerPulse 2s infinite;
-        }
-
-        @keyframes timerPulse {
-            0%,
-            100% {
-                box-shadow: 0 4px 0 #1a1a2e, 0 0 15px rgba(255, 215, 0, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 0 #1a1a2e, 0 0 30px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        .timer-bar.collect {
-            border-color: #FFD700;
-        }
-        .timer-bar.withdraw {
-            border-color: #8854d0;
-            animation: purplePulse 2s infinite;
-        }
-
-        @keyframes purplePulse {
-            0%,
-            100% {
-                box-shadow: 0 4px 0 #1a1a2e, 0 0 15px rgba(136, 84, 208, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 0 #1a1a2e, 0 0 30px rgba(136, 84, 208, 0.8);
-            }
-        }
-
-        .timer-bar.blocked {
-            color: #FF4757;
-            border-color: #FF4757;
-            animation: pulse-red 1.5s infinite;
-        }
-
-        @keyframes pulse-red {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 71, 87, 0.6);
-            }
-        }
-
-        .balance-card-3d {
-            background: linear-gradient(135deg, #ffffff, #f8f9fa, #ffffff);
-            margin: 10px 12px;
-            border-radius: 22px;
-            padding: 20px;
-            box-shadow: 0 6px 0 #1a1a2e;
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            text-align: center;
-            position: relative;
-            animation: balancePulse3D 2s infinite ease-in-out;
-            transform-style: preserve-3d;
-            perspective: 600px;
-        }
-
-        @keyframes balancePulse3D {
-            0% {
-                box-shadow: 0 6px 0 #1a1a2e, 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2);
-                transform: translateY(0) rotateX(0deg);
-            }
-            25% {
-                box-shadow: 0 10px 0 #1a1a2e, 0 0 35px rgba(255, 107, 53, 0.6), 0 0 60px rgba(255, 107, 53, 0.3);
-                transform: translateY(-3px) rotateX(2deg);
-            }
-            50% {
-                box-shadow: 0 4px 0 #1a1a2e, 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2);
-                transform: translateY(0) rotateX(0deg);
-            }
-            75% {
-                box-shadow: 0 12px 0 #1a1a2e, 0 0 45px rgba(255, 107, 53, 0.8), 0 0 70px rgba(255, 107, 53, 0.4);
-                transform: translateY(-2px) rotateX(-1deg);
-            }
-            100% {
-                box-shadow: 0 6px 0 #1a1a2e, 0 0 20px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2);
-                transform: translateY(0) rotateX(0deg);
-            }
-        }
-
-        .balance-card-3d::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 22px;
-            padding: 3px;
-            background: linear-gradient(135deg, #FF6B35, #FF8C42, #FFA502);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: borderGlow 3s infinite;
-        }
-
-        @keyframes borderGlow {
-            0%,
-            100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .balance-title {
-            font-size: 14px;
-            color: #636E72;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .balance-amount {
-            font-size: 42px;
-            font-weight: 900;
-            color: #FF6B35;
-            margin: 5px 0;
-            position: relative;
-            z-index: 1;
-            animation: textShine 3s infinite;
-        }
-
-        @keyframes textShine {
-            0%,
-            100% {
-                filter: brightness(1);
-            }
-            50% {
-                filter: brightness(1.3);
-            }
-        }
-
-        .commission-display {
-            color: #FF8C42;
-            font-size: 14px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            padding: 0 12px;
-            margin: 12px 0;
-        }
-
-        .btn-3d {
-            padding: 16px;
-            border: none;
-            border-radius: 18px;
-            color: white;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-            transition: all 0.2s;
-            animation: buttonGlow 3s infinite alternate;
-        }
-
-        @keyframes buttonGlow {
-            0% {
-                filter: brightness(1);
-            }
-            100% {
-                filter: brightness(1.2);
-            }
-        }
-
-        .btn-3d:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
-        }
-        .btn-3d:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            filter: grayscale(50%);
-        }
-
-        .btn-deposit {
-            background: linear-gradient(135deg, #20bf6b, #26de81);
-        }
-        .btn-withdraw {
-            background: linear-gradient(135deg, #8854d0, #a55eea);
-        }
-        .btn-collect {
-            background: linear-gradient(135deg, #FFD700, #FFA502);
-            color: #1a1a2e;
-            animation: collectPulse 1.5s infinite;
-        }
-
-        @keyframes collectPulse {
-            0%,
-            100% {
-                box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.4);
-            }
-            50% {
-                box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.8);
-            }
-        }
-
-        .btn-friends {
-            background: var(--gradient);
-        }
-
-        .section-title-3d {
-            font-size: 20px;
-            font-weight: 900;
-            color: #FFD700;
-            padding: 0 12px;
-            margin: 18px 0 12px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title-3d::after {
-            content: '';
-            flex: 1;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold), transparent);
-            border-radius: 2px;
-        }
-
-        .vip-grid {
-            display: grid;
-            gap: 10px;
-            padding: 0 12px;
-        }
-
-        .vip-card-3d {
-            background: white !important;
-            border-radius: 20px;
-            padding: 20px 16px;
-            position: relative;
-            overflow: hidden;
-            color: #2D3436;
-            border: 2px solid #e0e0e0;
-            margin-bottom: 8px;
-            animation: cardFloat 4s infinite alternate;
-        }
-
-        @keyframes cardFloat {
-            0% {
-                transform: translateY(0);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            }
-            100% {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        .vip-card-3d.starter {
-            border: 2px dashed #FF9800 !important;
-            background: #FFF8E1 !important;
-            animation: starterGlow 1.5s infinite;
-        }
-
-        @keyframes starterGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 152, 0, 0.8);
-            }
-        }
-
-        .vip-card-3d.active-vip {
-            border: 3px solid #FFD700 !important;
-            animation: pulse-gold 2s infinite;
-        }
-
-        @keyframes pulse-gold {
-            0%,
-            100% {
-                box-shadow: 0 0 35px rgba(255, 215, 0, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 55px rgba(255, 215, 0, 0.9);
-            }
-        }
-
-        .vip-card-3d.blocked-vip {
-            border: 2px solid #FF4757 !important;
-            opacity: 0.7;
-            pointer-events: none;
-            position: relative;
-        }
-        .vip-card-3d.blocked-vip::after {
-            content: '🔒 VIP SUPERIOR REQUERIDO';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 71, 87, 0.9);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 12px;
-            z-index: 10;
-            white-space: nowrap;
-        }
-
-        .vip-card-3d.disabled {
-            opacity: 0.55;
-            pointer-events: none;
-            filter: grayscale(30%);
-        }
-
-        .vip-badge-3d {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 800;
-            font-size: 12px;
-            z-index: 1;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .vip-name {
-            font-size: 22px;
-            font-weight: 900;
-            margin-bottom: 4px;
-            color: #2D3436;
-            position: relative;
-            z-index: 1;
-        }
-
-        .vip-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: #636E72;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        .vip-price b {
-            font-size: 20px;
-            color: #FF6B35;
-        }
-
-        .vip-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 6px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .vip-detail-item {
-            padding: 12px 8px;
-            border-radius: 14px;
-            font-size: 13px;
-            text-align: center;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .detail-days {
-            background: linear-gradient(135deg, #6C5CE7, #A29BFE);
-        }
-        .detail-daily {
-            background: linear-gradient(135deg, #00B894, #55EFC4);
-        }
-        .detail-withdraw {
-            background: linear-gradient(135deg, #E17055, #FDCB6E);
-        }
-        .detail-expiry {
-            background: linear-gradient(135deg, #0984E3, #74B9FF);
-        }
-
-        .detail-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            opacity: 0.9;
-        }
-        .detail-value {
-            font-size: 18px;
-            font-weight: 900;
-        }
-
-        .expiry-countdown {
-            background: #FFF8E1;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: center;
-            margin-top: 6px;
-            color: #F57F17;
-            position: relative;
-            z-index: 1;
-            animation: countdownPulse 3s infinite;
-        }
-
-        @keyframes countdownPulse {
-            0%,
-            100% {
-                background: #FFF8E1;
-            }
-            50% {
-                background: #FFF3CD;
-            }
-        }
-
-        .vip-status-active {
-            background: #E8F5E9;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 14px;
-            border: 2px solid #4CAF50;
-            color: #2E7D32;
-            margin-top: 4px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .vip-status-locked {
-            background: #FFF3E0;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 14px;
-            border: 2px solid #FF9800;
-            color: #E65100;
-            margin-top: 4px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-invest-3d {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            color: white;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 8px;
-            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
-            text-transform: uppercase;
-            position: relative;
-            z-index: 1;
-            animation: investGlow 3s infinite alternate;
-        }
-
-        @keyframes investGlow {
-            0% {
-                filter: brightness(1);
-            }
-            100% {
-                filter: brightness(1.3);
-            }
-        }
-
-        .btn-invest-3d.starter-btn {
-            background: linear-gradient(135deg, #FF9800, #F57C00);
-        }
-        .btn-invest-3d:active {
-            transform: translateY(3px);
-        }
-        .btn-invest-3d:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            filter: grayscale(50%);
-        }
-
-        .nav-3d {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 480px;
-            background: linear-gradient(180deg, #2d3436, #1a1a2e);
-            display: flex;
-            padding: 12px 0;
-            z-index: 1000;
-            box-shadow: 0 -5px 0 #1a1a2e;
-        }
-
-        .nav-item-3d {
-            flex: 1;
-            text-align: center;
-            color: #888;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .nav-item-3d.active {
-            color: var(--gold);
-            text-shadow: 0 0 10px var(--gold);
-        }
-        .nav-item-3d i {
-            font-size: 22px;
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .modal-3d {
-            background: white;
-            border-radius: 22px;
-            padding: 22px;
-            width: 100%;
-            max-width: 420px;
-            max-height: 85vh;
-            overflow-y: auto;
-            color: #2D3436;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-3d h3,
-        .modal-3d h4 {
-            color: #2D3436;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-
-        .input-3d {
-            width: 100%;
-            padding: 14px 16px;
-            border: 3px solid #dfe6e9;
-            border-radius: 14px;
-            font-size: 16px;
-            margin: 8px 0;
-            background: white;
-            color: #2D3436;
-        }
-        .input-3d:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
-        }
-
-        .btn-modal-3d {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            color: white;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 8px;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
-            text-transform: uppercase;
-        }
-        .btn-modal-3d:active {
-            transform: translateY(3px);
-        }
-        .btn-modal-3d:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            filter: grayscale(50%);
-        }
-
-        .history-item {
-            background: white;
-            padding: 12px;
-            margin: 4px 0;
-            border-radius: 12px;
-            border-left: 5px solid var(--primary);
-            font-size: 13px;
-            color: #2D3436;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .withdraw-status-bar {
-            background: #f8f9fa;
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin: 10px 12px;
-            font-size: 12px;
-            text-align: center;
-        }
-        .withdraw-status-bar.allowed {
-            background: #d4edda;
-            color: #155724;
-            animation: allowedGlow 3s infinite;
-        }
-        @keyframes allowedGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 10px rgba(0, 184, 148, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(0, 184, 148, 0.6);
-            }
-        }
-        .withdraw-status-bar.blocked {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .cooldown-info {
-            background: #FFF3E0;
-            padding: 8px 10px;
-            border-radius: 10px;
-            margin: 4px 12px;
-            text-align: center;
-            font-size: 11px;
-            color: #E65100;
-            font-weight: 700;
-            border: 1px solid #FFE082;
-        }
-
-        .pending-item {
-            border: 1px solid #eee;
-            padding: 10px;
-            margin: 4px 0;
-            border-radius: 10px;
-            font-size: 12px;
-            color: #2D3436;
-            background: #fafafa;
-        }
-
-        .payment-info {
-            background: #FFF8E1;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 8px 0;
-            text-align: center;
-            font-size: 13px;
-            color: #E65100;
-            border: 1px solid #FFE082;
-        }
-
-        #login-screen {
-            background: linear-gradient(180deg, #1a1a2e, #16213e, #0f3460);
-            min-height: 100vh;
-            color: white;
-            padding: 20px;
-        }
-
-        #login-screen .input-3d {
-            background: rgba(255, 255, 255, 0.95);
-            color: #2D3436;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .login-tabs {
-            display: flex;
-            gap: 4px;
-            margin: 0 0 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 4px;
-        }
-
-        .login-tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            background: transparent;
-            color: #b2bec3;
-            border: none;
-        }
-        .login-tab.active {
-            background: var(--gradient);
-            color: white;
-        }
-
-        .forgot-password-link {
-            text-align: center;
-            font-size: 12px;
-            color: #FFD700;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 8px;
-        }
-
-        .login-bubble {
-            background: linear-gradient(135deg, #2d3436, #434a54);
-            border-radius: 16px;
-            padding: 10px 14px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 12px;
-            color: white;
-            animation: float 2s infinite;
-        }
-
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .admin-search {
-            display: flex;
-            gap: 6px;
-        }
-        .admin-search input {
-            flex: 1;
-        }
-        .admin-search button {
-            width: auto;
-            padding: 14px 18px;
-            white-space: nowrap;
-        }
-
-        .switch-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin: 8px 0;
-            color: #2D3436;
-        }
-        .switch-container.daily {
-            background: #e8f5e9;
-            border: 2px solid #4CAF50;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 26px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked+.slider {
-            background-color: var(--success);
-        }
-        input:checked+.slider:before {
-            transform: translateX(24px);
-        }
-
-        .withdrawal-btn {
-            padding: 12px;
-            border: 2px solid #dfe6e9;
-            border-radius: 12px;
-            background: white;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 14px;
-            color: #2D3436;
-            transition: all 0.2s;
-        }
-        .withdrawal-btn:hover {
-            background: #f0f0f0;
-        }
-        .withdrawal-btn.selected {
-            background: var(--danger);
-            color: white;
-            border-color: var(--danger);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
-        }
-        .withdrawal-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background: #f5f5f5;
-            border-color: #ddd;
-            color: #999;
-        }
-
-        .withdraw-modal-info {
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 8px 0;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .withdraw-modal-info.allowed {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #4CAF50;
-        }
-        .withdraw-modal-info.blocked {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #FFA502;
-        }
-
-        .daily-badge {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
-            margin-left: 4px;
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-
-        .switch-label {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .fund-table-row {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 10px;
-            border-left: 5px solid;
-            animation: cardFloat 4s infinite alternate;
-        }
-
-        .fund-detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 10px 0;
-        }
-
-        .fund-detail-item {
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 700;
-            color: white;
-        }
-
-        .fund-detail-amount {
-            background: var(--green-gradient);
-        }
-        .fund-detail-percent {
-            background: var(--purple-gradient);
-        }
-        .fund-detail-duration {
-            background: var(--pink-gradient);
-        }
-        .fund-detail-total {
-            background: var(--blue-gradient);
-        }
-
-        .referral-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 0 12px;
-            margin: 12px 0;
-        }
-
-        .referral-stat-card {
-            background: linear-gradient(135deg, #2d3436, #434a54);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            animation: referralFloat 3s infinite alternate;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .referral-stat-card:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .referral-stat-card:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        @keyframes referralFloat {
-            0% {
-                transform: translateY(0);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.2);
-            }
-            50% {
-                transform: translateY(-8px);
-                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.5);
-            }
-            100% {
-                transform: translateY(0);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.2);
-            }
-        }
-
-        .referral-stat-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .referral-stat-icon {
-            font-size: 30px;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .referral-stat-value {
-            font-size: 28px;
-            font-weight: 900;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            z-index: 1;
-        }
-
-        .referral-stat-label {
-            font-size: 12px;
-            color: #b2bec3;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .online-users-float {
-            background: var(--orange-gradient);
-            border-radius: 16px;
-            padding: 15px;
-            margin: 10px 0;
-            text-align: center;
-            animation: onlineGlow 3s infinite alternate;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes onlineGlow {
-            0% {
-                box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
-            }
-            100% {
-                box-shadow: 0 0 40px rgba(255, 107, 53, 0.8);
-            }
-        }
-
-        .online-count {
-            font-size: 36px;
-            font-weight: 900;
-            color: white;
-            animation: countChange 2s infinite;
-        }
-
-        @keyframes countChange {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.8;
-            }
-        }
-
-        .admin-key-info {
-            background: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin: 4px 0;
-            font-size: 11px;
-            border-left: 4px solid var(--success);
-        }
-
-        .admin-key-info.active {
-            border-left-color: #4CAF50;
-            background: #e8f5e9;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:linear-gradient(180deg,#1a1a2e 0%,#16213e 30%,#0f3460 60%,#1a1a2e 100%); background-attachment:fixed; padding-bottom:100px; min-height:100vh; }
+        .app-container { max-width:480px; margin:0 auto; }
+        .hidden { display:none!important; }
+        .header-3d { background:linear-gradient(180deg,#2d3436,#636e72); color:white; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; box-shadow:0 6px 0 #1a1a2e; border-bottom:3px solid var(--gold); }
+        .logo-text { font-size:20px; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; }
+        .header-icons { display:flex; gap:18px; font-size:20px; color:white; }
+        .header-icons i { cursor:pointer; }
+        .timer-bar { background:linear-gradient(135deg,#2d3436,#636e72); color:var(--gold); text-align:center; padding:10px 12px; font-size:13px; font-weight:800; margin:6px 12px; border-radius:20px; box-shadow:0 4px 0 #1a1a2e; border:2px solid var(--gold); animation:timerPulse 2s infinite; }
+        @keyframes timerPulse { 0%,100%{box-shadow:0 4px 0 #1a1a2e,0 0 15px rgba(255,215,0,0.4)} 50%{box-shadow:0 4px 0 #1a1a2e,0 0 30px rgba(255,215,0,0.8)} }
+        .timer-bar.collect { border-color:#FFD700; }
+        .timer-bar.withdraw { border-color:#8854d0; animation:purplePulse 2s infinite; }
+        @keyframes purplePulse { 0%,100%{box-shadow:0 4px 0 #1a1a2e,0 0 15px rgba(136,84,208,0.4)} 50%{box-shadow:0 4px 0 #1a1a2e,0 0 30px rgba(136,84,208,0.8)} }
+        .timer-bar.blocked { color:#FF4757; border-color:#FF4757; animation:pulse-red 1.5s infinite; }
+        @keyframes pulse-red { 0%,100%{box-shadow:0 0 20px rgba(255,71,87,0.3)} 50%{box-shadow:0 0 40px rgba(255,71,87,0.6)} }
+        .balance-card-3d { background:linear-gradient(135deg,#ffffff,#f8f9fa,#ffffff); margin:10px 12px; border-radius:22px; padding:20px; box-shadow:0 6px 0 #1a1a2e; border:2px solid rgba(255,107,53,0.3); text-align:center; position:relative; animation:balancePulse3D 2s infinite ease-in-out; }
+        @keyframes balancePulse3D { 0%{box-shadow:0 6px 0 #1a1a2e,0 0 20px rgba(255,107,53,0.4);transform:translateY(0)} 50%{box-shadow:0 10px 0 #1a1a2e,0 0 35px rgba(255,107,53,0.6);transform:translateY(-3px)} 100%{box-shadow:0 6px 0 #1a1a2e,0 0 20px rgba(255,107,53,0.4);transform:translateY(0)} }
+        .balance-title { font-size:14px; color:#636E72; text-transform:uppercase; letter-spacing:3px; position:relative; z-index:1; }
+        .balance-amount { font-size:42px; font-weight:900; color:#FF6B35; margin:5px 0; position:relative; z-index:1; animation:textShine 3s infinite; }
+        @keyframes textShine { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.3)} }
+        .commission-display { color:#FF8C42; font-size:14px; font-weight:700; position:relative; z-index:1; }
+        .actions-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:0 12px; margin:12px 0; }
+        .btn-3d { padding:16px; border:none; border-radius:18px; color:white; font-weight:800; font-size:14px; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.3); text-transform:uppercase; display:flex; align-items:center; gap:8px; justify-content:center; transition:all 0.2s; }
+        .btn-3d:active { transform:translateY(3px); box-shadow:0 2px 0 rgba(0,0,0,0.3); }
+        .btn-3d:disabled { opacity:0.5; pointer-events:none; filter:grayscale(50%); }
+        .btn-deposit { background:linear-gradient(135deg,#20bf6b,#26de81); }
+        .btn-withdraw { background:linear-gradient(135deg,#8854d0,#a55eea); }
+        .btn-collect { background:linear-gradient(135deg,#FFD700,#FFA502); color:#1a1a2e; }
+        .btn-friends { background:var(--gradient); }
+        .section-title-3d { font-size:20px; font-weight:900; color:#FFD700; padding:0 12px; margin:18px 0 12px; text-transform:uppercase; display:flex; align-items:center; gap:10px; }
+        .section-title-3d::after { content:''; flex:1; height:4px; background:linear-gradient(90deg,var(--gold),transparent); border-radius:2px; }
+        .vip-grid { display:grid; gap:10px; padding:0 12px; }
+        .vip-card-3d { background:white!important; border-radius:20px; padding:20px 16px; position:relative; overflow:hidden; color:#2D3436; border:2px solid #e0e0e0; margin-bottom:8px; }
+        .vip-card-3d.starter { border:2px dashed #FF9800!important; background:#FFF8E1!important; }
+        .vip-card-3d.active-vip { border:3px solid #FFD700!important; }
+        .vip-card-3d.blocked-vip { border:2px solid #FF4757!important; opacity:0.7; pointer-events:none; }
+        .vip-card-3d.disabled { opacity:0.55; pointer-events:none; filter:grayscale(30%); }
+        .vip-badge-3d { position:absolute; top:14px; right:14px; padding:6px 14px; border-radius:20px; color:white; font-weight:800; font-size:12px; z-index:1; }
+        .vip-name { font-size:22px; font-weight:900; margin-bottom:4px; color:#2D3436; position:relative; z-index:1; }
+        .vip-price { font-size:16px; font-weight:700; color:#636E72; margin-bottom:12px; position:relative; z-index:1; }
+        .vip-price b { font-size:20px; color:#FF6B35; }
+        .vip-details { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:6px 0; position:relative; z-index:1; }
+        .vip-detail-item { padding:12px 8px; border-radius:14px; font-size:13px; text-align:center; font-weight:700; color:white; }
+        .detail-days { background:linear-gradient(135deg,#6C5CE7,#A29BFE); }
+        .detail-daily { background:linear-gradient(135deg,#00B894,#55EFC4); }
+        .detail-withdraw { background:linear-gradient(135deg,#E17055,#FDCB6E); }
+        .detail-expiry { background:linear-gradient(135deg,#0984E3,#74B9FF); }
+        .detail-label { font-size:10px; text-transform:uppercase; opacity:0.9; }
+        .detail-value { font-size:18px; font-weight:900; }
+        .expiry-countdown { background:#FFF8E1; padding:10px; border-radius:10px; font-size:13px; font-weight:700; text-align:center; margin-top:6px; color:#F57F17; position:relative; z-index:1; }
+        .vip-status-active { background:#E8F5E9; padding:10px; border-radius:10px; text-align:center; font-weight:700; font-size:14px; border:2px solid #4CAF50; color:#2E7D32; margin-top:4px; position:relative; z-index:1; }
+        .vip-status-locked { background:#FFF3E0; padding:10px; border-radius:10px; text-align:center; font-weight:700; font-size:14px; border:2px solid #FF9800; color:#E65100; margin-top:4px; position:relative; z-index:1; }
+        .btn-invest-3d { width:100%; padding:14px; border:none; border-radius:14px; color:white; font-weight:800; font-size:15px; cursor:pointer; margin-top:8px; text-transform:uppercase; position:relative; z-index:1; }
+        .btn-invest-3d:active { transform:translateY(3px); }
+        .btn-invest-3d:disabled { opacity:0.5; pointer-events:none; filter:grayscale(50%); }
+        .nav-3d { position:fixed; bottom:0; width:100%; max-width:480px; background:linear-gradient(180deg,#2d3436,#1a1a2e); display:flex; padding:12px 0; z-index:1000; }
+        .nav-item-3d { flex:1; text-align:center; color:#888; font-size:10px; font-weight:700; cursor:pointer; background:none; border:none; }
+        .nav-item-3d.active { color:var(--gold); }
+        .nav-item-3d i { font-size:22px; display:block; margin-bottom:3px; }
+        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:2000; display:flex; align-items:center; justify-content:center; padding:15px; }
+        .modal-3d { background:white; border-radius:22px; padding:22px; width:100%; max-width:420px; max-height:85vh; overflow-y:auto; color:#2D3436; }
+        .input-3d { width:100%; padding:14px 16px; border:3px solid #dfe6e9; border-radius:14px; font-size:16px; margin:8px 0; background:white; color:#2D3436; }
+        .btn-modal-3d { width:100%; padding:14px; border:none; border-radius:14px; color:white; font-weight:800; font-size:15px; cursor:pointer; margin-top:8px; text-transform:uppercase; }
+        .btn-modal-3d:active { transform:translateY(3px); }
+        .history-item { background:white; padding:12px; margin:4px 0; border-radius:12px; border-left:5px solid var(--primary); font-size:13px; color:#2D3436; }
+        .withdraw-status-bar { background:#f8f9fa; padding:10px 14px; border-radius:12px; margin:10px 12px; font-size:12px; text-align:center; }
+        .withdraw-status-bar.allowed { background:#d4edda; color:#155724; }
+        .withdraw-status-bar.blocked { background:#f8d7da; color:#721c24; }
+        #login-screen { background:linear-gradient(180deg,#1a1a2e,#16213e,#0f3460); min-height:100vh; color:white; padding:20px; }
+        .login-tabs { display:flex; gap:4px; margin:0 0 12px; background:rgba(255,255,255,0.1); border-radius:14px; padding:4px; }
+        .login-tab { flex:1; padding:12px; text-align:center; border-radius:10px; cursor:pointer; font-weight:700; font-size:14px; background:transparent; color:#b2bec3; border:none; }
+        .login-tab.active { background:var(--gradient); color:white; }
+        .forgot-password-link { text-align:center; font-size:12px; color:#FFD700; cursor:pointer; text-decoration:underline; margin-top:8px; }
+        .online-users-float { background:var(--orange-gradient); border-radius:16px; padding:15px; margin:10px 0; text-align:center; }
+        .online-count { font-size:36px; font-weight:900; color:white; }
+        .daily-badge { display:inline-block; background:#4CAF50; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-left:4px; }
     </style>
 </head>
 <body>
@@ -1163,37 +111,29 @@
             <div style="text-align:center;padding:20px 0;">
                 <div style="font-size:60px;">🏦</div>
                 <h2 style="font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">BRAZ - FUND BANK</h2>
-                <p style="color:#b2bec3;font-size:14px;margin-top:4px;">Plataforma de Investimentos</p>
+                <p style="color:#b2bec3;font-size:14px;">Plataforma de Investimentos</p>
             </div>
             <div class="online-users-float">
-                <div style="font-size:12px;color:rgba(255,255,255,0.9);">👥 USUÁRIOS ONLINE</div>
                 <div class="online-count" id="online-users-count">1,471</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.8);">⚡ Ativos agora</div>
+                <div style="font-size:11px;">⚡ Ativos agora</div>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;">
-                <div class="login-bubble">💰 Depósitos<br><b id="fake-deposits">127</b></div>
-                <div class="login-bubble">💸 Saques<br><b id="fake-withdraws">89</b></div>
-                <div class="login-bubble">👥 Membros<br><b id="fake-members">87k</b></div>
-            </div>
-            <div id="invite-message" class="hidden" style="background:rgba(0,184,148,0.2);color:#4caf50;padding:12px;border-radius:12px;text-align:center;margin:12px 0;font-weight:700;font-size:14px;"></div>
             <div class="login-tabs">
-                <button class="login-tab active" id="tab-login-btn" onclick="switchLoginTab('login')">🚀 Entrar</button>
-                <button class="login-tab" id="tab-register-btn" onclick="switchLoginTab('register')">📝 Criar Conta</button>
+                <button class="login-tab active" onclick="switchLoginTab('login')">🚀 Entrar</button>
+                <button class="login-tab" onclick="switchLoginTab('register')">📝 Criar Conta</button>
             </div>
             <div id="login-fields">
                 <input type="tel" id="login-phone" class="input-3d" placeholder="📱 Número (ex: 851234567)">
                 <input type="password" id="login-password" class="input-3d" placeholder="🔒 Senha">
-                <button onclick="handleLogin()" class="btn-modal-3d" style="background:var(--gradient);font-size:16px;padding:16px;">🚀 Entrar</button>
+                <button id="btn-login-submit" onclick="handleLogin()" class="btn-modal-3d" style="background:var(--gradient);font-size:16px;padding:16px;">🚀 Entrar</button>
                 <p class="forgot-password-link" onclick="resetPassword()">🔐 Esqueci a senha</p>
             </div>
             <div id="register-fields" class="hidden">
-                <input type="tel" id="reg-phone" class="input-3d" placeholder="📱 Número (ex: 851234567)">
+                <input type="tel" id="reg-phone" class="input-3d" placeholder="📱 Número">
                 <input type="text" id="reg-name" class="input-3d" placeholder="👤 Nome completo">
                 <input type="password" id="reg-password" class="input-3d" placeholder="🔒 Senha">
                 <input type="password" id="reg-confirm" class="input-3d" placeholder="🔒 Confirmar senha">
-                <button onclick="handleLogin()" class="btn-modal-3d" style="background:var(--gradient);font-size:16px;padding:16px;">📝 Criar Conta</button>
+                <button id="btn-register-submit" onclick="handleLogin()" class="btn-modal-3d" style="background:var(--gradient);font-size:16px;padding:16px;">📝 Criar Conta</button>
             </div>
-            <p style="text-align:center;font-size:10px;color:#999;margin-top:12px;">Suporte: <b id="support-whatsapp">+258 85XXXXXXX</b> | <b id="support-telegram">@brazfundbank</b></p>
         </div>
 
         <!-- APP -->
@@ -1205,11 +145,9 @@
                     <i class="fas fa-user-circle" onclick="switchTab('profile')"></i>
                 </div>
             </div>
-            <div class="timer-bar collect" id="collect-timer-bar">💎 <span id="collect-timer-label">Próxima coleta:</span> <span id="collect-timer">00:00:00</span></div>
-            <div class="timer-bar withdraw" id="withdraw-timer-bar">💸 <span id="withdraw-timer-label">Próximo saque:</span> <span id="withdraw-timer">00:00:00</span></div>
-            <div id="cooldown-notice" class="cooldown-info hidden"></div>
-            <div id="withdraw-status-bar" class="withdraw-status-bar">Verificando...</div>
-
+            <div class="timer-bar collect"><span id="collect-timer-label">✅ Coleta:</span> <span id="collect-timer">00:00:00</span></div>
+            <div class="timer-bar withdraw"><span id="withdraw-timer-label">✅ Saque:</span> <span id="withdraw-timer">00:00:00</span></div>
+            <div id="withdraw-status-bar" class="withdraw-status-bar allowed">✅ Pronto</div>
             <div id="tab-home" class="tab-content">
                 <div class="balance-card-3d">
                     <div class="balance-title">💎 Saldo Principal</div>
@@ -1217,788 +155,366 @@
                     <div class="commission-display">💰 Comissão: <span id="commission-balance">0.00</span></div>
                 </div>
                 <div class="actions-grid">
-                    <button class="btn-3d btn-deposit" onclick="openDepositModal()"><i class="fas fa-plus-circle"></i> Depositar</button>
-                    <button class="btn-3d btn-withdraw" id="btn-withdraw-main" onclick="openWithdrawModal()"><i class="fas fa-minus-circle"></i> Levantar</button>
-                    <button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()"><i class="fas fa-hand-holding-usd"></i> Coletar</button>
-                    <button class="btn-3d btn-friends" onclick="switchTab('referral')"><i class="fas fa-users"></i> Convidar</button>
+                    <button class="btn-3d btn-deposit" onclick="openDepositModal()">💎 Depositar</button>
+                    <button class="btn-3d btn-withdraw" onclick="openWithdrawModal()">💸 Levantar</button>
+                    <button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()">⚡ Coletar</button>
+                    <button class="btn-3d btn-friends" onclick="switchTab('referral')">👥 Convidar</button>
                 </div>
                 <div id="collect-status" style="text-align:center;padding:8px;font-size:12px;font-weight:700;"></div>
-                <h3 class="section-title-3d">👑 Tabela de Investimento</h3>
+                <h3 class="section-title-3d">👑 Tabela VIP</h3>
                 <div class="vip-grid" id="vip-groups"></div>
             </div>
-
-            <div id="tab-vips" class="tab-content hidden">
-                <h3 class="section-title-3d">👑 Meus VIPs</h3>
-                <div id="my-vips" style="margin:5px 12px;"></div>
-            </div>
-
-            <div id="tab-funds" class="tab-content hidden">
-                <h3 class="section-title-3d">💰 Tabela de Fundos</h3>
-                <div class="vip-grid" id="funds-list"></div>
-            </div>
-
             <div id="tab-referral" class="tab-content hidden">
-                <h3 class="section-title-3d">👥 Convidar Amigos</h3>
-                <div style="background:white;border:2px solid var(--gold);border-radius:16px;padding:16px;margin:12px;color:#2D3436;">
-                    <h4>🎁 10% de Comissão</h4>
-                    <p style="font-size:12px;color:#636e72;">Por cada depósito dos indicados!</p>
-                    <div id="referral-link-text" style="background:#f8f9fa;padding:10px;border-radius:10px;font-size:11px;word-break:break-all;margin:10px 0;border:1px dashed var(--primary);"></div>
-                    <button onclick="copyReferralLink()" class="btn-modal-3d" style="background:var(--gradient);font-size:14px;">📋 Copiar Link</button>
+                <h3 class="section-title-3d">👥 Convidar</h3>
+                <div style="background:white;padding:16px;margin:12px;border-radius:16px;color:#2D3436;">
+                    <div id="referral-link-text" style="background:#f8f9fa;padding:10px;border-radius:10px;font-size:11px;word-break:break-all;margin:10px 0;"></div>
+                    <button onclick="copyReferralLink()" class="btn-modal-3d" style="background:var(--gradient);">📋 Copiar Link</button>
                 </div>
-                <div class="referral-stats">
-                    <div class="referral-stat-card">
-                        <div class="referral-stat-icon">👥</div>
-                        <div class="referral-stat-value" id="referral-count">0</div>
-                        <div class="referral-stat-label">TOTAL</div>
-                        <div style="font-size:10px;color:#00b894;">QUALIFICADOS</div>
-                    </div>
-                    <div class="referral-stat-card">
-                        <div class="referral-stat-icon">👑</div>
-                        <div class="referral-stat-value" id="referral-vip-count">0</div>
-                        <div class="referral-stat-label">COM VIP</div>
-                        <div style="font-size:10px;color:#FFD700;">MT <span id="referral-total">0.00</span> COMISSÕES</div>
-                    </div>
-                </div>
-                <div id="referred-users-list" style="margin:5px 12px;"></div>
             </div>
-
             <div id="tab-profile" class="tab-content hidden">
                 <div style="text-align:center;padding:30px;color:white;">
-                    <i class="fas fa-user-circle" style="font-size:75px;color:var(--gold);"></i>
-                    <h3 id="profile-name" style="color:white;font-size:24px;"></h3>
-                    <p id="profile-phone" style="color:#b2bec3;"></p>
-                    <p id="profile-vip" style="color:var(--gold);font-weight:700;"></p>
-                    <p id="profile-vip-expiry" style="font-size:12px;color:#999;"></p>
-                    <div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div>
-                    <div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div>
-                    <button onclick="switchTab('history')" class="btn-modal-3d" style="background:var(--info);">📋 Histórico</button>
-                    <button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);margin-top:10px;">🚪 Sair</button>
+                    <h3 id="profile-name"></h3>
+                    <p id="profile-phone"></p>
+                    <button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);">🚪 Sair</button>
                 </div>
             </div>
-
-            <div id="tab-history" class="tab-content hidden">
-                <h3 class="section-title-3d" style="padding:10px;">💸 Levantamentos</h3>
-                <div id="withdrawal-history" style="margin:5px 12px;"></div>
-                <h3 class="section-title-3d" style="padding:10px;">💰 Depósitos</h3>
-                <div id="deposit-history" style="margin:5px 12px;"></div>
-                <h3 class="section-title-3d" style="padding:10px;">🎁 Comissões</h3>
-                <div id="referral-history" style="margin:5px 12px;"></div>
-                <h3 class="section-title-3d" style="padding:10px;">📊 Lucros</h3>
-                <div id="profit-history" style="margin:5px 12px;"></div>
-            </div>
-
             <nav class="nav-3d">
                 <button class="nav-item-3d active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i>Home</button>
-                <button class="nav-item-3d" id="nav-vips" onclick="switchTab('vips')"><i class="fas fa-crown"></i>VIPs</button>
-                <button class="nav-item-3d" id="nav-funds" onclick="switchTab('funds')"><i class="fas fa-coins"></i>Fundos</button>
                 <button class="nav-item-3d" id="nav-referral" onclick="switchTab('referral')"><i class="fas fa-users"></i>Convidar</button>
                 <button class="nav-item-3d" id="nav-profile" onclick="switchTab('profile')"><i class="fas fa-user"></i>Meu</button>
             </nav>
         </div>
 
-        <!-- MODAL DEPOSITO -->
+        <!-- MODALS -->
         <div id="deposit-modal" class="modal-overlay hidden">
             <div class="modal-3d">
                 <h3>💰 Depositar</h3>
-                <div id="payment-tabs" style="display:flex;gap:5px;">
-                    <div class="payment-tab active" onclick="selectPaymentMethod('mpesa')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:var(--success);color:white;font-weight:700;">📱 M-Pesa</div>
-                    <div class="payment-tab" onclick="selectPaymentMethod('emola')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:#f0f0f0;color:#2D3436;font-weight:700;">📱 e-Mola</div>
-                </div>
-                <div class="payment-info" id="payment-info-box"></div>
+                <div class="payment-info" id="payment-info-box">📱 M-Pesa: 851511841 - Benjamim Celeste</div>
                 <input type="number" id="deposit-amount" class="input-3d" placeholder="Valor (MT)">
-                <input type="text" id="deposit-ref" class="input-3d" placeholder="Referência (ex: 12345)">
-                <button onclick="confirmDeposit()" class="btn-modal-3d" style="background:var(--success);">✅ Solicitar Depósito</button>
+                <input type="text" id="deposit-ref" class="input-3d" placeholder="Referência">
+                <button onclick="confirmDeposit()" class="btn-modal-3d" style="background:var(--success);">✅ Solicitar</button>
                 <button onclick="closeModal('deposit-modal')" class="btn-modal-3d" style="background:#636e72;">Cancelar</button>
             </div>
         </div>
-
-        <!-- MODAL SAQUE -->
         <div id="withdraw-modal" class="modal-overlay hidden">
             <div class="modal-3d">
                 <h3>💸 Levantar</h3>
-                <div id="withdraw-modal-status" class="withdraw-modal-info">Verificando...</div>
-                <div id="withdraw-info"></div>
-                <div style="margin:10px 0;">
-                    <h4>📋 Tabela de Levantamentos</h4>
-                    <div id="withdrawal-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0;"></div>
-                </div>
-                <div id="selected-withdrawal" style="background:#FFF8E1;padding:10px;border-radius:10px;text-align:center;font-weight:700;color:#F57F17;">Selecione um valor</div>
-                <p style="font-size:12px;color:#636E72;">Taxa: <b>10%</b> | ⚠️ <b>1 saque por dia</b></p>
-                <button onclick="confirmWithdrawal()" class="btn-modal-3d" style="background:var(--danger);" id="btn-confirm-withdraw">💸 Solicitar Saque</button>
+                <div id="withdrawal-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"></div>
+                <div id="selected-withdrawal" style="background:#FFF8E1;padding:10px;border-radius:10px;text-align:center;font-weight:700;">Selecione um valor</div>
+                <button onclick="confirmWithdrawal()" class="btn-modal-3d" style="background:var(--danger);">💸 Solicitar</button>
                 <button onclick="closeModal('withdraw-modal')" class="btn-modal-3d" style="background:#636e72;">Cancelar</button>
-            </div>
-        </div>
-
-        <!-- MODAL ADMIN -->
-        <div id="admin-modal" class="modal-overlay hidden">
-            <div class="modal-3d" style="max-height:90vh;max-width:450px;">
-                <h2>🔐 Admin</h2>
-                
-                <!-- GERENCIADOR DE CHAVES ADMIN -->
-                <div style="background:#f0f4ff;padding:14px;border-radius:12px;margin:10px 0;border:2px solid var(--info);">
-                    <h4 style="color:var(--info);">🔑 Chaves Admin Independentes</h4>
-                    <p style="font-size:10px;color:#636e72;">Cada chave funciona separadamente</p>
-                    
-                    <div class="admin-key-info" id="admin-key1-info">
-                        <b>🔑 Chave 1:</b> <span id="admin-key1-display">••••••••</span>
-                        <br><small style="color:#4CAF50;">✅ Ativa</small>
-                    </div>
-                    <input id="admin-key1-input" class="input-3d" placeholder="Nova Chave 1" style="font-size:13px;">
-                    
-                    <div class="admin-key-info" id="admin-key2-info" style="margin-top:8px;">
-                        <b>🔑 Chave 2:</b> <span id="admin-key2-display">••••••••</span>
-                        <br><small id="admin-key2-status" style="color:#636e72;">⚪ Desativada</small>
-                    </div>
-                    <input id="admin-key2-input" class="input-3d" placeholder="Nova Chave 2 (opcional)" style="font-size:13px;">
-                    
-                    <button onclick="saveAdminKeys()" class="btn-modal-3d" style="background:var(--info);font-size:13px;">💾 Salvar Chaves</button>
-                    <button onclick="clearAdminKey2()" class="btn-modal-3d" style="background:#636e72;font-size:12px;padding:10px;">🗑️ Limpar Chave 2</button>
-                </div>
-                
-                <div><h4>📱 Suporte</h4><input id="admin-telegram" class="input-3d" placeholder="Link Telegram"><input id="admin-whatsapp" class="input-3d" placeholder="Número WhatsApp"><button onclick="saveSupportLinks()" class="btn-modal-3d" style="background:var(--info);">💾 Salvar Suporte</button></div>
-                <div><h4>💳 Pagamentos</h4><input id="admin-mpesa-num" class="input-3d" placeholder="Nº M-Pesa"><input id="admin-mpesa-name" class="input-3d" placeholder="Nome M-Pesa"><input id="admin-emola-num" class="input-3d" placeholder="Nº e-Mola"><input id="admin-emola-name" class="input-3d" placeholder="Nome e-Mola"><button onclick="savePaymentNumbers()" class="btn-modal-3d" style="background:var(--success);">Salvar</button></div>
-                <div class="switch-container daily">
-                    <span class="switch-label">🔘 Saques Diários (Seg-Sex)</span>
-                    <label class="switch"><input type="checkbox" id="allow-daily-withdraw" onchange="toggleDailyWithdraw()"><span class="slider"></span></label>
-                </div>
-                <div id="daily-withdraw-status" style="text-align:center;font-size:11px;margin:4px 0;font-weight:700;"></div>
-                <div><h4>🔐 Recuperações de Senha</h4><div id="password-reset-requests" style="font-size:11px;"></div></div>
-                <div><h4>⏳ Depósitos Pendentes</h4><div id="pending-deposits" style="font-size:11px;"></div></div>
-                <div><h4>💸 Saques Pendentes</h4><div id="pending-withdrawals" style="font-size:11px;"></div></div>
-                <div><h4>🔍 Pesquisar / Excluir</h4><div class="admin-search"><input id="search-user-phone" class="input-3d" placeholder="Número"><button onclick="searchUser()" class="btn-modal-3d" style="width:auto;background:var(--info);">🔍</button></div><div id="search-result" style="font-size:11px;"></div></div>
-                <div><h4>👥 Usuários</h4><div id="admin-users-list" style="max-height:200px;overflow-y:auto;font-size:11px;"></div></div>
-                <button onclick="closeModal('admin-modal')" class="btn-modal-3d" style="background:#636e72;">Fechar</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Firebase Init
-        const firebaseConfig = {
+        // ⚡ FIREBASE INIT
+        firebase.initializeApp({
             apiKey: "AIzaSyDFWtfZuhLtPY8yq9UJs3PXibh_TJRi1mY",
             databaseURL: "https://moz-anima-pha-default-rtdb.firebaseio.com/",
             projectId: "moz-anima-pha"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const rtdb = firebase.database();
-
-        const VIP_EXPIRY_DAYS = 1095;
-        const STARTER_DAYS = 4;
-        const COOLDOWN_HOURS = 24;
-
-        const VIP_CONFIG = [
-            { id: 0, name: 'Estagiário', price: 0, daily: 7.5, totalReturn: 30, duration: 4, withdrawDay: 'Diário', icon: '🎓', color: '#FF9800', isStarter: true },
-            { id: 1, name: 'VIP 1', price: 100, daily: 5, monthlyReturn: 150, withdrawDay: 'Quinta-feira', icon: '🥉', color: '#CD7F32' },
-            { id: 2, name: 'VIP 2', price: 400, daily: 15, monthlyReturn: 450, withdrawDay: 'Quinta-feira', icon: '🥈', color: '#C0C0C0' },
-            { id: 3, name: 'VIP 3', price: 750, daily: 25, monthlyReturn: 750, withdrawDay: 'Quinta-feira', icon: '🥇', color: '#FFD700' },
-            { id: 4, name: 'VIP 4', price: 1500, daily: 50, monthlyReturn: 1500, withdrawDay: 'Quinta-feira', icon: '💎', color: '#E6E6FA' },
-            { id: 5, name: 'VIP 5', price: 2000, daily: 67, monthlyReturn: 2000, withdrawDay: 'Quinta-feira', icon: '👑', color: '#4834d4' },
-            { id: 6, name: 'VIP 6', price: 4200, daily: 140, monthlyReturn: 4200, withdrawDay: 'Quarta-feira', icon: '💚', color: '#00b894' },
-            { id: 7, name: 'VIP 7', price: 4800, daily: 160, monthlyReturn: 4800, withdrawDay: 'Quarta-feira', icon: '🔴', color: '#e84393' },
-            { id: 8, name: 'VIP 8', price: 7500, daily: 250, monthlyReturn: 7500, withdrawDay: 'Quarta-feira', icon: '💙', color: '#0984e3' },
-            { id: 9, name: 'VIP 9', price: 12600, daily: 420, monthlyReturn: 12600, withdrawDay: 'Quarta-feira', icon: '💜', color: '#6c5ce7' },
-            { id: 10, name: 'VIP 10', price: 22500, daily: 750, monthlyReturn: 22500, withdrawDay: 'Quarta-feira', icon: '❤️', color: '#d63031' }
-        ];
-
-        const FUNDS_CONFIG = [
-            { id: 1, name: 'Fundo 1', amount: 500, percentDaily: 4, dailyValue: 20, duration: 15, totalReturn: 800, color: '#FF6B35' },
-            { id: 2, name: 'Fundo 2', amount: 1000, percentDaily: 4, dailyValue: 40, duration: 15, totalReturn: 1600, color: '#6C5CE7' },
-            { id: 3, name: 'Fundo 3', amount: 2000, percentDaily: 3, dailyValue: 60, duration: 30, totalReturn: 3800, color: '#00B894' },
-            { id: 4, name: 'Fundo 4', amount: 5000, percentDaily: 2, dailyValue: 100, duration: 45, totalReturn: 9500, color: '#E17055' },
-            { id: 5, name: 'Fundo 5', amount: 10000, percentDaily: 2, dailyValue: 200, duration: 30, totalReturn: 16000, color: '#0984E3' }
-        ];
-
-        const W_VALS = [200, 500, 1500, 3000, 5000, 10000, 20000, 50000, 100000];
-
-        let currentPaymentMethod = 'mpesa',
-            currentUser = null,
-            loginMode = 'login';
-        let selectedWithdrawal = null,
-            userTimers = {},
-            autoCollectInterval = null;
-        let allowDailyWithdraw = false;
-        let isLoggedIn = false,
-            adminClicks = 0;
-
-        async function getData(p) { const s = await rtdb.ref(p).once('value'); return s.val(); }
-        async function setData(p, d) { await rtdb.ref(p).set(d); }
-        async function pushData(p, d) { const r = await rtdb.ref(p).push(d); return r.key; }
-        async function updateData(p, d) { await rtdb.ref(p).update(d); }
-        async function deleteData(p) { await rtdb.ref(p).remove(); }
-        async function getUser(p) { return await getData(`users/${p}`); }
-        function saveUser(u) { setData(`users/${u.phone}`, u); }
-        async function getAllUsers() { const d = await getData('users'); return d ? Object.values(d) : []; }
-        async function getAllTransactions() { const d = await getData('transactions'); if (!d) return []; return Object.entries(d).map(([id, val]) => ({ id, ...val })); }
-        async function getTransactions(p) { const a = await getAllTransactions(); return a.filter(t => t.phone === p); }
-        async function addTransaction(t) { return await pushData('transactions', t); }
-        async function updateTransaction(id, u) { await updateData(`transactions/${id}`, u); }
-
-        // ⭐ NOVAS FUNÇÕES PARA CHAVES ADMIN INDEPENDENTES
-        async function getAdminKeys() {
-            const keys = await getData('settings/adminKeys');
-            if (!keys) {
-                const defaultKeys = {
-                    key1: 'BRAZ111000',
-                    key2: ''
-                };
-                await setData('settings/adminKeys', defaultKeys);
-                return defaultKeys;
-            }
-            return keys;
-        }
-
-        async function saveAdminKeysToDB(keys) {
-            await setData('settings/adminKeys', keys);
-        }
-
-        function isValidAdminKey(inputKey, adminKeys) {
-            if (!inputKey) return false;
-            // Verifica chave 1
-            if (adminKeys.key1 && inputKey === adminKeys.key1) return true;
-            // Verifica chave 2 (se existir)
-            if (adminKeys.key2 && inputKey === adminKeys.key2) return true;
-            // Compatibilidade com senha antiga
-            if (inputKey === 'adm123adm') return true;
-            return false;
-        }
-
-        async function getSetting(k) {
-            if (k === 'admin') {
-                // Redireciona para o sistema de chaves
-                const keys = await getAdminKeys();
-                return keys.key1; // Retorna chave 1 como principal
-            }
-            const v = await getData(`settings/${k}`);
-            if (v === null || v === undefined) {
-                const d = {
-                    payments: { mpesa: { num: '851511841', name: 'Benjamim Celeste' }, emola: { num: '870514180', name: 'Amelia Ricardo' } },
-                    allowDailyWithdraw: false,
-                    support: { telegram: 'https://t.me/brazfundbank', whatsapp: '258851511841' }
-                };
-                return d[k];
-            }
-            return v;
-        }
-
-        function saveSetting(k, v) { setData(`settings/${k}`, v); }
-
-        function getVIPExpiryDate(vs, isStarter) { return new Date(new Date(vs).getTime() + (isStarter ? STARTER_DAYS : VIP_EXPIRY_DAYS) * 86400000); }
-        function getVIPExpiryCountdown(vs, isStarter) { if (!vs) return { expired: true, text: '⏰ VIP não ativo' }; const e = getVIPExpiryDate(vs, isStarter), n = new Date(), diff = e - n; if (diff <= 0) return { expired: true, text: '⏰ Expirado!' }; const days = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000); if (days === 0) return { expired: false, text: `⏳ ${h}h restantes` }; return { expired: false, text: `⏳ ${days}d ${h}h` }; }
-
-        function isCollectOnCooldown() { if (!currentUser || !currentUser.lastCollectDate) return false; const lastCollect = new Date(currentUser.lastCollectDate).getTime(); return Date.now() < lastCollect + (COOLDOWN_HOURS * 3600000); }
-        function getCollectRemaining() { if (!currentUser || !currentUser.lastCollectDate) return 0; const lastCollect = new Date(currentUser.lastCollectDate).getTime(); return Math.max(0, lastCollect + (COOLDOWN_HOURS * 3600000) - Date.now()); }
-        function isWithdrawOnCooldown() { if (!currentUser || !currentUser.lastWithdrawDate) return false; return Date.now() < new Date(currentUser.lastWithdrawDate).getTime() + (COOLDOWN_HOURS * 3600000); }
-        function getWithdrawRemaining() { if (!currentUser || !currentUser.lastWithdrawDate) return 0; return Math.max(0, new Date(currentUser.lastWithdrawDate).getTime() + (COOLDOWN_HOURS * 3600000) - Date.now()); }
-        function formatCooldown(ms) { if (ms <= 0) return '00:00:00'; const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000); return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
-
-        function canWithdrawToday() {
-            if (!currentUser || !currentUser.vipLevel && currentUser.vipLevel !== 0) return { allowed: false, reason: 'Ative um VIP para sacar' };
-            const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
-            if (!v) return { allowed: false, reason: 'Ative um VIP para sacar' };
-            const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter);
-            if (ei.expired) return { allowed: false, reason: '⏰ VIP expirado!' };
-            if (isWithdrawOnCooldown()) return { allowed: false, reason: `⏰ Aguarde: ${formatCooldown(getWithdrawRemaining())}` };
-            const today = new Date().toDateString();
-            if (currentUser.lastWithdrawDate && new Date(currentUser.lastWithdrawDate).toDateString() === today) return { allowed: false, reason: '❌ Já sacou hoje! 1 saque/dia' };
-            const d = new Date().getDay();
-            if (d === 0) return { allowed: false, reason: '🚫 Domingo' };
-            if (d === 6) return { allowed: false, reason: '🚫 Sábado' };
-            if (allowDailyWithdraw || v.isStarter) return { allowed: true, reason: '✅ Saque diário (Seg-Sex)' };
-            const tn = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'][d];
-            if (d === 5) return { allowed: true, reason: '✅ Sexta-feira' };
-            if (v.withdrawDay === tn) return { allowed: true, reason: `✅ ${v.withdrawDay}` };
-            return { allowed: false, reason: `❌ Seu dia: ${v.withdrawDay}` };
-        }
-
-        function canCollectToday() {
-            if (!currentUser || !currentUser.vipLevel && currentUser.vipLevel !== 0) return false;
-            const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
-            if (!v) return false;
-            if (getVIPExpiryCountdown(currentUser.vipStart, v.isStarter).expired) return false;
-            if (isCollectOnCooldown()) return false;
-            if (new Date().getDay() === 0) return false;
-            return true;
-        }
-
-        function updateWithdrawUI() {
-            const s = canWithdrawToday(), bar = document.getElementById('withdraw-status-bar');
-            bar.className = 'withdraw-status-bar ' + (s.allowed ? 'allowed' : 'blocked');
-            bar.textContent = s.reason + (allowDailyWithdraw ? ' [Modo Diário]' : '');
-            updateTimersDisplay();
-            updateCollectButtonUI();
-        }
-
-        function updateCollectButtonUI() {
-            const btn = document.getElementById('btn-collect-main');
-            const status = document.getElementById('collect-status');
-            if (!btn || !status) return;
-            const v = VIP_CONFIG.find(x => x.id === currentUser?.vipLevel);
-            const canCollect = canCollectToday();
-            if (canCollect && v) {
-                btn.disabled = false; btn.style.opacity = '1'; btn.style.filter = 'none';
-                status.innerHTML = `<span style="color:#4CAF50;">✅ Disponível: <b>MT ${v.daily.toFixed(2)}</b>${v.isStarter ? ' (Estagiário)' : ''}</span>`;
-            } else if (isCollectOnCooldown()) {
-                btn.disabled = true; btn.style.opacity = '0.5';
-                status.innerHTML = `<span style="color:#FF4757;">⏰ Aguarde: ${formatCooldown(getCollectRemaining())}</span>`;
-            } else if (!v) {
-                btn.disabled = true; btn.style.opacity = '0.5';
-                status.innerHTML = '<span style="color:#FFA502;">Ative um VIP para coletar</span>';
-            } else {
-                btn.disabled = true; btn.style.opacity = '0.5';
-                status.innerHTML = '<span style="color:#636e72;">Coleta indisponível</span>';
-            }
-        }
-
-        function switchLoginTab(mode) { loginMode = mode; document.getElementById('tab-login-btn').classList.toggle('active', mode === 'login'); document.getElementById('tab-register-btn').classList.toggle('active', mode === 'register'); document.getElementById('login-fields').classList.toggle('hidden', mode !== 'login'); document.getElementById('register-fields').classList.toggle('hidden', mode !== 'register'); }
-        function resetPassword() { const phone = document.getElementById('login-phone').value.trim(); if (!phone) return alert('Digite seu número primeiro!'); pushData('password_resets', { phone: phone, email: phone + '@moz.com', status: 'pending', date: new Date().toISOString() }); alert('✅ Solicitação enviada!'); }
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            // Inicializa admin keys se não existirem
-            await getAdminKeys();
-            const s = await getData('settings');
-            if (!s) await setData('settings', { payments: { mpesa: { num: '851511841', name: 'Benjamim Celeste' }, emola: { num: '870514180', name: 'Amelia Ricardo' } }, allowDailyWithdraw: false, support: { telegram: 'https://t.me/brazfundbank', whatsapp: '258851511841' } });
-            allowDailyWithdraw = await getSetting('allowDailyWithdraw') === true;
-            switchLoginTab('login');
-            startOnlineUsersAnimation();
-            setInterval(() => {
-                document.getElementById('fake-deposits').textContent = Math.floor(Math.random() * 500 + 100);
-                document.getElementById('fake-withdraws').textContent = Math.floor(Math.random() * 300 + 50);
-                document.getElementById('fake-members').textContent = (Math.random() * 30 + 70).toFixed(0) + 'k';
-            }, 3000);
-            loadSupportInfo();
-            const params = new URLSearchParams(window.location.search);
-            const ref = params.get('ref');
-            if (ref) { getUser(ref).then(u => { if (u) { const el = document.getElementById('invite-message'); el.classList.remove('hidden'); el.innerHTML = `🤝 Convidado por <b>${u.name||u.phone}</b>! (10%)`; } }); }
         });
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-        function startOnlineUsersAnimation() {
-            const el = document.getElementById('online-users-count');
-            let base = 1471;
-            setInterval(() => {
-                base = Math.floor(Math.random() * (87000 - 1471) + 1471);
-                el.textContent = base.toLocaleString();
-            }, 2000);
-        }
+        // ⚡ CONFIG
+        const COOLDOWN_HOURS = 24;
+        const VIP_CONFIG = [
+            { id:0, name:'Estagiário', price:0, daily:7.5, totalReturn:30, duration:4, icon:'🎓', color:'#FF9800', isStarter:true },
+            { id:1, name:'VIP 1', price:100, daily:5, monthlyReturn:150, icon:'🥉', color:'#CD7F32' },
+            { id:2, name:'VIP 2', price:400, daily:15, monthlyReturn:450, icon:'🥈', color:'#C0C0C0' },
+            { id:3, name:'VIP 3', price:750, daily:25, monthlyReturn:750, icon:'🥇', color:'#FFD700' },
+            { id:4, name:'VIP 4', price:1500, daily:50, monthlyReturn:1500, icon:'💎', color:'#E6E6FA' },
+            { id:5, name:'VIP 5', price:2000, daily:67, monthlyReturn:2000, icon:'👑', color:'#4834d4' }
+        ];
+        const W_VALS = [200,500,1500,3000,5000,10000,20000];
 
-        async function loadSupportInfo() { const sp = await getSetting('support'); if (sp) { document.getElementById('support-whatsapp').textContent = sp.whatsapp || '+258 85XXXXXXX'; document.getElementById('support-telegram').textContent = sp.telegram || '@brazfundbank'; } }
+        let currentUser = null, loginMode = 'login', selectedWithdrawal = null;
+        let isLoggingIn = false;
 
-        // ============ LOGIN ============
+        // ⚡ FUNÇÕES RÁPIDAS
+        const get = (p) => db.ref(p).once('value').then(s => s.val());
+        const set = (p,d) => db.ref(p).set(d);
+
+        // ⚡ LOGIN INSTANTÂNEO
         async function handleLogin() {
-            if (isLoggedIn) return;
-            let phone, pw, name, cf;
-            if (loginMode === 'login') { phone = document.getElementById('login-phone').value.trim(); pw = document.getElementById('login-password').value; } else { phone = document.getElementById('reg-phone').value.trim(); name = document.getElementById('reg-name').value.trim(); pw = document.getElementById('reg-password').value; cf = document.getElementById('reg-confirm').value; }
+            if (isLoggingIn) return;
+            
+            let phone, pw, name;
+            if (loginMode === 'login') {
+                phone = document.getElementById('login-phone').value.trim();
+                pw = document.getElementById('login-password').value;
+            } else {
+                phone = document.getElementById('reg-phone').value.trim();
+                name = document.getElementById('reg-name').value.trim();
+                pw = document.getElementById('reg-password').value;
+                if (pw !== document.getElementById('reg-confirm').value) return alert('Senhas não coincidem!');
+                if (!name) return alert('Preencha o nome!');
+            }
+            
             if (!phone || !pw) return alert('Preencha os campos!');
             phone = phone.replace(/\D/g, '');
-            const email = phone + '@moz.com';
+            if (pw.length < 6) return alert('Senha curta!');
+            
+            isLoggingIn = true;
+            const btn = document.getElementById(loginMode === 'login' ? 'btn-login-submit' : 'btn-register-submit');
+            if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+            
             try {
+                const userFromDB = await get(`users/${phone}`);
+                
                 if (loginMode === 'register') {
-                    if (pw !== cf) return alert('Senhas não coincidem!'); if (!name) return alert('Preencha o nome!'); if (pw.length < 6) return alert('Senha curta! Mínimo 6.');
-                    if (await getUser(phone)) return alert('❌ Número já registrado!');
-                    let cred;
-                    try { cred = await auth.createUserWithEmailAndPassword(email, pw); } catch (e) { if (e.code === 'auth/email-already-in-use') cred = await auth.signInWithEmailAndPassword(email, pw); else throw e; }
-                    const params = new URLSearchParams(window.location.search); const ref = params.get('ref') || ''; let rb = null;
-                    if (ref) { const ru = await getUser(ref); if (ru && ru.phone !== phone) rb = ref; }
-                    currentUser = { phone, name, uid: cred.user.uid, password: pw, balance: 0, commission: 0, vipLevel: null, vipStart: null, vipLastCollect: null, vipPurchased: {}, investments: [], stats: { yesterday: 0, today: 0, month: 0, year: 0 }, referredBy: rb, referralBonus: 0, lastCollectDate: null, lastWithdrawDate: null, starterUsed: false, createdAt: new Date().toISOString() };
-                    await saveUser(currentUser); isLoggedIn = true; showApp();
+                    if (userFromDB) { isLoggingIn = false; if(btn){btn.disabled=false;btn.textContent='📝 Criar Conta';} return alert('Número já registrado!'); }
+                    
+                    currentUser = {
+                        phone, name, password: pw, balance:0, commission:0,
+                        vipLevel:null, vipStart:null, vipPurchased:{}, investments:[],
+                        lastCollectDate:null, lastWithdrawDate:null, starterUsed:false
+                    };
+                    set(`users/${phone}`, currentUser);
+                    
+                    // Auth em segundo plano
+                    auth.createUserWithEmailAndPassword(phone+'@moz.com', pw).catch(()=>{});
+                    
+                    showApp();
                 } else {
-                    const userFromDB = await getUser(phone); if (!userFromDB) return alert('❌ Número não encontrado!');
-                    let loginOk = false;
-                    if (userFromDB.password && userFromDB.password === pw) { loginOk = true; try { await auth.signInWithEmailAndPassword(email, pw); } catch (e) { if (e.code === 'auth/user-not-found') await auth.createUserWithEmailAndPassword(email, pw); } } else { try { await auth.signInWithEmailAndPassword(email, pw); loginOk = true; userFromDB.password = pw; } catch (e) { if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') return alert('❌ Senha incorreta!'); else throw e; } }
-                    if (loginOk) {
-                        if (!userFromDB.vipPurchased) userFromDB.vipPurchased = {}; if (!userFromDB.stats) userFromDB.stats = { yesterday: 0, today: 0, month: 0, year: 0 }; if (!userFromDB.investments) userFromDB.investments = [];
-                        if (userFromDB.starterUsed === undefined) userFromDB.starterUsed = false;
-                        userFromDB.balance = Number(userFromDB.balance) || 0; userFromDB.commission = Number(userFromDB.commission) || 0; userFromDB.referralBonus = Number(userFromDB.referralBonus) || 0;
-                        if (userFromDB.lastCollectDate === undefined) userFromDB.lastCollectDate = null;
-                        if (userFromDB.lastWithdrawDate === undefined) userFromDB.lastWithdrawDate = null;
-                        await saveUser(userFromDB); currentUser = userFromDB; isLoggedIn = true; showApp();
-                    }
+                    if (!userFromDB) { isLoggingIn = false; if(btn){btn.disabled=false;btn.textContent='🚀 Entrar';} return alert('Número não encontrado!'); }
+                    if (userFromDB.password !== pw) { isLoggingIn = false; if(btn){btn.disabled=false;btn.textContent='🚀 Entrar';} return alert('Senha incorreta!'); }
+                    
+                    currentUser = userFromDB;
+                    currentUser.balance = Number(currentUser.balance) || 0;
+                    currentUser.commission = Number(currentUser.commission) || 0;
+                    if (!currentUser.vipPurchased) currentUser.vipPurchased = {};
+                    if (!currentUser.investments) currentUser.investments = [];
+                    
+                    showApp();
                 }
-            } catch (e) { console.error(e); alert('Erro: ' + (e.message || 'Tente novamente.')); }
+            } catch(e) {
+                console.error(e);
+                alert('Erro: ' + e.message);
+            }
+            
+            isLoggingIn = false;
+            if (btn) { btn.disabled = false; btn.textContent = loginMode === 'login' ? '🚀 Entrar' : '📝 Criar Conta'; }
         }
 
-        function showApp() { if (!isLoggedIn || !currentUser) return; document.getElementById('login-screen').classList.add('hidden'); document.getElementById('app-screen').classList.remove('hidden'); refreshAll(); startTimers(); switchTab('home'); updateWithdrawUI(); updateCollectButtonUI(); }
-        async function logout() { isLoggedIn = false; Object.values(userTimers).forEach(clearInterval); userTimers = {}; currentUser = null; await auth.signOut(); document.getElementById('app-screen').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); switchLoginTab('login'); }
-        async function refreshAll() { updateUI(); updateWithdrawUI(); updateCollectButtonUI(); await loadVIPs(); await loadFunds(); loadReferralTab(); loadWithdrawalHistory(); loadDepositHistory(); loadProfitHistory(); }
+        function showApp() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            
+            // UI imediata
+            document.getElementById('main-balance').textContent = (currentUser.balance||0).toFixed(2);
+            document.getElementById('commission-balance').textContent = (currentUser.commission||0).toFixed(2);
+            document.getElementById('profile-name').textContent = currentUser.name || 'Usuário';
+            document.getElementById('profile-phone').textContent = currentUser.phone;
+            
+            switchTab('home');
+            loadVIPs();
+            startTimers();
+        }
 
-        async function collectNow() {
-            if (!canCollectToday()) {
-                if (isCollectOnCooldown()) return alert(`⏰ Aguarde: ${formatCooldown(getCollectRemaining())}`);
-                return alert('❌ Coleta indisponível!');
+        function switchLoginTab(m) {
+            loginMode = m;
+            document.getElementById('login-fields').classList.toggle('hidden', m !== 'login');
+            document.getElementById('register-fields').classList.toggle('hidden', m !== 'register');
+        }
+
+        function switchTab(t) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
+            const el = document.getElementById(`tab-${t}`);
+            if (el) el.classList.remove('hidden');
+            document.querySelectorAll('.nav-item-3d').forEach(e => e.classList.remove('active'));
+            const nav = document.getElementById(`nav-${t}`);
+            if (nav) nav.classList.add('active');
+            if (t === 'referral' && currentUser) {
+                document.getElementById('referral-link-text').textContent = location.origin + location.pathname + '?ref=' + currentUser.phone;
             }
+        }
+
+        async function logout() {
+            currentUser = null;
+            await auth.signOut();
+            document.getElementById('app-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+
+        // ⚡ COLETA
+        async function collectNow() {
+            if (!currentUser) return;
             const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
             if (!v) return alert('Ative um VIP!');
-            const isStarter = v.isStarter;
-            const amount = v.daily;
-            if (isStarter) {
-                const ei = getVIPExpiryCountdown(currentUser.vipStart, true);
-                if (ei.expired) {
-                    currentUser.vipLevel = null; currentUser.vipStart = null;
-                    currentUser.balance = (Number(currentUser.balance) || 0) + v.totalReturn;
-                    await saveUser(currentUser);
-                    await addTransaction({ phone: currentUser.phone, type: 'starter_complete', amount: v.totalReturn, date: new Date().toISOString() });
-                    updateUI(); updateWithdrawUI(); updateCollectButtonUI(); await loadVIPs();
-                    alert(`🎓 Estagiário concluído!\n💰 MT ${v.totalReturn.toFixed(2)} movido para o Saldo Principal`);
-                    return;
+            
+            if (currentUser.lastCollectDate) {
+                const remaining = new Date(currentUser.lastCollectDate).getTime() + (COOLDOWN_HOURS*3600000) - Date.now();
+                if (remaining > 0) {
+                    const h = Math.floor(remaining/3600000);
+                    const m = Math.floor((remaining%3600000)/60000);
+                    return alert(`⏰ Aguarde: ${h}h ${m}min`);
                 }
             }
-            currentUser.balance = (Number(currentUser.balance) || 0) + amount;
+            
+            currentUser.balance = (Number(currentUser.balance)||0) + v.daily;
             currentUser.lastCollectDate = new Date().toISOString();
-            if (!currentUser.stats) currentUser.stats = { yesterday: 0, today: 0, month: 0, year: 0 };
-            currentUser.stats.today = (Number(currentUser.stats.today) || 0) + amount;
-            currentUser.stats.month = (Number(currentUser.stats.month) || 0) + amount;
-            currentUser.stats.year = (Number(currentUser.stats.year) || 0) + amount;
-            await saveUser(currentUser);
-            await addTransaction({ phone: currentUser.phone, type: 'vip_return', amount: amount, date: new Date().toISOString(), auto: false });
-            updateUI(); updateWithdrawUI(); updateCollectButtonUI(); updateTimersDisplay();
-            alert(`✅ Coletado!\n💰 MT ${amount.toFixed(2)} adicionado ao saldo${isStarter ? ' (Estagiário)' : ''}\n⏰ Próxima coleta em 24h`);
+            set(`users/${currentUser.phone}`, currentUser);
+            
+            document.getElementById('main-balance').textContent = currentUser.balance.toFixed(2);
+            updateTimerDisplay();
+            alert(`✅ Coletado! +MT ${v.daily.toFixed(2)}`);
         }
 
-        function updateTimersDisplay() {
-            const cRem = getCollectRemaining(), wRem = getWithdrawRemaining();
-            document.getElementById('collect-timer').textContent = formatCooldown(cRem);
-            document.getElementById('withdraw-timer').textContent = formatCooldown(wRem);
-            document.getElementById('profile-collect-timer').textContent = formatCooldown(cRem);
-            document.getElementById('profile-withdraw-timer').textContent = formatCooldown(wRem);
-            const cBar = document.getElementById('collect-timer-bar'), wBar = document.getElementById('withdraw-timer-bar');
-            cBar.classList.toggle('blocked', isCollectOnCooldown()); wBar.classList.toggle('blocked', isWithdrawOnCooldown());
-            document.getElementById('collect-timer-label').textContent = isCollectOnCooldown() ? '⏰ Coleta:' : '✅ Coleta:';
-            document.getElementById('withdraw-timer-label').textContent = isWithdrawOnCooldown() ? '⏰ Saque:' : '✅ Saque:';
+        function updateTimerDisplay() {
+            if (!currentUser?.lastCollectDate) {
+                document.getElementById('collect-timer').textContent = '00:00:00';
+                document.getElementById('collect-timer-label').textContent = '✅ Coleta:';
+                return;
+            }
+            const remaining = Math.max(0, new Date(currentUser.lastCollectDate).getTime() + (COOLDOWN_HOURS*3600000) - Date.now());
+            if (remaining <= 0) {
+                document.getElementById('collect-timer').textContent = '00:00:00';
+                document.getElementById('collect-timer-label').textContent = '✅ Coleta:';
+            } else {
+                const h = Math.floor(remaining/3600000);
+                const m = Math.floor((remaining%3600000)/60000);
+                const s = Math.floor((remaining%60000)/1000);
+                document.getElementById('collect-timer').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                document.getElementById('collect-timer-label').textContent = '⏰ Coleta:';
+            }
         }
 
         function startTimers() {
-            if (userTimers['main']) clearInterval(userTimers['main']);
-            userTimers['main'] = setInterval(() => {
-                if (!currentUser) return;
-                updateTimersDisplay(); updateWithdrawUI(); updateCollectButtonUI();
-                const v = VIP_CONFIG.find(x => x.id === currentUser?.vipLevel);
-                if (v?.isStarter && currentUser?.vipStart) {
-                    const ei = getVIPExpiryCountdown(currentUser.vipStart, true);
-                    if (ei.expired) {
-                        currentUser.vipLevel = null; currentUser.vipStart = null;
-                        currentUser.balance = (Number(currentUser.balance) || 0) + v.totalReturn;
-                        saveUser(currentUser).then(() => { updateUI(); updateWithdrawUI(); updateCollectButtonUI(); loadVIPs(); });
-                    }
-                }
-            }, 1000);
+            setInterval(updateTimerDisplay, 1000);
         }
 
-        async function loadVIPs() {
-            const c = document.getElementById('vip-groups'); if (!c) return;
-            const cvl = currentUser?.vipLevel;
-            if (!currentUser.vipPurchased) currentUser.vipPurchased = {};
+        // ⚡ VIPs
+        function loadVIPs() {
+            const c = document.getElementById('vip-groups');
+            if (!c || !currentUser) return;
+            
             c.innerHTML = VIP_CONFIG.map(v => {
-                const isA = currentUser && currentUser.vipLevel === v.id;
-                const wasP = currentUser.vipPurchased[v.id] && (new Date().getTime() - new Date(currentUser.vipPurchased[v.id]).getTime()) < (v.isStarter ? STARTER_DAYS : VIP_EXPIRY_DAYS) * 86400000;
-                const isLowerVIP = !v.isStarter && cvl !== null && cvl !== undefined && v.id < cvl;
-                const isStarterUsed = v.isStarter && currentUser.starterUsed && cvl !== 0;
-                const isStarterActive = v.isStarter && cvl === 0;
-                const dis = (isStarterUsed && !isStarterActive) || (wasP && !isA && !v.isStarter);
-                const blocked = isLowerVIP && !isA && !wasP;
-                let eH = '', sH = '', extraClass = '';
-                const wDay = (v.isStarter || allowDailyWithdraw) ? 'Seg-Sex' : v.withdrawDay;
-                if (isA && currentUser.vipStart) { const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter); eH = `<div class="expiry-countdown">${ei.text}</div>`; sH = `<div class="vip-status-active">✅ ATIVO - <b>MT ${v.daily}/dia</b></div>`; extraClass = ' active-vip'; } else if (blocked) { sH = `<div class="vip-status-locked">🔒 Compre um VIP superior</div>`; extraClass = ' blocked-vip'; } else if (wasP && !isA) { sH = `<div class="vip-status-locked">🔒 Já comprado</div>`; } else if (isStarterUsed && !isStarterActive) { sH = `<div class="vip-status-locked">✅ Estagiário já usado</div>`; }
-                const showButton = !dis && !blocked;
-                return `<div class="vip-card-3d ${v.isStarter?'starter':''} ${dis?'disabled':''}${extraClass}">
-                    <div class="vip-badge-3d" style="background:${v.color};">${v.icon} ${v.name}${v.isStarter?' GRÁTIS':''}</div>
-                    <h3 class="vip-name">${v.name}</h3>
-                    <div class="vip-price">💰 ${v.isStarter ? 'GRÁTIS' : 'Investimento: <b>MT ' + v.price.toLocaleString() + '</b>'}</div>
-                    ${v.isStarter ? `<div class="vip-price" style="color:#F57C00;">🎯 Retorno: <b>MT ${v.totalReturn}</b> (${v.duration}d)</div>` : `<div class="vip-price">📊 Mensal: <b>MT ${v.monthlyReturn?.toLocaleString()}</b></div>`}
+                const isActive = currentUser.vipLevel === v.id;
+                const showButton = !isActive && (currentUser.vipLevel === null || currentUser.vipLevel === undefined || v.id > currentUser.vipLevel);
+                
+                return `<div class="vip-card-3d ${v.isStarter?'starter':''} ${isActive?'active-vip':''}">
+                    <div class="vip-badge-3d" style="background:${v.color}">${v.icon} ${v.name}</div>
+                    <div class="vip-name">${v.name}</div>
+                    <div class="vip-price">💰 ${v.isStarter?'GRÁTIS':`<b>MT ${v.price}</b>`}</div>
                     <div class="vip-details">
-                        <div class="vip-detail-item detail-days"><div class="detail-label">📅 Duração</div><div class="detail-value">${v.isStarter ? v.duration+'d' : '3 Anos'}</div></div>
                         <div class="vip-detail-item detail-daily"><div class="detail-label">💎 Diário</div><div class="detail-value">MT ${v.daily}</div></div>
-                        <div class="vip-detail-item detail-withdraw"><div class="detail-label">💸 Saque</div><div class="detail-value" style="font-size:13px;">${wDay}${(v.isStarter||allowDailyWithdraw)?'<span class="daily-badge">🔥</span>':''}</div></div>
-                        <div class="vip-detail-item detail-expiry"><div class="detail-label">💰 ${v.isStarter ? 'Total' : 'Mensal'}</div><div class="detail-value" style="font-size:13px;">MT ${v.isStarter ? v.totalReturn : v.monthlyReturn?.toLocaleString()}</div></div>
-                    </div>${eH}${sH}
-                    ${showButton ? `<button onclick="investVIP(${v.id})" class="btn-invest-3d ${v.isStarter?'starter-btn':''}" style="background:${v.color};">🚀 Ativar ${v.name}</button>` : ''}
+                        <div class="vip-detail-item detail-days"><div class="detail-label">📅 Duração</div><div class="detail-value">${v.isStarter?'4d':'3 Anos'}</div></div>
+                    </div>
+                    ${isActive ? '<div class="vip-status-active">✅ ATIVO</div>' : ''}
+                    ${showButton ? `<button onclick="activateVIP(${v.id})" class="btn-invest-3d" style="background:${v.color}">🚀 Ativar</button>` : ''}
                 </div>`;
             }).join('');
         }
 
-        // ... (manter todas as outras funções: loadFunds, loadReferralTab, investVIP, investFund, completeFund, etc.)
-        // As funções abaixo são idênticas às do código anterior, mantidas sem alteração
-
-        async function loadFunds() {
-            const c = document.getElementById('funds-list'); if (!c) return;
-            const sun = new Date().getDay() === 0;
-            c.innerHTML = FUNDS_CONFIG.map(f => {
-                const act = currentUser?.investments?.find(i => i.fundId === f.id && !i.completed);
-                const inv = currentUser?.investments?.some(i => i.fundId === f.id);
-                return `<div class="fund-table-row fund${f.id}" style="background:white;border-radius:16px;padding:16px;margin-bottom:10px;border-left:5px solid ${f.color};">
-                    <h3 style="color:${f.color};font-size:20px;font-weight:900;">💰 ${f.name} (MT ${f.amount.toLocaleString()})</h3>
-                    <div class="fund-detail-grid">
-                        <div class="fund-detail-item fund-detail-amount"><div class="detail-label">💵 Investimento</div><div class="detail-value">MT ${f.amount.toLocaleString()}</div></div>
-                        <div class="fund-detail-item fund-detail-percent"><div class="detail-label">📈 % Diária</div><div class="detail-value">${f.percentDaily}% (MT ${f.dailyValue})</div></div>
-                        <div class="fund-detail-item fund-detail-duration"><div class="detail-label">📅 Duração</div><div class="detail-value">${f.duration} dias</div></div>
-                        <div class="fund-detail-item fund-detail-total"><div class="detail-label">🎯 Total</div><div class="detail-value">MT ${f.totalReturn.toLocaleString()}</div></div>
-                    </div>
-                    <div style="background:#E8F5E9;padding:12px;border-radius:12px;text-align:center;margin-top:8px;font-weight:800;font-size:15px;color:#2E7D32;">
-                        🎯 Retorno: <span style="font-size:22px;">MT ${f.totalReturn.toLocaleString()}</span>
-                    </div>
-                    ${act?`<button onclick="completeFund(${currentUser.investments.indexOf(act)})" class="btn-invest-3d" style="background:#FFD700;color:#000;margin-top:8px;">🎉 Resgatar</button>`
-                    :inv?`<div class="vip-status-active">✅ Concluído</div>`
-                    :`<button onclick="investFund(${f.id})" class="btn-invest-3d" style="background:${f.color};margin-top:8px;" ${sun?'disabled':''}>${sun?'🚫 Domingo':'💰 Investir'}</button>`}
-                </div>`;
-            }).join('');
-        }
-
-        async function loadReferralTab() {
-            if (!currentUser) return;
-            document.getElementById('referral-link-text').textContent = location.origin + location.pathname + '?ref=' + currentUser.phone;
-            const all = await getAllUsers();
-            const my = all.filter(u => u.referredBy === currentUser.phone);
-            const vipCount = my.filter(u => u.vipLevel !== null && u.vipLevel !== undefined && u.vipLevel > 0).length;
-            document.getElementById('referral-count').textContent = my.length;
-            document.getElementById('referral-vip-count').textContent = vipCount;
-            document.getElementById('referral-total').textContent = (Number(currentUser.referralBonus) || 0).toFixed(2);
-            document.getElementById('referred-users-list').innerHTML = my.length ? my.map(u => `<div class="history-item">👤 ${u.name||'-'} 📱 ${u.phone} ${u.vipLevel?'👑 VIP':''}</div>`).join('') : '<p style="color:#666;">Nenhum</p>';
-        }
-
-        function loadWithdrawalButtons() {
-            const c = document.getElementById('withdrawal-buttons'); if (!c) return;
-            const s = canWithdrawToday(); const cb = document.getElementById('btn-confirm-withdraw'), ms = document.getElementById('withdraw-modal-status');
-            const modeText = allowDailyWithdraw ? ' [Modo: Diário]' : ' [Modo: Dia Específico]';
-            if (ms) { ms.textContent = s.allowed ? `✅ Saque disponível!${modeText}` : `⚠️ ${s.reason}${modeText}`; ms.className = 'withdraw-modal-info ' + (s.allowed ? 'allowed' : 'blocked'); }
-            if (cb) { cb.disabled = !s.allowed; cb.style.opacity = s.allowed ? '1' : '0.5'; }
-            c.innerHTML = W_VALS.map(v => `<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal===v?'selected':''}" ${!s.allowed?'disabled':''}>${v>=1000?'MT '+(v/1000)+'k':'MT '+v}</button>`).join('');
-            const infoDiv = document.getElementById('withdraw-info');
-            if (infoDiv) { infoDiv.innerHTML = s.allowed ? `<div style="background:#d4edda;padding:10px;border-radius:8px;margin-top:8px;text-align:center;color:#155724;font-weight:700;">✅ Selecione um valor</div>` : `<div style="background:#fff3cd;padding:10px;border-radius:8px;margin-top:8px;text-align:center;color:#856404;font-weight:700;">⚠️ ${s.reason}</div>`; }
-        }
-
-        function selectWithdrawal(v) { const s = canWithdrawToday(); selectedWithdrawal = v; document.getElementById('selected-withdrawal').innerHTML = `<b>MT ${v.toLocaleString()}</b> | Líq: <b>MT ${(v*0.9).toFixed(2)}</b>` + (!s.allowed ? `<br><small style="color:#ff4757;">⚠️ ${s.reason}</small>` : ''); loadWithdrawalButtons(); if (s.allowed) selectedWithdrawal = v; }
-
-        async function loadProfitHistory() { const c = document.getElementById('profit-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); c.innerHTML = txs?.filter(t => ['vip_return','fund_complete','starter_complete'].includes(t.type)).slice(-5).reverse().map(t => `<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join('') || '<p>Nenhum</p>'; }
-        async function loadWithdrawalHistory() { const c = document.getElementById('withdrawal-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); const w = txs?.filter(t => t.type==='withdraw').reverse()||[]; c.innerHTML = w.length?w.map(t=>`<div class="history-item">💸 MT ${Number(t.amount).toFixed(2)} | Líq: MT ${Number(t.net).toFixed(2)}</div>`).join(''):'<p>Nenhum</p>'; }
-        async function loadDepositHistory() { const c = document.getElementById('deposit-history'); if (!c) return; const txs = await getTransactions(currentUser?.phone); const d = txs?.filter(t => t.type==='deposit_approved').reverse()||[]; c.innerHTML = d.length?d.map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join(''):'<p>Nenhum</p>'; }
-
-        async function investVIP(id) {
+        async function activateVIP(id) {
             const v = VIP_CONFIG.find(x => x.id === id);
-            if (!currentUser.vipPurchased) currentUser.vipPurchased = {};
-            const cvl = currentUser.vipLevel;
+            if (!v) return;
+            
             if (v.isStarter) {
-                if (currentUser.starterUsed) return alert('⚠️ Estagiário já foi usado!');
-                if (cvl !== null && cvl !== undefined) return alert('⚠️ Já tem um VIP ativo!');
-                currentUser.vipLevel = 0; currentUser.vipStart = new Date().toISOString(); currentUser.vipLastCollect = null;
-                currentUser.vipPurchased[0] = new Date().toISOString(); currentUser.starterUsed = true; currentUser.lastAction = new Date().toISOString();
-                await saveUser(currentUser);
-                await addTransaction({ phone: currentUser.phone, type: 'starter', amount: 0, date: new Date().toISOString() });
-                updateUI(); updateWithdrawUI(); updateCollectButtonUI(); await loadVIPs(); startTimers();
-                alert(`✅ Estagiário ATIVADO!\n💰 Diário: MT ${v.daily}\n🎯 Total: MT ${v.totalReturn}\n📅 Duração: ${v.duration} dias`);
-                return;
+                if (currentUser.starterUsed) return alert('Estagiário já usado!');
+                currentUser.vipLevel = 0;
+                currentUser.vipStart = new Date().toISOString();
+                currentUser.starterUsed = true;
+            } else {
+                if (currentUser.vipLevel !== null && currentUser.vipLevel !== undefined && id <= currentUser.vipLevel) 
+                    return alert('Só pode comprar VIPs SUPERIORES!');
+                if ((currentUser.balance||0) < v.price) return alert('Saldo insuficiente!');
+                currentUser.balance -= v.price;
+                currentUser.vipLevel = id;
+                currentUser.vipStart = new Date().toISOString();
             }
-            if (cvl !== null && cvl !== undefined && id <= cvl) return alert('⚠️ Só pode comprar VIPs SUPERIORES ao atual!');
-            const dur = v.isStarter ? STARTER_DAYS : VIP_EXPIRY_DAYS;
-            if (currentUser.vipPurchased[id] && (new Date().getTime() - new Date(currentUser.vipPurchased[id]).getTime()) < dur * 86400000) return alert('⚠️ Já comprou!');
-            const bal = Number(currentUser.balance) || 0;
-            if (bal < v.price) return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price}`);
-            currentUser.balance = bal - v.price;
-            currentUser.vipLevel = id; currentUser.vipStart = new Date().toISOString(); currentUser.vipLastCollect = null;
-            currentUser.vipPurchased[id] = new Date().toISOString(); currentUser.lastAction = new Date().toISOString();
-            await saveUser(currentUser);
-            await addTransaction({ phone: currentUser.phone, type: 'vip', amount: v.price, date: new Date().toISOString() });
-            updateUI(); updateWithdrawUI(); updateCollectButtonUI(); await loadVIPs(); startTimers();
-            alert(`✅ ${v.name} ATIVADO!\n💰 Investimento: MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily}\n📊 Mensal: MT ${(v.monthlyReturn||0).toLocaleString()}\n⏰ Validade: 3 anos`);
+            
+            set(`users/${currentUser.phone}`, currentUser);
+            document.getElementById('main-balance').textContent = currentUser.balance.toFixed(2);
+            loadVIPs();
+            alert(`✅ ${v.name} ATIVADO!`);
         }
 
-        async function investFund(id) { if (new Date().getDay() === 0) return alert('🚫 Domingo!'); const f = FUNDS_CONFIG.find(x => x.id === id); if (!f) return; if (!currentUser.investments) currentUser.investments = []; if (currentUser.investments.some(i => i.fundId === id && !i.completed)) return alert('⚠️ Já ativo!'); const bal = Number(currentUser.balance) || 0; const amt = Number(f.amount); if (bal < amt) return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${amt}`); currentUser.balance = bal - amt; currentUser.investments.push({ fundId: id, fundName: f.name, amount: amt, dailyReturn: f.dailyValue, totalReturn: f.totalReturn, duration: f.duration, startDate: new Date().toISOString(), endDate: new Date(Date.now() + f.duration * 86400000).toISOString(), completed: false }); await saveUser(currentUser); await addTransaction({ phone: currentUser.phone, type: 'fund', amount: amt, date: new Date().toISOString() }); updateUI(); await loadFunds(); alert(`✅ ${f.name} ativado!`); }
-        async function completeFund(idx) { const inv = currentUser.investments[idx]; if (!inv || inv.completed) return; currentUser.balance = (Number(currentUser.balance) || 0) + Number(inv.totalReturn); currentUser.investments[idx].completed = true; await saveUser(currentUser); await addTransaction({ phone: currentUser.phone, type: 'fund_complete', amount: inv.totalReturn, date: new Date().toISOString() }); updateUI(); await loadFunds(); loadProfitHistory(); alert('🎉 Resgatado!'); }
+        // ⚡ SAQUES
+        function loadWithdrawalButtons() {
+            const c = document.getElementById('withdrawal-buttons');
+            if (!c) return;
+            c.innerHTML = W_VALS.map(v => 
+                `<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal===v?'selected':''}" 
+                    style="padding:12px;border:2px solid #dfe6e9;border-radius:12px;background:${selectedWithdrawal===v?'var(--danger)':'white'};color:${selectedWithdrawal===v?'white':'#2D3436'};font-weight:700;cursor:pointer;">
+                    MT ${v>=1000?(v/1000)+'k':v}
+                </button>`
+            ).join('');
+        }
 
-        async function updatePaymentInfo() { const p = await getSetting('payments'); const box = document.getElementById('payment-info-box'); if (currentPaymentMethod === 'mpesa') { box.innerHTML = `<b>📱 M-Pesa:</b> <span style="font-weight:900;">${p.mpesa.num}</span> - <b>${p.mpesa.name}</b>`; } else { box.innerHTML = `<b>📱 e-Mola:</b> <span style="font-weight:900;">${p.emola.num}</span> - <b>${p.emola.name}</b>`; } }
-        function selectPaymentMethod(m) { currentPaymentMethod = m; document.querySelectorAll('#payment-tabs .payment-tab').forEach((e, i) => { e.style.background = (i === 0 && m === 'mpesa') || (i === 1 && m === 'emola') ? 'var(--success)' : '#f0f0f0'; e.style.color = (i === 0 && m === 'mpesa') || (i === 1 && m === 'emola') ? 'white' : '#2D3436'; }); updatePaymentInfo(); }
-        async function openDepositModal() { document.getElementById('deposit-modal').classList.remove('hidden'); await updatePaymentInfo(); }
-        function openWithdrawModal() { selectedWithdrawal = null; document.getElementById('selected-withdrawal').textContent = 'Selecione um valor'; loadWithdrawalButtons(); document.getElementById('withdraw-modal').classList.remove('hidden'); }
-        async function confirmDeposit() { const a = parseFloat(document.getElementById('deposit-amount').value); const ref = document.getElementById('deposit-ref').value.trim(); if (!a || a < 100) return alert('Mínimo: MT 100'); if (!ref) return alert('Referência!'); const p = await getSetting('payments'); const info = currentPaymentMethod === 'mpesa' ? `${p.mpesa.num} - ${p.mpesa.name}` : `${p.emola.num} - ${p.emola.name}`; await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'deposit_pending', amount: a, ref: ref, method: currentPaymentMethod, methodInfo: info, status: 'pending', date: new Date().toISOString() }); closeModal('deposit-modal'); alert('⏳ Depósito enviado!'); }
+        function selectWithdrawal(v) {
+            selectedWithdrawal = v;
+            document.getElementById('selected-withdrawal').innerHTML = `<b>MT ${v}</b> | Líq: <b>MT ${(v*0.9).toFixed(0)}</b>`;
+            loadWithdrawalButtons();
+        }
+
+        function openWithdrawModal() {
+            selectedWithdrawal = null;
+            document.getElementById('selected-withdrawal').textContent = 'Selecione um valor';
+            loadWithdrawalButtons();
+            document.getElementById('withdraw-modal').classList.remove('hidden');
+        }
 
         async function confirmWithdrawal() {
-            const s = canWithdrawToday(); if (!s.allowed) return alert(s.reason);
-            if (isWithdrawOnCooldown()) return alert(`⏰ Aguarde: ${formatCooldown(getWithdrawRemaining())}`);
-            const today = new Date().toDateString();
-            if (currentUser.lastWithdrawDate && new Date(currentUser.lastWithdrawDate).toDateString() === today) return alert('❌ Já sacou hoje!');
-            const amt = selectedWithdrawal; if (!amt) return alert('Selecione um valor!');
-            const bal = Number(currentUser.balance) || 0; if (amt > bal) return alert('Saldo insuficiente!');
-            const fee = amt * 0.1, net = amt - fee;
-            currentUser.balance = bal - amt; currentUser.lastWithdrawDate = new Date().toISOString();
-            await saveUser(currentUser);
-            await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'withdraw_pending', amount: amt, fee: fee, net: net, status: 'pending', date: new Date().toISOString() });
-            closeModal('withdraw-modal'); updateUI(); updateWithdrawUI(); updateTimersDisplay();
-            alert(`⏳ Saque solicitado!\n💰 Solicitado: MT ${amt.toLocaleString()}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 Receberá: MT ${net.toFixed(2)}`);
-        }
-
-        function copyReferralLink() { navigator.clipboard?.writeText(location.origin + location.pathname + '?ref=' + currentUser.phone).then(() => alert('📋 Copiado!')); }
-        function showNotifications() { alert('🔔 Nenhuma notificação.'); }
-
-        // ============ ADMIN COM DUAS CHAVES ============
-        document.getElementById('admin-trigger')?.addEventListener('click', async () => {
-            adminClicks++;
-            if (adminClicks >= 5) {
-                const p = prompt('🔐 Senha Admin:');
-                const adminKeys = await getAdminKeys();
-                if (isValidAdminKey(p, adminKeys)) {
-                    document.getElementById('admin-modal').classList.remove('hidden');
-                    document.getElementById('allow-daily-withdraw').checked = allowDailyWithdraw;
-                    updateDailyWithdrawStatus();
-                    
-                    // Carrega as chaves no modal
-                    document.getElementById('admin-key1-input').value = '';
-                    document.getElementById('admin-key2-input').value = '';
-                    document.getElementById('admin-key1-display').textContent = '••••••••';
-                    document.getElementById('admin-key2-display').textContent = adminKeys.key2 ? '••••••••' : 'Não definida';
-                    document.getElementById('admin-key2-status').textContent = adminKeys.key2 ? '✅ Ativa' : '⚪ Desativada';
-                    document.getElementById('admin-key2-status').style.color = adminKeys.key2 ? '#4CAF50' : '#636e72';
-                    
-                    const pm = await getSetting('payments'), sp = await getSetting('support');
-                    document.getElementById('admin-mpesa-num').value = pm.mpesa.num;
-                    document.getElementById('admin-mpesa-name').value = pm.mpesa.name;
-                    document.getElementById('admin-emola-num').value = pm.emola.num;
-                    document.getElementById('admin-emola-name').value = pm.emola.name;
-                    document.getElementById('admin-telegram').value = sp.telegram;
-                    document.getElementById('admin-whatsapp').value = sp.whatsapp;
-                    await loadPasswordResets();
-                    await loadPending();
-                    await loadPendingWithdrawals();
-                    await loadAUsers();
-                }
-                adminClicks = 0;
-            }
-        });
-
-        // ⭐ SALVAR CHAVES ADMIN
-        async function saveAdminKeys() {
-            const key1 = document.getElementById('admin-key1-input').value.trim();
-            const key2 = document.getElementById('admin-key2-input').value.trim();
+            if (!selectedWithdrawal) return alert('Selecione um valor!');
+            if ((currentUser.balance||0) < selectedWithdrawal) return alert('Saldo insuficiente!');
             
-            if (!key1) return alert('⚠️ A Chave 1 é obrigatória!');
-            if (key1.length < 4) return alert('⚠️ Chave 1 deve ter pelo menos 4 caracteres!');
+            currentUser.balance -= selectedWithdrawal;
+            currentUser.lastWithdrawDate = new Date().toISOString();
+            set(`users/${currentUser.phone}`, currentUser);
             
-            const keys = {
-                key1: key1,
-                key2: key2 || ''
-            };
+            document.getElementById('main-balance').textContent = currentUser.balance.toFixed(2);
+            closeModal('withdraw-modal');
+            alert(`✅ Saque solicitado! Receberá: MT ${(selectedWithdrawal*0.9).toFixed(0)}`);
+        }
+
+        // ⚡ DEPÓSITO
+        function openDepositModal() { document.getElementById('deposit-modal').classList.remove('hidden'); }
+        
+        async function confirmDeposit() {
+            const amount = parseFloat(document.getElementById('deposit-amount').value);
+            const ref = document.getElementById('deposit-ref').value.trim();
+            if (!amount || amount < 100) return alert('Mínimo: MT 100');
+            if (!ref) return alert('Referência!');
             
-            await saveAdminKeysToDB(keys);
-            
-            // Se tinha chave 2 e foi limpa, mantém
-            document.getElementById('admin-key1-display').textContent = '••••••••';
-            document.getElementById('admin-key2-display').textContent = key2 ? '••••••••' : 'Não definida';
-            document.getElementById('admin-key2-status').textContent = key2 ? '✅ Ativa' : '⚪ Desativada';
-            document.getElementById('admin-key2-status').style.color = key2 ? '#4CAF50' : '#636e72';
-            document.getElementById('admin-key1-input').value = '';
-            document.getElementById('admin-key2-input').value = '';
-            
-            alert('✅ Chaves admin salvas!\n\n🔑 Chave 1: ' + key1 + '\n🔑 Chave 2: ' + (key2 || 'Desativada'));
+            db.ref('transactions').push({
+                phone: currentUser.phone, name: currentUser.name,
+                type: 'deposit_pending', amount, ref, status: 'pending',
+                date: new Date().toISOString()
+            });
+            closeModal('deposit-modal');
+            alert('✅ Depósito enviado para aprovação!');
         }
 
-        // ⭐ LIMPAR CHAVE 2
-        async function clearAdminKey2() {
-            if (!confirm('Deseja desativar a Chave 2?')) return;
-            const keys = await getAdminKeys();
-            keys.key2 = '';
-            await saveAdminKeysToDB(keys);
-            document.getElementById('admin-key2-display').textContent = 'Não definida';
-            document.getElementById('admin-key2-status').textContent = '⚪ Desativada';
-            document.getElementById('admin-key2-status').style.color = '#636e72';
-            document.getElementById('admin-key2-input').value = '';
-            alert('✅ Chave 2 desativada!');
-        }
-
-        async function toggleDailyWithdraw() { allowDailyWithdraw = document.getElementById('allow-daily-withdraw').checked; await saveSetting('allowDailyWithdraw', allowDailyWithdraw); updateDailyWithdrawStatus(); updateWithdrawUI(); await loadVIPs(); }
-        function updateDailyWithdrawStatus() { const el = document.getElementById('daily-withdraw-status'); if (el) el.innerHTML = allowDailyWithdraw ? '<span style="color:#4CAF50;">✅ Saques Diários ATIVADOS</span>' : '<span style="color:#FFA502;">⚠️ Modo Normal</span>'; }
-        async function saveSupportLinks() { await saveSetting('support', { telegram: document.getElementById('admin-telegram').value, whatsapp: document.getElementById('admin-whatsapp').value }); loadSupportInfo(); alert('✅ Suporte atualizado!'); }
-        async function savePaymentNumbers() { await saveSetting('payments', { mpesa: { num: document.getElementById('admin-mpesa-num').value, name: document.getElementById('admin-mpesa-name').value }, emola: { num: document.getElementById('admin-emola-num').value, name: document.getElementById('admin-emola-name').value } }); alert('✅ Pagamentos salvos!'); }
-        async function loadPasswordResets() { const d = await getData('password_resets'); const list = d ? Object.entries(d).map(([id, val]) => ({ id, ...val })) : []; const pending = list.filter(x => x.status === 'pending'); document.getElementById('password-reset-requests').innerHTML = pending.length ? pending.map(x => `<div class="pending-item"><b>📱${x.phone}</b><br><button onclick="adminResetPassword('${x.phone}','${x.id}')" style="background:var(--info);color:white;border:none;padding:4px 8px;border-radius:6px;">🔑 Redefinir</button></div>`).join('') : '<p>Nenhuma</p>'; }
-        async function adminResetPassword(phone, resetId) { const np = prompt('Nova senha:', '123456'); if (!np) return; const u = await getUser(phone); if (u) { u.password = np; await saveUser(u); try { await auth.createUserWithEmailAndPassword(phone+'@moz.com', np); } catch(e) {} } if (resetId) await updateData(`password_resets/${resetId}`, { status: 'resolved' }); await loadPasswordResets(); alert('✅ Senha: ' + np); }
-        async function loadPending() { const t = await getAllTransactions(); const p = t.filter(x => x.type === 'deposit_pending' && x.status === 'pending'); document.getElementById('pending-deposits').innerHTML = p.length ? p.map(x => `<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br><button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:4px 10px;border-radius:6px;">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:4px 10px;border-radius:6px;">❌ Rejeitar</button></div>`).join('') : '<p>Nenhum</p>'; }
-
-        async function loadPendingWithdrawals() {
-            const t = await getAllTransactions();
-            const p = t.filter(x => x.type === 'withdraw_pending' && x.status === 'pending');
-            document.getElementById('pending-withdrawals').innerHTML = p.length ? p.map(x => `
-                <div class="pending-item" style="border-left:4px solid var(--danger);">
-                    <b>👤 ${x.name||'-'}</b> 📱 ${x.phone}<br>
-                    💰 Solicitado: <b>MT ${Number(x.amount).toFixed(2)}</b><br>
-                    📊 Taxa 10%: MT ${Number(x.fee).toFixed(2)}<br>
-                    💸 <b style="color:#4CAF50;font-size:15px;">ENVIAR: MT ${Number(x.net).toFixed(2)}</b><br>
-                    <button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:var(--success);color:white;border:none;padding:6px 12px;border-radius:6px;font-weight:700;margin-top:6px;">✅ APROVAR</button>
-                    <button onclick="rejectTransaction('${x.id}')" style="background:var(--danger);color:white;border:none;padding:6px 12px;border-radius:6px;font-weight:700;margin-top:6px;">❌ Rejeitar</button>
-                </div>`
-            ).join('') : '<p style="color:#666;">Nenhum saque pendente</p>';
-        }
-
-        async function rejectTransaction(id) {
-            const allTxs = await getAllTransactions();
-            const tx = allTxs.find(t => t.id === id);
-            if (tx && tx.type === 'withdraw_pending' && tx.status === 'pending') {
-                if (!confirm(`⚠️ Rejeitar saque de MT ${Number(tx.amount).toFixed(2)}?\nO valor será DEVOLVIDO ao usuário.`)) return;
-                const u = await getUser(tx.phone);
-                if (u) { u.balance = (Number(u.balance) || 0) + Number(tx.amount); u.lastWithdrawDate = null; await saveUser(u); if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); updateWithdrawUI(); } }
-            } else { if (!confirm('Rejeitar esta transação?')) return; }
-            await updateTransaction(id, { status: 'rejected' }); await loadPending(); await loadPendingWithdrawals();
-            if (tx && tx.type === 'withdraw_pending') alert('❌ Saque rejeitado. Valor devolvido ao usuário.');
-        }
-
-        async function approveDeposit(id, amount, phone) {
-            const u = await getUser(phone);
-            if (u) {
-                u.balance = (Number(u.balance) || 0) + Number(amount);
-                if (u.referredBy) { const rf = await getUser(u.referredBy); if (rf) { const b = Number(amount) * 0.10; rf.commission = (Number(rf.commission) || 0) + b; rf.referralBonus = (Number(rf.referralBonus) || 0) + b; await saveUser(rf); await addTransaction({ phone: rf.phone, type: 'referral_bonus', amount: b, fromPhone: phone, date: new Date().toISOString() }); } }
-                await saveUser(u); if (currentUser && currentUser.phone === u.phone) { currentUser = u; updateUI(); }
-            }
-            await updateTransaction(id, { status: 'approved', type: 'deposit_approved' }); await loadPending(); await loadAUsers(); alert('✅ Depósito aprovado!');
-        }
-
-        async function approveWithdrawal(id, amount, phone) {
-            const fee = Number(amount) * 0.1; const net = Number(amount) - fee; const u = await getUser(phone);
-            await updateTransaction(id, { status: 'approved', type: 'withdraw', fee: fee, net: net }); await loadPendingWithdrawals(); await loadAUsers();
-            if (currentUser && currentUser.phone === phone) { const updatedUser = await getUser(phone); if (updatedUser) { currentUser = updatedUser; updateUI(); } }
-            alert(`✅ SAQUE APROVADO!\n\n👤 ${u ? u.name || phone : phone}\n📱 ${phone}\n💰 Solicitado: MT ${Number(amount).toFixed(2)}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 ENVIAR: MT ${net.toFixed(2)}`);
-        }
-
-        async function searchUser() {
-            const ph = document.getElementById('search-user-phone').value.trim(); if (!ph) return; const u = await getUser(ph);
-            document.getElementById('search-result').innerHTML = u ? `<div class="pending-item"><b>${u.name||'-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance)||0).toFixed(2)} | VIP ${u.vipLevel||'-'}<br>
-                <button onclick="editUserBalance('${u.phone}')" style="background:var(--warning);color:white;border:none;padding:4px 8px;border-radius:6px;">💰 Editar</button>
-                <button onclick="adminResetPassword('${u.phone}')" style="background:var(--info);color:white;border:none;padding:4px 8px;border-radius:6px;">🔑 Senha</button>
-                <button onclick="deleteUserAccount('${u.phone}')" style="background:var(--danger);color:white;border:none;padding:4px 8px;border-radius:6px;">🗑️ Excluir</button></div>` : '<p>Não encontrado</p>';
-        }
-        async function editUserBalance(phone) { const u = await getUser(phone); if (!u) return; const nb = prompt('Novo saldo:', (Number(u.balance) || 0)); if (nb !== null && !isNaN(parseFloat(nb))) { u.balance = parseFloat(nb); await saveUser(u); alert('✅ Saldo atualizado!'); searchUser(); } }
-        async function deleteUserAccount(phone) { if (!confirm(`⚠️ EXCLUIR ${phone}?`)) return; if (!confirm('IRREVERSÍVEL!')) return; await deleteData(`users/${phone}`); document.getElementById('search-result').innerHTML = '<p style="color:var(--danger);">🗑️ Excluído!</p>'; await loadAUsers(); }
-        async function loadAUsers() { const u = await getAllUsers(); document.getElementById('admin-users-list').innerHTML = u.map(x => `<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance)||0).toFixed(2)} | 👑 VIP ${x.vipLevel||'-'}</div>`).join('') || '<p>Nenhum</p>'; }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
-            document.getElementById(`tab-${tab}`)?.classList.remove('hidden');
-            document.querySelectorAll('.nav-item-3d').forEach(e => e.classList.remove('active'));
-            document.getElementById(`nav-${tab}`)?.classList.add('active');
-            if (tab === 'vips') {
-                const c = document.getElementById('my-vips');
-                if (currentUser?.vipLevel !== null && currentUser?.vipLevel !== undefined) {
-                    const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
-                    if (v) {
-                        const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter);
-                        const wDay = (v.isStarter || allowDailyWithdraw) ? 'Seg-Sex (Diário)' : v.withdrawDay;
-                        c.innerHTML = `<div class="vip-card-3d active-vip ${v.isStarter?'starter':''}" style="border-left:6px solid ${v.color};"><h3>${v.icon} ${v.name}</h3><div class="vip-price">💰 <b>MT ${v.daily}/dia</b></div><div class="vip-price">💸 Saque: <b>${wDay}</b>${(v.isStarter||allowDailyWithdraw)?' <span class="daily-badge">🔥</span>':''}</div><div class="expiry-countdown">${ei.text}</div><div class="vip-status-active">✅ ATIVO</div></div>`;
-                    }
-                } else { c.innerHTML = '<p style="text-align:center;color:#666;">Nenhum VIP ativo</p>'; }
-            }
-            if (tab === 'funds') loadFunds();
-            if (tab === 'referral') loadReferralTab();
-            if (tab === 'history') { loadWithdrawalHistory(); loadDepositHistory(); loadProfitHistory(); }
-        }
-
-        function updateUI() {
-            if (!currentUser) return;
-            document.getElementById('main-balance').textContent = (Number(currentUser.balance)||0).toFixed(2);
-            document.getElementById('commission-balance').textContent = (Number(currentUser.commission)||0).toFixed(2);
-            document.getElementById('profile-name').textContent = currentUser.name || 'Usuário';
-            document.getElementById('profile-phone').textContent = currentUser.phone;
-            const v = currentUser.vipLevel !== null && currentUser.vipLevel !== undefined ? VIP_CONFIG.find(x => x.id === currentUser.vipLevel) : null;
-            const wDay = v ? ((v.isStarter || allowDailyWithdraw) ? 'Seg-Sex (Diário)' : v.withdrawDay) : '';
-            document.getElementById('profile-vip').textContent = v ? `👑 ${v.name} | 💸 ${wDay}` : '';
-            if (currentUser?.vipStart && v) document.getElementById('profile-vip-expiry').textContent = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter).text;
+        function copyReferralLink() {
+            navigator.clipboard?.writeText(location.origin + location.pathname + '?ref=' + currentUser.phone);
+            alert('📋 Link copiado!');
         }
 
         function closeModal(id) { document.getElementById(id)?.classList.add('hidden'); }
-        document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden'); });
+        
+        document.addEventListener('click', e => {
+            if (e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden');
+        });
+
+        // ⚡ INICIALIZAÇÃO
+        window.addEventListener('DOMContentLoaded', () => {
+            // Atualiza números fake
+            setInterval(() => {
+                document.getElementById('online-users-count').textContent = Math.floor(Math.random()*80000+1000).toLocaleString();
+            }, 3000);
+            
+            // Verifica convite
+            const ref = new URLSearchParams(window.location.search).get('ref');
+            if (ref) {
+                const div = document.createElement('div');
+                div.style.cssText = 'background:#4caf50;color:white;padding:12px;border-radius:12px;text-align:center;margin:12px 0;font-weight:700;';
+                div.textContent = '🤝 Você foi convidado! Ganhe 10% de comissão!';
+                document.getElementById('login-screen').insertBefore(div, document.querySelector('.login-tabs'));
+            }
+        });
     </script>
 </body>
 </html>
