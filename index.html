@@ -21,6 +21,11 @@
         .logo-text{font-size:18px;font-weight:900;background:linear-gradient(135deg,#FF6B35,#e84393,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
         .header-icons{display:flex;gap:15px;font-size:18px;color:white}
         .header-icons i{cursor:pointer}
+        .support-bar{display:flex;gap:8px;padding:8px;justify-content:center;background:rgba(0,0,0,0.3)}
+        .btn-support{flex:1;padding:12px 8px;border:none;border-radius:16px;color:white;font-weight:800;font-size:11px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,0.3);text-transform:uppercase;transition:all 0.2s;display:flex;align-items:center;gap:5px;justify-content:center}
+        .btn-support:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.3)}
+        .btn-support-whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+        .btn-support-group{background:linear-gradient(135deg,#6c5ce7,#a29bfe)}
         .timer-bar{background:linear-gradient(135deg,#1a1a2e,#2d1f3d);color:var(--aviator-gold);text-align:center;padding:10px 12px;font-size:12px;font-weight:800;margin:6px 8px;border-radius:20px;box-shadow:0 4px 0 #0a0a15;border:2px solid var(--aviator-gold);animation:timerPulse 2s infinite}
         @keyframes timerPulse{0%,100%{box-shadow:0 4px 0 #0a0a15,0 0 15px rgba(255,215,0,0.4)}50%{box-shadow:0 4px 0 #0a0a15,0 0 30px rgba(255,215,0,0.8)}}
         .timer-bar.collect{border-color:#FFD700}
@@ -168,10 +173,27 @@
             <div class="login-tabs"><button class="login-tab active" id="tab-login-btn" onclick="switchLoginTab('login')">🚀 Entrar</button><button class="login-tab" id="tab-register-btn" onclick="switchLoginTab('register')">📝 Criar Conta</button></div>
             <div id="login-fields"><input type="tel" id="login-phone" class="input-3d" placeholder="📱 Número (ex: 851234567)"><input type="password" id="login-password" class="input-3d" placeholder="🔒 Senha"><button onclick="handleLogin()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF6B35,#e84393);font-size:15px;padding:14px">🚀 Entrar</button><p class="forgot-password-link" onclick="resetPassword()">🔐 Esqueci a senha</p></div>
             <div id="register-fields" class="hidden"><input type="tel" id="reg-phone" class="input-3d" placeholder="📱 Número (ex: 851234567)"><input type="text" id="reg-name" class="input-3d" placeholder="👤 Nome completo"><input type="password" id="reg-password" class="input-3d" placeholder="🔒 Senha"><input type="password" id="reg-confirm" class="input-3d" placeholder="🔒 Confirmar senha"><button onclick="handleLogin()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF6B35,#e84393);font-size:15px;padding:14px">📝 Criar Conta</button></div>
-            <p style="text-align:center;font-size:9px;color:#999;margin-top:10px">Suporte: <b id="support-whatsapp">+258 85XXXXXXX</b> | <b id="support-telegram">@brazfundbank</b></p>
+            <!-- 👇 NOVO: Botões de suporte na tela de login -->
+            <div class="support-bar" style="margin-top:12px">
+                <button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp">
+                    <i class="fab fa-whatsapp"></i> 💬 Suporte WhatsApp
+                </button>
+                <button onclick="openSupportGroup()" class="btn-support btn-support-group">
+                    <i class="fab fa-whatsapp"></i> 👥 Grupo WhatsApp
+                </button>
+            </div>
         </div>
         <div id="app-screen" class="hidden">
             <div class="header-3d"><span class="logo-text" id="admin-trigger">🏦 BRAZ - FUND BANK</span><div class="header-icons"><i class="fas fa-bell" onclick="showNotifications()"></i><i class="fas fa-user-circle" onclick="switchTab('profile')"></i></div></div>
+            <!-- 👇 NOVO: Barra de suporte dentro do app -->
+            <div class="support-bar">
+                <button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Suporte
+                </button>
+                <button onclick="openSupportGroup()" class="btn-support btn-support-group">
+                    <i class="fab fa-whatsapp"></i> Grupo
+                </button>
+            </div>
             <div class="timer-bar collect" id="collect-timer-bar">💎 <span id="collect-timer-label">Próxima coleta:</span> <span id="collect-timer">00:00:00</span></div>
             <div class="timer-bar withdraw" id="withdraw-timer-bar">💸 <span id="withdraw-timer-label">Próximo saque:</span> <span id="withdraw-timer">00:00:00</span></div>
             <div id="cooldown-notice" class="cooldown-info hidden"></div>
@@ -192,7 +214,17 @@
             <div id="tab-vips" class="tab-content hidden"><h3 class="section-title-3d">👑 Meus VIPs</h3><div id="my-vips" style="margin:3px 8px"></div></div>
             <div id="tab-funds" class="tab-content hidden"><h3 class="section-title-3d">💰 Tabela de Fundos</h3><div class="vip-grid" id="funds-list"></div></div>
             <div id="tab-referral" class="tab-content hidden"><h3 class="section-title-3d">👥 Convidar Amigos</h3><div style="background:#1a1a2e;border:2px solid var(--aviator-gold);border-radius:14px;padding:14px;margin:8px;color:#fff"><h4>🎁 10% de Comissão</h4><p style="font-size:11px;color:#b2bec3">Por cada depósito dos indicados!</p><div id="referral-link-text" style="background:#0d0d1a;padding:8px;border-radius:8px;font-size:10px;word-break:break-all;margin:8px 0;border:1px dashed var(--aviator-accent);color:#b2bec3"></div><button onclick="copyReferralLink()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF6B35,#e84393);font-size:13px">📋 Copiar Link</button></div><div class="referral-stats"><div class="referral-stat-card"><div class="referral-stat-icon">👥</div><div class="referral-stat-value" id="referral-count">0</div><div class="referral-stat-label">TOTAL</div><div style="font-size:9px;color:#00B894">QUALIFICADOS</div></div><div class="referral-stat-card"><div class="referral-stat-icon">👑</div><div class="referral-stat-value" id="referral-vip-count">0</div><div class="referral-stat-label">COM VIP</div><div style="font-size:9px;color:#FFD700">MT <span id="referral-total">0.00</span> COMISSÕES</div></div></div><div id="referred-users-list" style="margin:3px 8px"></div></div>
-            <div id="tab-profile" class="tab-content hidden"><div style="text-align:center;padding:25px;color:white"><i class="fas fa-user-circle" style="font-size:65px;color:var(--aviator-gold)"></i><h3 id="profile-name" style="color:white;font-size:22px"></h3><p id="profile-phone" style="color:#b2bec3"></p><p id="profile-vip" style="color:var(--aviator-gold);font-weight:700"></p><p id="profile-vip-expiry" style="font-size:11px;color:#999"></p><div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div><div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div><button onclick="showInstallInstructions()" class="btn-modal-3d" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);margin-bottom:6px"><i class="fas fa-download"></i> Adicionar App na Tela Inicial</button><button onclick="switchTab('history')" class="btn-modal-3d" style="background:var(--info)">📋 Histórico</button><button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);margin-top:8px">🚪 Sair</button></div></div>
+            <div id="tab-profile" class="tab-content hidden"><div style="text-align:center;padding:25px;color:white"><i class="fas fa-user-circle" style="font-size:65px;color:var(--aviator-gold)"></i><h3 id="profile-name" style="color:white;font-size:22px"></h3><p id="profile-phone" style="color:#b2bec3"></p><p id="profile-vip" style="color:var(--aviator-gold);font-weight:700"></p><p id="profile-vip-expiry" style="font-size:11px;color:#999"></p><div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div><div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div>
+            <!-- 👇 NOVO: Botões de suporte no perfil -->
+            <div class="support-bar" style="margin:10px 0">
+                <button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Suporte
+                </button>
+                <button onclick="openSupportGroup()" class="btn-support btn-support-group">
+                    <i class="fab fa-whatsapp"></i> Grupo
+                </button>
+            </div>
+            <button onclick="showInstallInstructions()" class="btn-modal-3d" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);margin-bottom:6px"><i class="fas fa-download"></i> Adicionar App na Tela Inicial</button><button onclick="switchTab('history')" class="btn-modal-3d" style="background:var(--info)">📋 Histórico</button><button onclick="logout()" class="btn-modal-3d" style="background:var(--danger);margin-top:8px">🚪 Sair</button></div></div>
             <div id="tab-history" class="tab-content hidden"><h3 class="section-title-3d" style="padding:8px">💸 Levantamentos</h3><div id="withdrawal-history" style="margin:3px 8px"></div><h3 class="section-title-3d" style="padding:8px">💰 Depósitos</h3><div id="deposit-history" style="margin:3px 8px"></div><h3 class="section-title-3d" style="padding:8px">🎁 Comissões</h3><div id="referral-history" style="margin:3px 8px"></div><h3 class="section-title-3d" style="padding:8px">📊 Lucros</h3><div id="profit-history" style="margin:3px 8px"></div></div>
             <nav class="nav-3d"><button class="nav-item-3d active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i>Home</button><button class="nav-item-3d" id="nav-vips" onclick="switchTab('vips')"><i class="fas fa-crown"></i>VIPs</button><button class="nav-item-3d" id="nav-funds" onclick="switchTab('funds')"><i class="fas fa-coins"></i>Fundos</button><button class="nav-item-3d" id="nav-referral" onclick="switchTab('referral')"><i class="fas fa-users"></i>Convidar</button><button class="nav-item-3d" id="nav-profile" onclick="switchTab('profile')"><i class="fas fa-user"></i>Meu</button></nav>
         </div>
@@ -218,7 +250,8 @@
             <div class="modal-3d" style="max-height:85vh;max-width:420px">
                 <h2>🔐 Admin</h2>
                 <div style="background:rgba(108,92,231,0.1);padding:12px;border-radius:10px;margin:8px 0;border:2px solid var(--aviator-purple)"><h4 style="color:#a29bfe;font-size:14px">🔑 Chaves Admin</h4><p style="font-size:9px;color:#b2bec3">Cada chave funciona separadamente</p><div class="admin-key-info" id="admin-key1-info"><b>🔑 Chave 1:</b> <span id="admin-key1-display">••••••••</span><br><small style="color:#00B894">✅ Ativa</small></div><input id="admin-key1-input" class="input-3d" placeholder="Nova Chave 1" style="font-size:12px"><div class="admin-key-info" id="admin-key2-info" style="margin-top:6px"><b>🔑 Chave 2:</b> <span id="admin-key2-display">••••••••</span><br><small id="admin-key2-status" style="color:#b2bec3">⚪ Desativada</small></div><input id="admin-key2-input" class="input-3d" placeholder="Nova Chave 2 (opcional)" style="font-size:12px"><button onclick="saveAdminKeys()" class="btn-modal-3d" style="background:var(--aviator-purple);font-size:12px">💾 Salvar Chaves</button><button onclick="clearAdminKey2()" class="btn-modal-3d" style="background:#636e72;font-size:11px;padding:10px">🗑️ Limpar Chave 2</button></div>
-                <div><h4>📱 Suporte</h4><input id="admin-telegram" class="input-3d" placeholder="Link Telegram"><input id="admin-whatsapp" class="input-3d" placeholder="Número WhatsApp"><button onclick="saveSupportLinks()" class="btn-modal-3d" style="background:var(--info)">💾 Salvar Suporte</button></div>
+                <!-- 👇 ATUALIZADO: Seção Suporte com campo de grupo -->
+                <div><h4>📱 Suporte</h4><input id="admin-telegram" class="input-3d" placeholder="Link Telegram"><input id="admin-whatsapp" class="input-3d" placeholder="Número WhatsApp (ex: 258XXXXXXXXX)"><input id="admin-group-link" class="input-3d" placeholder="Link do Grupo WhatsApp"><button onclick="saveSupportLinks()" class="btn-modal-3d" style="background:var(--info)">💾 Salvar Suporte</button></div>
                 <div><h4>💳 Pagamentos</h4><input id="admin-mpesa-num" class="input-3d" placeholder="Nº M-Pesa"><input id="admin-mpesa-name" class="input-3d" placeholder="Nome M-Pesa"><input id="admin-emola-num" class="input-3d" placeholder="Nº e-Mola"><input id="admin-emola-name" class="input-3d" placeholder="Nome e-Mola"><button onclick="savePaymentNumbers()" class="btn-modal-3d" style="background:var(--success)">Salvar</button></div>
                 <div class="switch-container daily"><span class="switch-label">🔘 Saques Diários (Seg-Sex)</span><label class="switch"><input type="checkbox" id="allow-daily-withdraw" onchange="toggleDailyWithdraw()"><span class="slider"></span></label></div>
                 <div id="daily-withdraw-status" style="text-align:center;font-size:10px;margin:3px 0;font-weight:700"></div>
@@ -310,7 +343,7 @@
             if(k==='admin'){const keys=await getAdminKeys();return keys.key1}
             const v=await getData(`settings/${k}`);
             if(v===null||v===undefined){
-                const d={payments:{mpesa:{num:'851511841',name:'Benjamim Celeste'},emola:{num:'870514180',name:'Amelia Ricardo'}},allowDailyWithdraw:false,support:{telegram:'https://t.me/brazfundbank',whatsapp:'258851511841'},globalFundsActive:true};
+                const d={payments:{mpesa:{num:'851511841',name:'Benjamim Celeste'},emola:{num:'870514180',name:'Amelia Ricardo'}},allowDailyWithdraw:false,support:{telegram:'https://t.me/brazfundbank',whatsapp:'258851511841',groupLink:''},globalFundsActive:true};
                 if(!cachedSettings)cachedSettings={};
                 cachedSettings[k]=d[k];
                 return d[k];
@@ -417,6 +450,17 @@
             pushData('password_resets',{phone:phone,email:phone+'@moz.com',status:'pending',date:new Date().toISOString()});
             alert('✅ Solicitação enviada!');
         }
+        
+        // 👇 NOVA FUNÇÃO: Decodificar código de convite
+        function decodeRefCode(code) {
+            try {
+                const decoded = atob(code);
+                return decoded.match(/^\d+$/) ? decoded : code;
+            } catch {
+                return code;
+            }
+        }
+        
         async function handleLogin(){
             if(isLoggedIn)return;
             let phone,pw,name,cf;
@@ -440,8 +484,10 @@
                     if(await getUser(phone))return alert('❌ Número já registrado!');
                     const params=new URLSearchParams(window.location.search);
                     const ref=params.get('ref')||'';
+                    // 👇 NOVO: Decodificar referência
+                    const decodedRef = ref ? decodeRefCode(ref) : null;
                     let rb=null;
-                    if(ref){const ru=await getUser(ref);if(ru&&ru.phone!==phone)rb=ref}
+                    if(decodedRef){const ru=await getUser(decodedRef);if(ru&&ru.phone!==phone)rb=decodedRef}
                     // Criação SEM campos undefined
                     currentUser={
                         phone:phone,name:name,uid:'',password:pw,
@@ -511,11 +557,13 @@
             Promise.all([getAdminKeys(),getSetting('allowDailyWithdraw'),getSetting('support'),getSetting('globalFundsActive'),getData('settings')]).then(([keys,dailyWithdraw,support,gfa,settings])=>{
                 allowDailyWithdraw=dailyWithdraw===true;
                 globalFundsActive=gfa!==false;
-                if(!settings){setData('settings',{payments:{mpesa:{num:'851511841',name:'Benjamim Celeste'},emola:{num:'870514180',name:'Amelia Ricardo'}},allowDailyWithdraw:false,support:{telegram:'https://t.me/brazfundbank',whatsapp:'258851511841'},globalFundsActive:true})}
+                if(!settings){setData('settings',{payments:{mpesa:{num:'851511841',name:'Benjamim Celeste'},emola:{num:'870514180',name:'Amelia Ricardo'}},allowDailyWithdraw:false,support:{telegram:'https://t.me/brazfundbank',whatsapp:'258851511841',groupLink:''},globalFundsActive:true})}
                 loadSupportInfo();
                 const params=new URLSearchParams(window.location.search);
                 const ref=params.get('ref');
-                if(ref){getUser(ref).then(u=>{if(u){const el=document.getElementById('invite-message');if(el){el.classList.remove('hidden');el.innerHTML=`🤝 Convidado por <b>${u.name||u.phone}</b>! (10%)`}}})}
+                // 👇 NOVO: Decodificar referência ao carregar
+                const decodedRef = ref ? decodeRefCode(ref) : null;
+                if(decodedRef){getUser(decodedRef).then(u=>{if(u){const el=document.getElementById('invite-message');if(el){el.classList.remove('hidden');el.innerHTML='🤝 Convidado por <b>'+(u.name||u.phone)+'</b>! (10%)'}}})}
             });
             setInterval(()=>{
                 const fd=document.getElementById('fake-deposits'),fw=document.getElementById('fake-withdraws'),fm=document.getElementById('fake-members');
@@ -611,7 +659,9 @@
         }
         async function loadReferralTab(){
             if(!currentUser)return;
-            document.getElementById('referral-link-text').textContent=location.origin+location.pathname+'?ref='+currentUser.phone;
+            // 👇 NOVO: Link com código em vez de número
+            const refCode = btoa(currentUser.phone).substring(0, 12);
+            document.getElementById('referral-link-text').textContent=location.origin+location.pathname+'?ref='+refCode;
             const all=await getAllUsers();
             const my=all.filter(u=>u.referredBy===currentUser.phone);
             const vipCount=my.filter(u=>u.vipLevel!==null&&u.vipLevel!==undefined&&u.vipLevel>0).length;
@@ -707,7 +757,11 @@
             closeModal('withdraw-modal');updateUI();updateWithdrawUI();updateTimersDisplay();
             alert(`⏳ Saque solicitado!\n💰 Solicitado: MT ${amt.toLocaleString()}\n📊 Taxa 10%: MT ${fee.toFixed(2)}\n💸 Receberá: MT ${net.toFixed(2)}`);
         }
-        function copyReferralLink(){navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+currentUser.phone).then(()=>alert('📋 Copiado!'))}
+        // 👇 NOVO: Copiar link com código
+        function copyReferralLink(){
+            const refCode = btoa(currentUser.phone).substring(0, 12);
+            navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+refCode).then(()=>alert('📋 Copiado!'))
+        }
         function showNotifications(){alert('🔔 Nenhuma notificação.')}
         function showInstallInstructions(){
             const div=document.getElementById('install-instructions');
@@ -730,13 +784,42 @@
         function closeModal(id){const el=document.getElementById(id);if(el)el.classList.add('hidden')}
         document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.add('hidden')})
 
+        // ══════════ NOVAS FUNÇÕES DE SUPORTE ══════════
+        async function openSupportWhatsapp() {
+            const sp = await getSetting('support');
+            if (!sp || !sp.whatsapp) {
+                alert('📞 Suporte não configurado');
+                return;
+            }
+            const num = sp.whatsapp.replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${num}`, '_blank');
+        }
+        
+        async function openSupportGroup() {
+            const sp = await getSetting('support');
+            if (!sp || !sp.groupLink) {
+                alert('📱 Link do grupo não configurado');
+                return;
+            }
+            window.open(sp.groupLink, '_blank');
+        }
+
         // ══════════ ADMIN ══════════
-        document.getElementById('admin-trigger')?.addEventListener('click',async()=>{adminClicks++;if(adminClicks>=5){const p=prompt('🔐 Senha Admin:');const adminKeys=await getAdminKeys();if(isValidAdminKey(p,adminKeys)){document.getElementById('admin-modal').classList.remove('hidden');document.getElementById('allow-daily-withdraw').checked=allowDailyWithdraw;updateDailyWithdrawStatus();document.getElementById('admin-key1-input').value='';document.getElementById('admin-key2-input').value='';document.getElementById('admin-key1-display').textContent='••••••••';document.getElementById('admin-key2-display').textContent=adminKeys.key2?'••••••••':'Não definida';document.getElementById('admin-key2-status').textContent=adminKeys.key2?'✅ Ativa':'⚪ Desativada';document.getElementById('admin-key2-status').style.color=adminKeys.key2?'#00B894':'#b2bec3';const pm=await getSetting('payments'),sp=await getSetting('support');document.getElementById('admin-mpesa-num').value=pm.mpesa.num;document.getElementById('admin-mpesa-name').value=pm.mpesa.name;document.getElementById('admin-emola-num').value=pm.emola.num;document.getElementById('admin-emola-name').value=pm.emola.name;document.getElementById('admin-telegram').value=sp.telegram;document.getElementById('admin-whatsapp').value=sp.whatsapp;await loadPasswordResets();await loadPending();await loadPendingWithdrawals();await loadAUsers()}adminClicks=0}})
+        document.getElementById('admin-trigger')?.addEventListener('click',async()=>{adminClicks++;if(adminClicks>=5){const p=prompt('🔐 Senha Admin:');const adminKeys=await getAdminKeys();if(isValidAdminKey(p,adminKeys)){document.getElementById('admin-modal').classList.remove('hidden');document.getElementById('allow-daily-withdraw').checked=allowDailyWithdraw;updateDailyWithdrawStatus();document.getElementById('admin-key1-input').value='';document.getElementById('admin-key2-input').value='';document.getElementById('admin-key1-display').textContent='••••••••';document.getElementById('admin-key2-display').textContent=adminKeys.key2?'••••••••':'Não definida';document.getElementById('admin-key2-status').textContent=adminKeys.key2?'✅ Ativa':'⚪ Desativada';document.getElementById('admin-key2-status').style.color=adminKeys.key2?'#00B894':'#b2bec3';const pm=await getSetting('payments'),sp=await getSetting('support');document.getElementById('admin-mpesa-num').value=pm.mpesa.num;document.getElementById('admin-mpesa-name').value=pm.mpesa.name;document.getElementById('admin-emola-num').value=pm.emola.num;document.getElementById('admin-emola-name').value=pm.emola.name;document.getElementById('admin-telegram').value=sp.telegram;document.getElementById('admin-whatsapp').value=sp.whatsapp;document.getElementById('admin-group-link').value=sp.groupLink||'';await loadPasswordResets();await loadPending();await loadPendingWithdrawals();await loadAUsers()}adminClicks=0}})
         async function saveAdminKeys(){const key1=document.getElementById('admin-key1-input').value.trim();const key2=document.getElementById('admin-key2-input').value.trim();if(!key1)return alert('⚠️ A Chave 1 é obrigatória!');if(key1.length<4)return alert('⚠️ Chave 1 deve ter pelo menos 4 caracteres!');const keys={key1:key1,key2:key2||''};await saveAdminKeysToDB(keys);alert('✅ Chaves admin salvas!')}
         async function clearAdminKey2(){if(!confirm('Deseja desativar a Chave 2?'))return;const keys=await getAdminKeys();keys.key2='';await saveAdminKeysToDB(keys);alert('✅ Chave 2 desativada!')}
         async function toggleDailyWithdraw(){allowDailyWithdraw=document.getElementById('allow-daily-withdraw').checked;await saveSetting('allowDailyWithdraw',allowDailyWithdraw);updateDailyWithdrawStatus();updateWithdrawUI();await loadVIPs()}
         function updateDailyWithdrawStatus(){const el=document.getElementById('daily-withdraw-status');if(el)el.innerHTML=allowDailyWithdraw?'<span style="color:#00B894">✅ Saques Diários ATIVADOS</span>':'<span style="color:#FFA502">⚠️ Modo Normal</span>'}
-        async function saveSupportLinks(){await saveSetting('support',{telegram:document.getElementById('admin-telegram').value,whatsapp:document.getElementById('admin-whatsapp').value});loadSupportInfo();alert('✅ Suporte atualizado!')}
+        // 👇 ATUALIZADO: Salvar suporte com grupo
+        async function saveSupportLinks(){
+            await saveSetting('support',{
+                telegram:document.getElementById('admin-telegram').value,
+                whatsapp:document.getElementById('admin-whatsapp').value,
+                groupLink:document.getElementById('admin-group-link').value
+            });
+            loadSupportInfo();
+            alert('✅ Suporte atualizado!');
+        }
         async function savePaymentNumbers(){await saveSetting('payments',{mpesa:{num:document.getElementById('admin-mpesa-num').value,name:document.getElementById('admin-mpesa-name').value},emola:{num:document.getElementById('admin-emola-num').value,name:document.getElementById('admin-emola-name').value}});alert('✅ Pagamentos salvos!')}
         async function loadPasswordResets(){const d=await getData('password_resets');const list=d?Object.entries(d).map(([id,val])=>({id,...val})):[];const pending=list.filter(x=>x.status==='pending');document.getElementById('password-reset-requests').innerHTML=pending.length?pending.map(x=>`<div class="pending-item"><b>📱${x.phone}</b><br><button onclick="adminResetPassword('${x.phone}','${x.id}')" style="background:var(--info);color:white;border:none;padding:3px 6px;border-radius:5px">🔑 Redefinir</button></div>`).join(''):'<p style="color:#666">Nenhuma</p>'}
         async function adminResetPassword(phone,resetId){const np=prompt('Nova senha:','123456');if(!np)return;const u=await getUser(phone);if(u){u.password=np;await saveUser(u)}if(resetId)await updateData(`password_resets/${resetId}`,{status:'resolved'});await loadPasswordResets();alert('✅ Senha: '+np)}
