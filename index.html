@@ -56,6 +56,8 @@
         .vip-5::before { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
         .vip-6::before { background: linear-gradient(135deg, #FF4500, #FF6B00); }
         .vip-7::before { background: linear-gradient(135deg, #FF0000, #FFD700, #FF0000); animation: fireBorder 2s infinite; }
+        .vip-8::before { background: linear-gradient(135deg, #1a1a1a, #C0C0C0, #E0E0E0, #1a1a1a); animation: diamondGlow 2s infinite; }
+        @keyframes diamondGlow { 0%,100% { filter: brightness(1.2); box-shadow: 0 0 30px rgba(192,192,192,0.5); } 50% { filter: brightness(1.6); box-shadow: 0 0 50px rgba(192,192,192,0.9); } }
         @keyframes fireBorder { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.5); } }
         .vip-badge-3d { position: absolute; top: 12px; right: 12px; padding: 6px 14px; border-radius: 20px; color: white; font-weight: 800; font-size: 11px; z-index: 2; }
         .vip-name { font-size: 20px; font-weight: 900; margin-bottom: 3px; }
@@ -107,6 +109,7 @@
         .login-bubble { background: linear-gradient(135deg, #0a0a2e, #1a1a4e); border-radius: 12px; padding: 8px 10px; text-align: center; font-weight: 700; font-size: 11px; }
         .withdrawal-btn { padding: 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; background: #0a0a2e; font-weight: 700; cursor: pointer; font-size: 12px; color: #b2bec3; }
         .withdrawal-btn.selected { background: #FF0000; color: white; }
+        .withdrawal-btn.disabled-val { opacity: 0.35; text-decoration: line-through; pointer-events: none; background: #1a1a1a; border-color: #333; color: #555; }
         .online-users-float { background: linear-gradient(135deg, #FF0000, #e84393, #6c5ce7); border-radius: 14px; padding: 12px; margin: 8px 0; text-align: center; }
         .online-count { font-size: 30px; font-weight: 900; }
         .status-text { text-align: center; padding: 6px; font-size: 11px; font-weight: 700; }
@@ -131,13 +134,20 @@
         .funds-alert-msg { background: rgba(255,0,0,0.2); border: 2px solid #ff0000; color: #FFD700; padding: 10px; border-radius: 8px; margin-top: 8px; text-align: center; font-weight: 800; font-size: 12px; display: none; } .funds-alert-msg.show { display: block; }
         .admin-key-info { background: #0d0d1a; padding: 6px 10px; border-radius: 6px; margin: 3px 0; font-size: 10px; border-left: 4px solid #00B894; color: #b2bec3; }
         .input-readonly { background: #1a1a3e !important; cursor: not-allowed; opacity: 0.8; }
+        .withdraw-admin-item { display: flex; align-items: center; gap: 6px; padding: 6px; background: #0d0d1a; border-radius: 8px; margin: 3px 0; font-size: 11px; }
+        .withdraw-admin-item input { width: 70px; padding: 4px; background: #1a1a3e; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 11px; text-align: center; }
+        .btn-mini { padding: 4px 8px; border: none; border-radius: 4px; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .btn-mini-toggle-on { background: #00B894; color: #fff; }
+        .btn-mini-toggle-off { background: #FF0000; color: #fff; }
+        .btn-mini-remove { background: #636e72; color: #fff; }
+        .btn-mini-add { background: #6c5ce7; color: #fff; padding: 6px 12px; font-size: 11px; }
     </style>
 </head>
 <body>
     <div class="app-container">
         <!-- LOGIN -->
         <div id="login-screen">
-            <div style="text-align:center;padding:15px 0"><div style="font-size:50px">🐱</div><h2 style="font-size:24px;font-weight:900;background:linear-gradient(135deg,#FFD700,#FF0000,#e84393);-webkit-background-clip:text;-webkit-text-fill-color:transparent">GENINS INVESTIMENT</h2><p style="color:#b2bec3;font-size:12px;margin-top:3px">Plataforma de Investimentos • 5% ao dia</p></div>
+            <div style="text-align:center;padding:15px 0"><div style="font-size:50px">🐱</div><h2 style="font-size:24px;font-weight:900;background:linear-gradient(135deg,#FFD700,#FF0000,#e84393);-webkit-background-clip:text;-webkit-text-fill-color:transparent">GENINS INVESTIMENT</h2><p style="color:#b2bec3;font-size:12px;margin-top:3px">Plataforma de Investimentos</p></div>
             <div class="online-users-float"><div style="font-size:11px">👥 USUÁRIOS ONLINE</div><div class="online-count" id="online-users-count">1,471</div><div style="font-size:10px">⚡ Ativos agora</div></div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0"><div class="login-bubble">💰 Depósitos<br><b id="fake-deposits">127</b></div><div class="login-bubble">💸 Saques<br><b id="fake-withdraws">89</b></div><div class="login-bubble">👥 Membros<br><b id="fake-members">87k</b></div></div>
             <div id="invite-message" class="hidden" style="background:rgba(0,184,148,0.2);color:#00B894;padding:10px;border-radius:10px;text-align:center;margin:10px 0;font-weight:700;font-size:13px"></div>
@@ -164,7 +174,7 @@
                 <div id="collect-status" class="status-text"></div>
                 <a href="https://youtube.com/@GENINS_INVESTIMENT" target="_blank" class="btn-assistir-video" id="btn-youtube">🎬 ASSISTA 5 MIN E INSCREVA-SE • GANHE 100 MT/DIA</a>
                 <p class="texto-chamativo-video">⚡ GANHOS DIÁRIOS ATIVOS • INSCREVA-SE JÁ ⚡</p>
-                <h3 class="section-title-3d">👑 Planos VIP • 5% ao dia</h3>
+                <h3 class="section-title-3d">👑 Planos VIP</h3>
                 <div class="vip-grid" id="vip-groups"></div>
             </div>
             <div id="tab-vips" class="tab-content hidden"><h3 class="section-title-3d">👑 Meus VIPs</h3><div id="my-vips" style="margin:3px 8px"></div></div>
@@ -202,6 +212,7 @@
         <div id="withdraw-modal" class="modal-overlay hidden"><div class="modal-3d"><h3>💸 Levantar</h3><div id="withdraw-modal-status" style="padding:10px;border-radius:8px;text-align:center;margin:6px 0;font-size:12px;font-weight:700">Verificando...</div><div style="margin:8px 0"><h4>📋 Tabela de Levantamentos</h4><div id="withdrawal-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0"></div></div><div id="selected-withdrawal" style="background:rgba(255,215,0,0.1);padding:8px;border-radius:8px;text-align:center;font-weight:700;color:#FFD700">Selecione um valor</div><p style="font-size:11px;color:#b2bec3">Taxa: <b>10%</b> | <b>1 saque/24h</b></p><button onclick="confirmWithdrawal()" class="btn-modal-3d" style="background:#FF0000" id="btn-confirm-withdraw">💸 Solicitar Saque</button><button onclick="closeModal('withdraw-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button></div></div>
         <div id="admin-modal" class="modal-overlay hidden"><div class="modal-3d" style="max-height:85vh;max-width:420px"><h2>🔐 Painel Admin</h2>
             <div class="admin-section"><h4><i class="fas fa-key"></i> Chaves de Acesso</h4><p style="font-size:9px;color:#b2bec3">Cada chave funciona separadamente</p><div class="admin-key-info" id="admin-key1-info"><b>🔑 Chave 1:</b> <span id="admin-key1-display">••••••••</span><br><small style="color:#00B894">✅ Ativa</small></div><input id="admin-key1-input" class="input-3d" placeholder="Nova Chave 1"><div class="admin-key-info" id="admin-key2-info"><b>🔑 Chave 2:</b> <span id="admin-key2-display">••••••••</span><br><small id="admin-key2-status" style="color:#b2bec3">⚪ Desativada</small></div><input id="admin-key2-input" class="input-3d" placeholder="Nova Chave 2"><button onclick="saveAdminKeys()" class="btn-modal-3d" style="background:#6c5ce7">💾 Salvar Chaves</button><button onclick="clearAdminKey2()" class="btn-modal-3d" style="background:#636e72;font-size:11px;padding:10px">🗑️ Limpar Chave 2</button></div>
+            <div class="admin-section"><h4><i class="fas fa-money-bill-wave"></i> Valores de Saque</h4><p style="font-size:9px;color:#b2bec3">Edite os valores ou desative (riscado = indisponível)</p><div id="withdraw-values-admin"></div><div style="display:flex;gap:5px;margin-top:6px"><input id="new-withdraw-value" class="input-3d" placeholder="Novo valor (MT)" style="flex:1" type="number"><button onclick="addWithdrawValue()" class="btn-mini btn-mini-add">➕ Adicionar</button></div><button onclick="saveWithdrawValues()" class="btn-modal-3d" style="background:#00B894;font-size:12px">💾 Salvar Valores</button></div>
             <div class="admin-section"><h4><i class="fab fa-youtube"></i> Link do YouTube</h4><p style="font-size:9px;color:#b2bec3">Link do botão "Assistir Vídeos"</p><input id="admin-youtube-link" class="input-3d" placeholder="https://youtube.com/@SEU_CANAL"><button onclick="saveYouTubeLink()" class="btn-modal-3d" style="background:#FF0000"><i class="fab fa-youtube"></i> 💾 Salvar Link</button></div>
             <div class="admin-section"><h4><i class="fab fa-whatsapp"></i> Suporte</h4><input id="admin-telegram" class="input-3d" placeholder="Link Telegram"><input id="admin-whatsapp" class="input-3d" placeholder="Número WhatsApp"><input id="admin-group-link" class="input-3d" placeholder="Link do Grupo WhatsApp"><button onclick="saveSupportLinks()" class="btn-modal-3d" style="background:#3742FA">💾 Salvar Suporte</button></div>
             <div class="admin-section"><h4><i class="fas fa-credit-card"></i> Pagamentos</h4><input id="admin-mpesa-num" class="input-3d" placeholder="Nº M-Pesa"><input id="admin-mpesa-name" class="input-3d" placeholder="Nome M-Pesa"><input id="admin-emola-num" class="input-3d" placeholder="Nº e-Mola"><input id="admin-emola-name" class="input-3d" placeholder="Nome e-Mola"><button onclick="savePaymentNumbers()" class="btn-modal-3d" style="background:#00B894">💾 Salvar</button></div>
@@ -221,16 +232,20 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), rtdb = firebase.database();
         const COLETA_COOLDOWN = 24, SAQUE_COOLDOWN = 24, VIP_EXPIRY_DAYS = 1095;
+        
+        // ====== VIP_CONFIG ATUALIZADO ======
         const VIP_CONFIG = [
             { id: 0, name: 'Estagiário', price: 0, daily: 7.5, totalReturn: 30, duration: 4, withdrawDay: 'Diário', icon: '🎓', color: '#FFD700', classe: 'vip-0', isStarter: true },
-            { id: 1, name: 'VIP 1', price: 300, daily: 15, monthly: 450, withdrawDay: 'Quinta-feira', icon: '🥉', color: '#00d2ff', classe: 'vip-1' },
-            { id: 2, name: 'VIP 2', price: 600, daily: 30, monthly: 900, withdrawDay: 'Quinta-feira', icon: '🥈', color: '#00cec9', classe: 'vip-2' },
-            { id: 3, name: 'VIP 3', price: 1000, daily: 50, monthly: 1500, withdrawDay: 'Quinta-feira', icon: '🥇', color: '#FFD700', classe: 'vip-3' },
-            { id: 4, name: 'VIP 4', price: 3000, daily: 150, monthly: 4500, withdrawDay: 'Quinta-feira', icon: '💎', color: '#e84393', classe: 'vip-4' },
-            { id: 5, name: 'VIP 5', price: 5000, daily: 250, monthly: 7500, withdrawDay: 'Quinta-feira', icon: '👑', color: '#6c5ce7', classe: 'vip-5' },
-            { id: 6, name: 'VIP 6', price: 10000, daily: 500, monthly: 15000, withdrawDay: 'Quarta-feira', icon: '💚', color: '#FF4500', classe: 'vip-6' },
-            { id: 7, name: 'VIP 7', price: 30000, daily: 1500, monthly: 45000, withdrawDay: 'Quarta-feira', icon: '💙', color: '#FF0000', classe: 'vip-7' }
+            { id: 1, name: 'VIP 1', price: 650, daily: 25, monthly: 750, withdrawDay: 'Quinta-feira', icon: '🥉', color: '#00d2ff', classe: 'vip-1' },
+            { id: 2, name: 'VIP 2', price: 1250, daily: 45, monthly: 1350, withdrawDay: 'Quinta-feira', icon: '🥈', color: '#00cec9', classe: 'vip-2' },
+            { id: 3, name: 'VIP 3', price: 2550, daily: 75, monthly: 2250, withdrawDay: 'Quinta-feira', icon: '🥇', color: '#FFD700', classe: 'vip-3' },
+            { id: 4, name: 'VIP 4', price: 6000, daily: 150, monthly: 4500, withdrawDay: 'Quinta-feira', icon: '💎', color: '#e84393', classe: 'vip-4' },
+            { id: 5, name: 'VIP 5', price: 12600, daily: 420, monthly: 12600, withdrawDay: 'Quinta-feira', icon: '👑', color: '#6c5ce7', classe: 'vip-5' },
+            { id: 6, name: 'VIP 6', price: 20000, daily: 2500, monthly: 75000, withdrawDay: 'Quarta-feira', icon: '💚', color: '#FF4500', classe: 'vip-6' },
+            { id: 7, name: 'VIP 7', price: 50000, daily: 5000, monthly: 150000, withdrawDay: 'Quarta-feira', icon: '💙', color: '#FF0000', classe: 'vip-7' },
+            { id: 8, name: 'VIP 8', price: 100000, daily: 17500, monthly: 525000, withdrawDay: 'Quarta-feira', icon: '🌟', color: '#C0C0C0', classe: 'vip-8' }
         ];
+        
         const FUNDS_CONFIG = [
             { id: 1, name: 'Fundo Pro', min: 1000, base: 2500, retorno: 4250, dias: 17, percent: 70, color: '#FFD700', classe: 'fundo-pro' },
             { id: 2, name: 'Fundo Elite', min: 2500, base: 6000, retorno: 6600, dias: 22, percent: 10, color: '#6c5ce7', classe: 'fundo-elite' },
@@ -238,7 +253,11 @@
             { id: 4, name: 'Fundo Master', min: 10000, base: 25000, retorno: 35000, dias: 45, percent: 40, color: '#00b894', classe: 'fundo-master' },
             { id: 5, name: 'Fundo Lenda', min: 25000, base: 60000, retorno: 90000, dias: 60, percent: 50, color: '#fd79a8', classe: 'fundo-lenda' }
         ];
-        const W_VALS = [150, 500, 1500, 3000, 5000, 10000, 20000, 50000, 100000];
+        
+        // W_VALS será carregado dinamicamente do Firebase
+        let W_VALS = [150, 500, 1500, 3000, 5000, 10000, 20000, 50000, 100000];
+        let W_VALS_DISABLED = {}; // { valor: true } = indisponível
+        
         const TAREFAS_CONFIG = [
             { nome: 'Nv 1: Bronze GENINS', valor: 200, convidados: 4, icon: '🥉' }, { nome: 'Nv 2: Prata GENINS', valor: 400, convidados: 8, icon: '🥈' },
             { nome: 'Nv 3: Ouro GENINS', valor: 600, convidados: 12, icon: '🥇' }, { nome: 'Nv 4: Platina GENINS', valor: 900, convidados: 15, icon: '💎' },
@@ -266,8 +285,22 @@
         async function getAdminKeys() { if (cachedSettings?.adminKeys) return cachedSettings.adminKeys; const k = await getData('settings/adminKeys'); if (!k) { const d = { key1: 'GENINS2024', key2: '' }; await setData('settings/adminKeys', d); return d } cachedSettings = { ...cachedSettings, adminKeys: k }; return k }
         async function saveAdminKeysToDB(keys) { await setData('settings/adminKeys', keys); if (cachedSettings) cachedSettings.adminKeys = keys }
         function isValidAdminKey(k, a) { return k && (k === a.key1 || k === a.key2 || k === 'genins2024') }
-        async function getSetting(k) { if (cachedSettings && cachedSettings[k] !== undefined) return cachedSettings[k]; const v = await getData(`settings/${k}`); if (v === null || v === undefined) { const d = { payments: { mpesa: { num: '851511841', name: 'Benjamim Celeste' }, emola: { num: '870514180', name: 'Amelia Ricardo' } }, allowDailyWithdraw: false, support: { telegram: '', whatsapp: '258851511841', groupLink: '' }, globalFundsActive: true }; return d[k] } if (!cachedSettings) cachedSettings = {}; cachedSettings[k] = v; return v }
+        async function getSetting(k) { if (cachedSettings && cachedSettings[k] !== undefined) return cachedSettings[k]; const v = await getData(`settings/${k}`); if (v === null || v === undefined) { const d = { payments: { mpesa: { num: '851511841', name: 'Benjamim Celeste' }, emola: { num: '870514180', name: 'Amelia Ricardo' } }, allowDailyWithdraw: false, support: { telegram: '', whatsapp: '258851511841', groupLink: '' }, globalFundsActive: true, withdrawValues: [150, 500, 1500, 3000, 5000, 10000, 20000, 50000, 100000], withdrawDisabled: {} }; return d[k] } if (!cachedSettings) cachedSettings = {}; cachedSettings[k] = v; return v }
         async function saveSetting(k, v) { await setData(`settings/${k}`, v); if (cachedSettings) cachedSettings[k] = v }
+
+        // ====== CARREGAR VALORES DE SAQUE ======
+        async function loadWithdrawValues() {
+            const vals = await getSetting('withdrawValues');
+            const disabled = await getSetting('withdrawDisabled');
+            if (vals && Array.isArray(vals)) W_VALS = vals;
+            if (disabled && typeof disabled === 'object') W_VALS_DISABLED = disabled;
+            else W_VALS_DISABLED = {};
+        }
+
+        async function saveWithdrawValuesToDB() {
+            await saveSetting('withdrawValues', W_VALS);
+            await saveSetting('withdrawDisabled', W_VALS_DISABLED);
+        }
 
         function getCooldownRemaining(lastDate, hours) { if (!lastDate) return 0; return Math.max(0, new Date(lastDate).getTime() + (hours * 3600000) - Date.now()) }
         function formatTime(ms) { if (ms <= 0) return '00:00:00'; const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000); return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` }
@@ -332,6 +365,7 @@
                 }
                 isLoggedIn = true; document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app-screen').classList.remove('hidden');
+                await loadWithdrawValues();
                 refreshAll(); switchTab('home'); startTimers();
             } catch(e) { alert('Erro: '+e.message) }
         }
@@ -355,13 +389,14 @@
             const freshUser = await getUser(currentUser.phone); if (!freshUser) return alert('Erro!'); currentUser = freshUser;
             if (!canWithdraw()) { const r = getCooldownRemaining(currentUser.lastWithdrawDate, SAQUE_COOLDOWN); if (r>0) return alert(`⏰ Aguarde: ${formatTime(r)}`); return alert('❌ Indisponível!') }
             const amt = selectedWithdrawal; if (!amt) return alert('Selecione um valor!');
+            if (W_VALS_DISABLED[amt]) return alert('⚠️ Este valor está indisponível no momento!');
             const bal = Number(currentUser.balance)||0; if (amt>bal) return alert('Saldo insuficiente!');
             const fee=amt*0.1, net=amt-fee; currentUser.balance=bal-amt; currentUser.lastWithdrawDate=new Date().toISOString();
             await saveUser(currentUser); await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'withdraw_pending', amount: amt, fee, net, status: 'pending', date: new Date().toISOString() });
             closeModal('withdraw-modal'); updateUI(); updateTimers(); alert(`⏳ Saque solicitado!\n💰 MT ${amt.toLocaleString()}\n💸 Receberá: MT ${net.toFixed(2)}`);
         }
 
-        async function loadVIPs() { const c=document.getElementById('vip-groups'); if(!c)return; const cvl=currentUser?.vipLevel; if(!currentUser?.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; c.innerHTML=VIP_CONFIG.map(v=>{const isA=currentUser&&currentUser.vipLevel===v.id;const wasP=currentUser.vipPurchased[v.id];const blocked=cvl!==null&&cvl!==undefined&&v.id<cvl&&!isA;const showButton=!blocked&&!wasP&&!(v.isStarter&&currentUser.starterUsed);const wDay=v.withdrawDay;return`<div class="vip-card-3d ${v.classe}"><div class="vip-card-inner"><div class="vip-badge-3d" style="background:${v.color}">${v.icon} ${v.name}${v.isStarter?' GRÁTIS':''}</div><h3 class="vip-name">${v.icon} ${v.name}</h3><div class="vip-price">💰 ${v.isStarter?'<b>GRÁTIS</b>':'<b>MT '+v.price.toLocaleString()+'</b>'}</div><div class="vip-details"><div class="vip-detail-item detail-daily"><div class="detail-label">💎 Diário${v.isStarter?'':' (5%)'}</div><div class="detail-value">MT ${v.daily}</div></div><div class="vip-detail-item detail-monthly"><div class="detail-label">📊 ${v.isStarter?'Total':'Mensal'}</div><div class="detail-value">MT ${v.isStarter?v.totalReturn:v.monthly?.toLocaleString()}</div></div><div class="vip-detail-item detail-total"><div class="detail-label">📅 ${v.isStarter?'Duração':'Saque'}</div><div class="detail-value">${v.isStarter?v.duration+'d':wDay}</div></div><div class="vip-detail-item detail-days"><div class="detail-label">${v.isStarter?'🎯 Retorno':''}</div><div class="detail-value">${v.isStarter?'MT '+v.totalReturn:''}</div></div></div>${isA?`<div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;margin-top:5px;color:#00B894;font-weight:700">✅ ATIVO</div>`:''}${showButton?`<button onclick="investVIP(${v.id})" class="btn-invest-3d" style="background:${v.color};">🚀 Ativar ${v.name}</button>`:''}</div></div>`}).join('') }
+        async function loadVIPs() { const c=document.getElementById('vip-groups'); if(!c)return; const cvl=currentUser?.vipLevel; if(!currentUser?.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; c.innerHTML=VIP_CONFIG.map(v=>{const isA=currentUser&&currentUser.vipLevel===v.id;const wasP=currentUser.vipPurchased[v.id];const blocked=cvl!==null&&cvl!==undefined&&v.id<cvl&&!isA;const showButton=!blocked&&!wasP&&!(v.isStarter&&currentUser.starterUsed);const wDay=v.withdrawDay;return`<div class="vip-card-3d ${v.classe}"><div class="vip-card-inner"><div class="vip-badge-3d" style="background:${v.color}">${v.icon} ${v.name}${v.isStarter?' GRÁTIS':''}</div><h3 class="vip-name">${v.icon} ${v.name}</h3><div class="vip-price">💰 ${v.isStarter?'<b>GRÁTIS</b>':'<b>MT '+v.price.toLocaleString()+'</b>'}</div><div class="vip-details"><div class="vip-detail-item detail-daily"><div class="detail-label">💎 Diário</div><div class="detail-value">MT ${v.daily.toLocaleString()}</div></div><div class="vip-detail-item detail-monthly"><div class="detail-label">📊 ${v.isStarter?'Total':'Mensal'}</div><div class="detail-value">MT ${v.isStarter?v.totalReturn:v.monthly?.toLocaleString()}</div></div><div class="vip-detail-item detail-total"><div class="detail-label">📅 ${v.isStarter?'Duração':'Saque'}</div><div class="detail-value">${v.isStarter?v.duration+'d':wDay}</div></div><div class="vip-detail-item detail-days"><div class="detail-label">${v.isStarter?'🎯 Retorno':''}</div><div class="detail-value">${v.isStarter?'MT '+v.totalReturn:''}</div></div></div>${isA?`<div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;margin-top:5px;color:#00B894;font-weight:700">✅ ATIVO</div>`:''}${showButton?`<button onclick="investVIP(${v.id})" class="btn-invest-3d" style="background:${v.color};">🚀 Ativar ${v.name}</button>`:''}</div></div>`}).join('') }
         async function loadFunds() { const c=document.getElementById('funds-list'); if(!c)return; c.innerHTML=FUNDS_CONFIG.map(f=>`<div class="fundo-card ${f.classe}"><div class="fundo-inner"><div class="fundo-header"><span class="fundo-nome" style="color:${f.color}">💰 ${f.name}</span><span class="fundo-badge" style="background:${f.color}22;color:${f.color}">${f.percent}%</span></div><div class="fundo-grid"><div class="fundo-item"><small>MIN</small><br><b style="color:#FFD700">${f.min} MT</b></div><div class="fundo-item"><small>BASE</small><br><b>${f.base} MT</b></div><div class="fundo-item"><small>RETORNO</small><br><b style="color:#00B894">${f.retorno} MT</b></div><div class="fundo-item"><small>DIAS</small><br><b style="color:#e84393">${f.dias}</b></div></div><button onclick="investFund(${f.id})" class="btn-invest-3d" style="background:${f.color};color:#000">💰 Investir</button></div></div>`).join('') }
         function loadTarefas() { const c=document.getElementById('tarefas-list'); if(!c)return; c.innerHTML=TAREFAS_CONFIG.map(t=>`<div class="tarefa-card"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:30px">${t.icon}</span><div><div class="tarefa-nivel">${t.nome}</div><div class="tarefa-convidados">${t.convidados} convidados</div></div></div><div class="tarefa-valor">+${t.valor} MT</div></div>`).join('') }
         async function loadReferralTab() { if(!currentUser)return;const refCode=btoa(currentUser.phone).substring(0,12);document.getElementById('referral-link-text').textContent=location.origin+location.pathname+'?ref='+refCode;const all=await getAllUsers();const my=all.filter(u=>u.referredBy===currentUser.phone);const vipCount=my.filter(u=>u.vipLevel!==null&&u.vipLevel!==undefined).length;document.getElementById('referral-count').textContent=my.length;document.getElementById('referral-vip-count').textContent=vipCount;document.getElementById('referral-total').textContent=(Number(currentUser.referralBonus)||0).toFixed(2);document.getElementById('referred-users-list').innerHTML=my.length?my.map(u=>`<div class="history-item">👤 ${u.name||'-'} 📱 ${u.phone} ${u.vipLevel?'👑 VIP':''}</div>`).join(''):'<p style="color:#666">Nenhum</p>' }
@@ -369,14 +404,13 @@
         async function loadDepositHistory() { const c=document.getElementById('deposit-history'); if(!c)return;const txs=await getTransactions(currentUser?.phone);const d=txs?.filter(t=>t.type==='deposit_approved').reverse()||[];c.innerHTML=d.length?d.map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join(''):'<p style="color:#666">Nenhum</p>' }
         async function loadProfitHistory() { const c=document.getElementById('profit-history'); if(!c)return;const txs=await getTransactions(currentUser?.phone);c.innerHTML=txs?.filter(t=>['vip_return','fund_complete'].includes(t.type)).slice(-5).reverse().map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join('')||'<p style="color:#666">Nenhum</p>' }
 
-        async function investVIP(id) { const v=VIP_CONFIG.find(x=>x.id===id); if(!currentUser.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; if(v.isStarter){if(currentUser.starterUsed)return alert('⚠️ Estagiário já foi usado!');if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined)return alert('⚠️ Já tem um VIP ativo!');currentUser.vipLevel=0;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[0]=new Date().toISOString();currentUser.starterUsed=true;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();return alert(`✅ Estagiário ATIVADO!\n💰 Diário: MT ${v.daily}\n🎯 Total: MT ${v.totalReturn}\n📅 ${v.duration} dias`)} if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined&&id<=currentUser.vipLevel)return alert('⚠️ Compre um VIP SUPERIOR!');const bal=Number(currentUser.balance)||0;if(bal<v.price)return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price}`);currentUser.balance=bal-v.price;currentUser.vipLevel=id;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[id]=new Date().toISOString();currentUser.lastCollectDate=null;currentUser.lastWithdrawDate=null;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();alert(`✅ ${v.name} ATIVADO!\n💰 MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily}\n📊 Mensal: MT ${(v.monthly||0).toLocaleString()}`) }
+        async function investVIP(id) { const v=VIP_CONFIG.find(x=>x.id===id); if(!currentUser.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; if(v.isStarter){if(currentUser.starterUsed)return alert('⚠️ Estagiário já foi usado!');if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined)return alert('⚠️ Já tem um VIP ativo!');currentUser.vipLevel=0;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[0]=new Date().toISOString();currentUser.starterUsed=true;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();return alert(`✅ Estagiário ATIVADO!\n💰 Diário: MT ${v.daily}\n🎯 Total: MT ${v.totalReturn}\n📅 ${v.duration} dias`)} if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined&&id<=currentUser.vipLevel)return alert('⚠️ Compre um VIP SUPERIOR!');const bal=Number(currentUser.balance)||0;if(bal<v.price)return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price}`);currentUser.balance=bal-v.price;currentUser.vipLevel=id;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[id]=new Date().toISOString();currentUser.lastCollectDate=null;currentUser.lastWithdrawDate=null;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();alert(`✅ ${v.name} ATIVADO!\n💰 MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily.toLocaleString()}\n📊 Mensal: MT ${(v.monthly||0).toLocaleString()}`) }
         async function investFund(id) { const f=FUNDS_CONFIG.find(x=>x.id===id);const bal=Number(currentUser.balance)||0;if(bal<f.base)return alert('⚠️ Saldo insuficiente!');currentUser.balance=bal-f.base;if(!currentUser.investments||!Array.isArray(currentUser.investments))currentUser.investments=[];currentUser.investments.push({fundId:id,totalReturn:f.retorno,completed:false,startDate:new Date().toISOString()});await saveUser(currentUser);updateUI();alert(`✅ ${f.name} ativado!`)}
         async function completeFund(idx) { const inv=currentUser.investments[idx];if(!inv||inv.completed)return;currentUser.balance=(Number(currentUser.balance)||0)+Number(inv.totalReturn);currentUser.investments[idx].completed=true;await saveUser(currentUser);updateUI();await loadFunds();alert('🎉 Resgatado!') }
 
         async function updatePaymentInfo() { const p=await getSetting('payments');const box=document.getElementById('payment-info-box');if(currentPaymentMethod==='mpesa')box.innerHTML=`<b>📱 M-Pesa:</b> ${p.mpesa.num} - <b>${p.mpesa.name}</b>`;else box.innerHTML=`<b>📱 e-Mola:</b> ${p.emola.num} - <b>${p.emola.name}</b>` }
         function selectPaymentMethod(m) { currentPaymentMethod=m;document.querySelectorAll('#payment-tabs .payment-tab').forEach((e,i)=>{e.style.background=(i===0&&m==='mpesa')||(i===1&&m==='emola')?'#00B894':'#444'});updatePaymentInfo() }
         
-        // FUNÇÃO openDepositModal ATUALIZADA
         function openDepositModal() {
             if (currentUser) {
                 document.getElementById('deposit-user-phone').value = currentUser.phone || '';
@@ -389,10 +423,29 @@
         }
         
         function openWithdrawModal() { selectedWithdrawal=null;loadWithdrawalButtons();document.getElementById('withdraw-modal').classList.remove('hidden') }
-        function loadWithdrawalButtons() { const c=document.getElementById('withdrawal-buttons');if(!c)return;const s=canWithdraw();c.innerHTML=W_VALS.map(v=>`<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal===v?'selected':''}" ${!s?'disabled':''}>${v>=1000?'MT '+(v/1000)+'k':'MT '+v}</button>`).join('') }
-        function selectWithdrawal(v) { selectedWithdrawal=v;document.getElementById('selected-withdrawal').innerHTML=`<b>MT ${v.toLocaleString()}</b> | Líq: <b>MT ${(v*0.9).toFixed(2)}</b>` }
         
-        // FUNÇÃO confirmDeposit ATUALIZADA
+        function loadWithdrawalButtons() { 
+            const c=document.getElementById('withdrawal-buttons');if(!c)return;
+            const s=canWithdraw();
+            c.innerHTML=W_VALS.map(v=>{
+                const isDisabled = W_VALS_DISABLED[v];
+                let cls = 'withdrawal-btn';
+                if (selectedWithdrawal===v) cls += ' selected';
+                if (isDisabled) cls += ' disabled-val';
+                const label = v>=1000?'MT '+(v/1000)+'k':'MT '+v;
+                const disabledAttr = (!s || isDisabled) ? 'disabled' : '';
+                const strikeLabel = isDisabled ? `<s>${label}</s>` : label;
+                return `<button onclick="selectWithdrawal(${v})" class="${cls}" ${disabledAttr}>${strikeLabel}</button>`;
+            }).join('');
+        }
+        
+        function selectWithdrawal(v) {
+            if (W_VALS_DISABLED[v]) return;
+            selectedWithdrawal=v;
+            document.getElementById('selected-withdrawal').innerHTML=`<b>MT ${v.toLocaleString()}</b> | Líq: <b>MT ${(v*0.9).toFixed(2)}</b>`;
+            loadWithdrawalButtons();
+        }
+        
         async function confirmDeposit() {
             const phone = document.getElementById('deposit-user-phone').value.trim();
             const name = document.getElementById('deposit-user-name').value.trim();
@@ -435,9 +488,8 @@
         function copyReferralLink() { const refCode=btoa(currentUser.phone).substring(0,12);navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+refCode).then(()=>alert('📋 Copiado!')) }
         function showNotifications() { alert('🔔 Nenhuma notificação.') }
         function showInstallInstructions() { const div=document.getElementById('install-instructions');const ua=navigator.userAgent;let h='';if(/android/i.test(ua))h='<p><b>1️⃣</b> Toque nos 3 pontinhos ⋮</p><p><b>2️⃣</b> Adicionar à tela inicial</p><p><b>3️⃣</b> Adicionar</p><p>✅ Pronto!</p>';else if(/iPhone|iPad|iPod/i.test(ua))h='<p><b>1️⃣</b> Compartilhar 📤</p><p><b>2️⃣</b> Adicionar à Tela de Início</p><p><b>3️⃣</b> Adicionar</p><p>✅ Pronto!</p>';else h='<p>📱 Acesse pelo celular</p>';div.innerHTML=h;document.getElementById('install-modal').classList.remove('hidden') }
-        function switchTab(tab) { document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));const tabEl=document.getElementById(`tab-${tab}`);if(tabEl)tabEl.classList.remove('hidden');document.querySelectorAll('.nav-item-3d').forEach(e=>e.classList.remove('active'));const navEl=document.getElementById(`nav-${tab}`);if(navEl)navEl.classList.add('active');if(tab==='vips'){const c=document.getElementById('my-vips');if(currentUser?.vipLevel!==null&&currentUser?.vipLevel!==undefined){const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(v){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);c.innerHTML=`<div class="vip-card-3d ${v.classe} active-vip"><div class="vip-card-inner"><h3>${v.icon} ${v.name}</h3><div class="vip-price">💰 <b>MT ${v.daily}/dia</b></div><div style="background:#1a1a4e;padding:8px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;margin-top:5px;color:#FFD700">${ei.text}</div><div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;font-weight:700;font-size:12px;border:2px solid #00B894;color:#00B894;margin-top:3px">✅ ATIVO</div></div></div>`}}else c.innerHTML='<p style="text-align:center;color:#666">Nenhum VIP ativo</p>'}if(tab==='funds')loadFunds();if(tab==='tarefas')loadTarefas();if(tab==='referral')loadReferralTab();if(tab==='history'){loadWithdrawalHistory();loadDepositHistory();loadProfitHistory()} }
+        function switchTab(tab) { document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));const tabEl=document.getElementById(`tab-${tab}`);if(tabEl)tabEl.classList.remove('hidden');document.querySelectorAll('.nav-item-3d').forEach(e=>e.classList.remove('active'));const navEl=document.getElementById(`nav-${tab}`);if(navEl)navEl.classList.add('active');if(tab==='vips'){const c=document.getElementById('my-vips');if(currentUser?.vipLevel!==null&&currentUser?.vipLevel!==undefined){const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(v){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);c.innerHTML=`<div class="vip-card-3d ${v.classe} active-vip"><div class="vip-card-inner"><h3>${v.icon} ${v.name}</h3><div class="vip-price">💰 <b>MT ${v.daily.toLocaleString()}/dia</b></div><div style="background:#1a1a4e;padding:8px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;margin-top:5px;color:#FFD700">${ei.text}</div><div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;font-weight:700;font-size:12px;border:2px solid #00B894;color:#00B894;margin-top:3px">✅ ATIVO</div></div></div>`}}else c.innerHTML='<p style="text-align:center;color:#666">Nenhum VIP ativo</p>'}if(tab==='funds')loadFunds();if(tab==='tarefas')loadTarefas();if(tab==='referral')loadReferralTab();if(tab==='history'){loadWithdrawalHistory();loadDepositHistory();loadProfitHistory()} }
         
-        // FUNÇÃO closeModal ATUALIZADA
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
             if (id === 'deposit-modal') {
@@ -456,7 +508,106 @@
         async function saveYouTubeLink() { const link=document.getElementById('admin-youtube-link').value.trim();if(!link)return alert('⚠️ Cole o link!');await saveSetting('youtubeLink',link);document.getElementById('btn-youtube').href=link;alert('✅ Salvo!') }
         async function loadYouTubeLink() { const link=await getSetting('youtubeLink');if(link){document.getElementById('btn-youtube').href=link} }
 
-        document.getElementById('admin-trigger')?.addEventListener('click',async()=>{adminClicks++;if(adminClicks>=5){const p=prompt('🔐 Senha Admin:');const keys=await getAdminKeys();if(isValidAdminKey(p,keys)){document.getElementById('admin-modal').classList.remove('hidden');document.getElementById('allow-daily-withdraw').checked=allowDailyWithdraw;updateDailyWithdrawStatus();document.getElementById('admin-key1-display').textContent='••••••••';document.getElementById('admin-key2-display').textContent=keys.key2?'••••••••':'Não definida';document.getElementById('admin-key2-status').textContent=keys.key2?'✅ Ativa':'⚪ Desativada';const pm=await getSetting('payments'),sp=await getSetting('support');document.getElementById('admin-mpesa-num').value=pm.mpesa.num;document.getElementById('admin-mpesa-name').value=pm.mpesa.name;document.getElementById('admin-emola-num').value=pm.emola.num;document.getElementById('admin-emola-name').value=pm.emola.name;document.getElementById('admin-telegram').value=sp.telegram;document.getElementById('admin-whatsapp').value=sp.whatsapp;document.getElementById('admin-group-link').value=sp.groupLink||'';await loadYouTubeLink();await carregarArtigos();await loadPasswordResets();await loadPending();await loadPendingWithdrawals();await loadAUsers()}adminClicks=0}})
+        // ====== ADMIN - CONTROLE DE VALORES DE SAQUE ======
+        function renderWithdrawAdmin() {
+            const container = document.getElementById('withdraw-values-admin');
+            if (!container) return;
+            container.innerHTML = W_VALS.map((v, i) => {
+                const isDisabled = W_VALS_DISABLED[v];
+                return `
+                <div class="withdraw-admin-item">
+                    <span style="flex:1;font-size:10px;color:#b2bec3">MT</span>
+                    <input type="number" value="${v}" onchange="updateWithdrawValue(${i}, this.value)" style="flex:2">
+                    <button onclick="toggleWithdrawValue(${i})" class="btn-mini ${isDisabled ? 'btn-mini-toggle-off' : 'btn-mini-toggle-on'}">
+                        ${isDisabled ? '🔴 Indisponível' : '🟢 Disponível'}
+                    </button>
+                    <button onclick="removeWithdrawValue(${i})" class="btn-mini btn-mini-remove">🗑️</button>
+                </div>`;
+            }).join('');
+        }
+
+        function updateWithdrawValue(index, newVal) {
+            const val = parseFloat(newVal);
+            if (isNaN(val) || val <= 0) return;
+            const oldVal = W_VALS[index];
+            W_VALS[index] = val;
+            if (W_VALS_DISABLED[oldVal] !== undefined) {
+                W_VALS_DISABLED[val] = W_VALS_DISABLED[oldVal];
+                delete W_VALS_DISABLED[oldVal];
+            }
+            renderWithdrawAdmin();
+        }
+
+        function toggleWithdrawValue(index) {
+            const val = W_VALS[index];
+            if (W_VALS_DISABLED[val]) {
+                delete W_VALS_DISABLED[val];
+            } else {
+                W_VALS_DISABLED[val] = true;
+            }
+            renderWithdrawAdmin();
+        }
+
+        function removeWithdrawValue(index) {
+            if (!confirm('Remover este valor de saque?')) return;
+            const val = W_VALS[index];
+            delete W_VALS_DISABLED[val];
+            W_VALS.splice(index, 1);
+            renderWithdrawAdmin();
+        }
+
+        function addWithdrawValue() {
+            const input = document.getElementById('new-withdraw-value');
+            const val = parseFloat(input.value);
+            if (isNaN(val) || val <= 0) return alert('⚠️ Digite um valor válido!');
+            if (W_VALS.includes(val)) return alert('⚠️ Valor já existe!');
+            W_VALS.push(val);
+            W_VALS.sort((a, b) => a - b);
+            input.value = '';
+            renderWithdrawAdmin();
+        }
+
+        async function saveWithdrawValues() {
+            await saveWithdrawValuesToDB();
+            alert('✅ Valores de saque salvos com sucesso!');
+            renderWithdrawAdmin();
+            loadWithdrawalButtons();
+        }
+
+        // ====== ADMIN TRIGGER ======
+        document.getElementById('admin-trigger')?.addEventListener('click',async()=>{
+            adminClicks++;
+            if(adminClicks>=5){
+                const p=prompt('🔐 Senha Admin:');
+                const keys=await getAdminKeys();
+                if(isValidAdminKey(p,keys)){
+                    document.getElementById('admin-modal').classList.remove('hidden');
+                    document.getElementById('allow-daily-withdraw').checked=allowDailyWithdraw;
+                    updateDailyWithdrawStatus();
+                    document.getElementById('admin-key1-display').textContent='••••••••';
+                    document.getElementById('admin-key2-display').textContent=keys.key2?'••••••••':'Não definida';
+                    document.getElementById('admin-key2-status').textContent=keys.key2?'✅ Ativa':'⚪ Desativada';
+                    const pm=await getSetting('payments'),sp=await getSetting('support');
+                    document.getElementById('admin-mpesa-num').value=pm.mpesa.num;
+                    document.getElementById('admin-mpesa-name').value=pm.mpesa.name;
+                    document.getElementById('admin-emola-num').value=pm.emola.num;
+                    document.getElementById('admin-emola-name').value=pm.emola.name;
+                    document.getElementById('admin-telegram').value=sp.telegram;
+                    document.getElementById('admin-whatsapp').value=sp.whatsapp;
+                    document.getElementById('admin-group-link').value=sp.groupLink||'';
+                    await loadWithdrawValues();
+                    renderWithdrawAdmin();
+                    await loadYouTubeLink();
+                    await carregarArtigos();
+                    await loadPasswordResets();
+                    await loadPending();
+                    await loadPendingWithdrawals();
+                    await loadAUsers();
+                }
+                adminClicks=0;
+            }
+        });
+
         async function saveAdminKeys() { const k1=document.getElementById('admin-key1-input').value.trim();if(!k1)return alert('⚠️ Chave 1 obrigatória!');await saveAdminKeysToDB({key1:k1,key2:document.getElementById('admin-key2-input').value.trim()||''});alert('✅ Salvo!') }
         async function clearAdminKey2() { if(!confirm('Desativar Chave 2?'))return;const keys=await getAdminKeys();keys.key2='';await saveAdminKeysToDB(keys);alert('✅ Desativada!') }
         async function toggleDailyWithdraw() { allowDailyWithdraw=document.getElementById('allow-daily-withdraw').checked;await saveSetting('allowDailyWithdraw',allowDailyWithdraw);updateDailyWithdrawStatus();updateTimers();await loadVIPs() }
@@ -488,7 +639,17 @@
         async function salvarTodosArtigos() { if(artigosTemp.length===0){await deleteData('artigos');alert('✅ Salvos!');return}const artigosObj={};artigosTemp.forEach((artigo,index)=>{artigosObj[index]=artigo});await setData('artigos',artigosObj);alert(`✅ ${artigosTemp.length} artigos salvos!`) }
         async function showAboutSection() { const artigos=await getData('artigos');if(!artigos||Object.keys(artigos).length===0)return alert('📝 Nenhum artigo');const artigosArray=Object.values(artigos);const modal=document.createElement('div');modal.className='modal-overlay';modal.onclick=function(e){if(e.target===modal)modal.remove()};modal.innerHTML=`<div class="modal-3d" style="max-height:90vh;overflow-y:auto;text-align:center"><div style="font-size:50px">📖</div><h2 style="color:#FFD700">SOBRE NÓS</h2><div style="display:flex;flex-direction:column;gap:15px">${artigosArray.map((artigo,index)=>`<div style="background:#0d0d1a;border-radius:14px;padding:14px;text-align:left">${artigo.data?`<div style="color:#e84393;font-weight:700">📅 ${artigo.data}</div>`:''}${artigo.titulo?`<h4 style="color:#FFD700">${artigo.titulo}</h4>`:''}${artigo.imagem?`<div style="margin:10px 0"><img src="${artigo.imagem}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px" onerror="this.style.display='none'"></div>`:''}${artigo.texto?`<p style="color:#b2bec3;font-size:13px;line-height:1.7;white-space:pre-line">${artigo.texto}</p>`:''}</div>`).join('')}</div><button onclick="this.closest('.modal-overlay').remove()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);margin-top:15px">👍 FECHAR</button></div>`;document.body.appendChild(modal) }
 
-        window.addEventListener('DOMContentLoaded',()=>{switchLoginTab('login');setInterval(()=>{document.getElementById('fake-deposits').textContent=Math.floor(Math.random()*500+100);document.getElementById('fake-withdraws').textContent=Math.floor(Math.random()*300+50);document.getElementById('fake-members').textContent=(Math.random()*30+70).toFixed(0)+'k';document.getElementById('online-users-count').textContent=Math.floor(Math.random()*(87000-1471)+1471).toLocaleString()},3000);loadYouTubeLink()});
+        window.addEventListener('DOMContentLoaded',async ()=>{
+            switchLoginTab('login');
+            await loadWithdrawValues();
+            setInterval(()=>{
+                document.getElementById('fake-deposits').textContent=Math.floor(Math.random()*500+100);
+                document.getElementById('fake-withdraws').textContent=Math.floor(Math.random()*300+50);
+                document.getElementById('fake-members').textContent=(Math.random()*30+70).toFixed(0)+'k';
+                document.getElementById('online-users-count').textContent=Math.floor(Math.random()*(87000-1471)+1471).toLocaleString()
+            },3000);
+            loadYouTubeLink();
+        });
     </script>
 </body>
 </html>
