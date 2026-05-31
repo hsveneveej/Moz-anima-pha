@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF0000">
+    <title>GENINS INVESTIMENT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        :root { --primary: #FF0000; --dark: #0a0a2e; --gold: #FFD700; --success: #00B894; --danger: #FF4757; --info: #3742FA; --neon-blue: #00d2ff; --neon-purple: #6c5ce7; --neon-pink: #e84393; --neon-green: #00cec9; --neon-orange: #FF6B00; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: radial-gradient(circle at 50% 0%, #1a1a4e, #0a0a15 70%); background-attachment: fixed; padding-bottom: 130px; min-height: 100vh; color: white; }
+        .app-container { max-width: 480px; margin: 0 auto; }
+        .hidden { display: none !important; }
+        .header-3d { background: rgba(10,10,30,0.9); backdrop-filter: blur(10px); padding: 14px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--neon-orange); }
+        .logo-text { font-size: 16px; font-weight: 900; background: linear-gradient(135deg, #FFD700, #FF0000, #e84393); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
+        .header-icons { display: flex; gap: 15px; font-size: 18px; } .header-icons i { cursor: pointer; }
+        .support-bar { display: flex; gap: 8px; padding: 8px; justify-content: center; background: rgba(0,0,0,0.3); }
+        .btn-support { flex: 1; padding: 12px 8px; border: none; border-radius: 16px; color: white; font-weight: 800; font-size: 11px; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.3); text-transform: uppercase; display: flex; align-items: center; gap: 5px; justify-content: center; }
+        .btn-support-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .btn-support-group { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .timer-bar { background: rgba(10,10,30,0.8); color: var(--gold); text-align: center; padding: 10px; font-size: 12px; font-weight: 800; margin: 6px 8px; border-radius: 20px; border: 2px solid var(--gold); }
+        .timer-bar.withdraw { border-color: #6c5ce7; }
+        .timer-bar.blocked { border-color: #FF0000; color: #FF0000; animation: pulse-red-bar 1s infinite; }
+        @keyframes pulse-red-bar { 0%,100% { box-shadow: 0 0 15px rgba(255,0,0,0.3); } 50% { box-shadow: 0 0 30px rgba(255,0,0,0.6); } }
+        .balance-card-3d { background: linear-gradient(135deg, #0a0a2e, #1a1a4e, #0a0a2e); margin: 8px; border-radius: 20px; padding: 18px; box-shadow: 0 6px 0 #050510, 0 0 30px rgba(255,0,0,0.2); border: 2px solid rgba(255,0,0,0.4); text-align: center; }
+        .balance-amount { font-size: 38px; font-weight: 900; color: #FF0000; }
+        .commission-display { color: #e84393; font-size: 13px; font-weight: 700; }
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; padding: 0 8px; margin: 10px 0; }
+        .btn-3d { padding: 14px 8px; border: none; border-radius: 16px; color: white; font-weight: 800; font-size: 12px; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.3); text-transform: uppercase; display: flex; align-items: center; gap: 5px; justify-content: center; }
+        .btn-3d:active { transform: translateY(3px); }
+        .btn-3d:disabled { opacity: 0.4; pointer-events: none; filter: grayscale(40%); }
+        .btn-deposit { background: linear-gradient(135deg, #00B894, #00cec9); }
+        .btn-withdraw { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .btn-collect { background: linear-gradient(135deg, #FF0000, #FF4500) !important; animation: pulse-red 1s infinite; font-size: 14px; font-weight: 900; }
+        @keyframes pulse-red { 0%,100% { box-shadow: 0 0 25px rgba(255,0,0,0.6); } 50% { box-shadow: 0 0 50px rgba(255,0,0,0.9); } }
+        .btn-friends { background: linear-gradient(135deg, #FF0000, #e84393); }
+        .btn-install-app { background: linear-gradient(135deg, #6c5ce7, #FD79A8); grid-column: span 2; font-size: 13px; padding: 16px; }
+        .section-title-3d { font-size: 17px; font-weight: 900; color: #FFD700; padding: 0 8px; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; }
+        .section-title-3d::after { content: ''; flex: 1; height: 3px; background: linear-gradient(90deg, #FFD700, transparent); border-radius: 2px; }
+        .vip-grid { display: grid; gap: 10px; padding: 0 8px; }
+        .vip-card-3d { border-radius: 20px; padding: 3px; position: relative; margin-bottom: 10px; }
+        .vip-card-inner { background: #0d0d1a; border-radius: 17px; padding: 16px; position: relative; z-index: 1; }
+        .vip-card-3d::before { content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; border-radius: 23px; z-index: 0; }
+        .vip-0::before { background: linear-gradient(135deg, #FFD700, #FFA502, #FF8C00); animation: starterGlow 1.5s infinite; }
+        @keyframes starterGlow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.4); } }
+        .vip-1::before { background: linear-gradient(135deg, #00d2ff, #0984e3); }
+        .vip-2::before { background: linear-gradient(135deg, #00cec9, #00b894); }
+        .vip-3::before { background: linear-gradient(135deg, #fdcb6e, #FFD700); }
+        .vip-4::before { background: linear-gradient(135deg, #e84393, #fd79a8); }
+        .vip-5::before { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .vip-6::before { background: linear-gradient(135deg, #FF4500, #FF6B00); }
+        .vip-7::before { background: linear-gradient(135deg, #FF0000, #FFD700, #FF0000); animation: fireBorder 2s infinite; }
+        @keyframes fireBorder { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.5); } }
+        .vip-badge-3d { position: absolute; top: 12px; right: 12px; padding: 6px 14px; border-radius: 20px; color: white; font-weight: 800; font-size: 11px; z-index: 2; }
+        .vip-name { font-size: 20px; font-weight: 900; margin-bottom: 3px; }
+        .vip-price { font-size: 14px; font-weight: 700; color: #b2bec3; margin-bottom: 10px; }
+        .vip-price b { font-size: 18px; color: #FF0000; }
+        .vip-details { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin: 5px 0; }
+        .vip-detail-item { padding: 10px 6px; border-radius: 12px; font-size: 11px; text-align: center; font-weight: 700; }
+        .detail-daily { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .detail-monthly { background: linear-gradient(135deg, #E17055, #FDCB6E); }
+        .detail-total { background: linear-gradient(135deg, #0984E3, #74B9FF); }
+        .detail-days { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .detail-label { font-size: 9px; text-transform: uppercase; opacity: 0.9; }
+        .detail-value { font-size: 15px; font-weight: 900; }
+        .btn-invest-3d { width: 100%; padding: 12px; border: none; border-radius: 12px; color: white; font-weight: 800; font-size: 13px; cursor: pointer; margin-top: 6px; box-shadow: 0 4px 0 rgba(0,0,0,0.3); text-transform: uppercase; }
+        .btn-invest-3d:active { transform: translateY(3px); }
+        .nav-3d { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: linear-gradient(180deg, #0a0a2e, #050510); display: flex; padding: 10px 0; z-index: 1000; }
+        .nav-item-3d { flex: 1; text-align: center; color: #888; font-size: 9px; font-weight: 700; cursor: pointer; background: none; border: none; }
+        .nav-item-3d.active { color: var(--gold); }
+        .nav-item-3d i { font-size: 20px; display: block; margin-bottom: 2px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 12px; }
+        .modal-3d { background: #0a0a2e; border-radius: 18px; padding: 18px; width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto; animation: slideIn 0.3s; border: 2px solid rgba(255,0,0,0.3); }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .input-3d { width: 100%; padding: 12px; border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 14px; margin: 6px 0; background: #0d0d1a; color: #fff; }
+        .btn-modal-3d { width: 100%; padding: 12px; border: none; border-radius: 12px; color: white; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 6px; box-shadow: 0 3px 0 rgba(0,0,0,0.3); text-transform: uppercase; }
+        .fundo-card { border-radius: 20px; padding: 3px; margin-bottom: 15px; position: relative; }
+        .fundo-inner { background: #0d0d1a; border-radius: 17px; padding: 16px; }
+        .fundo-card::before { content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; border-radius: 23px; z-index: -1; }
+        .fundo-pro::before { background: linear-gradient(135deg, #FFD700, #FFA502); }
+        .fundo-elite::before { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .fundo-premium::before { background: linear-gradient(135deg, #FF0000, #FF4500); }
+        .fundo-master::before { background: linear-gradient(135deg, #00b894, #00cec9); }
+        .fundo-lenda::before { background: linear-gradient(135deg, #fd79a8, #e84393); }
+        .fundo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .fundo-nome { font-weight: 900; font-size: 18px; }
+        .fundo-badge { padding: 4px 10px; border-radius: 10px; font-weight: bold; font-size: 14px; }
+        .fundo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
+        .fundo-item { background: #111; padding: 10px; border-radius: 10px; text-align: center; }
+        .tarefa-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 14px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px; }
+        .tarefa-valor { font-weight: 900; font-size: 18px; color: #00B894; }
+        .tarefa-nivel { font-weight: 900; color: #FFD700; font-size: 15px; }
+        .tarefa-convidados { font-size: 11px; color: #aaa; }
+        .admin-section { background: rgba(10,10,30,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 12px; margin: 10px 0; }
+        .admin-section h4 { color: #FFD700; margin-bottom: 8px; font-size: 14px; }
+        .btn-assistir-video { display: block; width: 88%; margin: 6px auto; padding: 9px 8px; font-size: 11px; font-weight: 900; border: none; border-radius: 25px; cursor: pointer; text-align: center; text-decoration: none; background: linear-gradient(135deg, #FF4500, #FF0000, #FF8C00); color: #FFF; box-shadow: 0 4px 15px rgba(255,0,0,0.5); border: 2px solid #FFF; text-transform: uppercase; }
+        .texto-chamativo-video { text-align: center; color: #FFD700; font-weight: 800; font-size: 10px; margin: 0 0 8px; }
+        .login-tabs { display: flex; gap: 3px; margin: 0 0 10px; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 3px; }
+        .login-tab { flex: 1; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; background: transparent; color: #b2bec3; border: none; }
+        .login-tab.active { background: linear-gradient(135deg, #FF0000, #e84393); color: white; }
+        .login-bubble { background: linear-gradient(135deg, #0a0a2e, #1a1a4e); border-radius: 12px; padding: 8px 10px; text-align: center; font-weight: 700; font-size: 11px; }
+        .withdrawal-btn { padding: 10px; border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; background: #0a0a2e; font-weight: 700; cursor: pointer; font-size: 12px; color: #b2bec3; }
+        .withdrawal-btn.selected { background: #FF0000; color: white; }
+        .online-users-float { background: linear-gradient(135deg, #FF0000, #e84393, #6c5ce7); border-radius: 14px; padding: 12px; margin: 8px 0; text-align: center; }
+        .online-count { font-size: 30px; font-weight: 900; }
+        .status-text { text-align: center; padding: 6px; font-size: 11px; font-weight: 700; }
+        .referral-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 8px; margin: 10px 0; }
+        .referral-stat-card { background: linear-gradient(135deg, #0a0a2e, #1a1a4e); border-radius: 14px; padding: 14px; text-align: center; color: white; border: 2px solid rgba(255,255,255,0.1); }
+        .referral-stat-icon { font-size: 26px; margin-bottom: 6px; }
+        .referral-stat-value { font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #FF0000, #e84393); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .referral-stat-label { font-size: 11px; color: #b2bec3; text-transform: uppercase; }
+        .history-item { background: #0d0d1a; padding: 10px; margin: 3px 0; border-radius: 10px; border-left: 4px solid #FF0000; font-size: 12px; color: #b2bec3; }
+        .pending-item { border: 1px solid rgba(255,255,255,0.1); padding: 8px; margin: 3px 0; border-radius: 8px; font-size: 11px; color: #b2bec3; background: #0d0d1a; }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: rgba(0,184,148,0.1); border: 2px solid #00B894; border-radius: 8px; margin: 6px 0; color: #b2bec3; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 22px; } .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 22px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked+.slider { background-color: #00B894; } input:checked+.slider:before { transform: translateX(22px); }
+        .funds-admin-box { background: #0d0d1a; padding: 14px; border-radius: 12px; margin: 10px 0; border-left: 4px solid var(--neon-orange); }
+        .funds-status-mini { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; font-weight: 700; }
+        .funds-status-mini.active { background: rgba(0,184,148,0.2); color: #00B894; } .funds-status-mini.inactive { background: rgba(255,0,0,0.2); color: #FF0000; }
+        .funds-dot-mini { width: 10px; height: 10px; border-radius: 50%; } .funds-dot-mini.green { background: #00B894; } .funds-dot-mini.red { background: #FF0000; }
+        .btn-funds-toggle { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .btn-funds-toggle.on { background: linear-gradient(135deg, #FF0000, #c0392b); color: #fff; } .btn-funds-toggle.off { background: linear-gradient(135deg, #00B894, #00cec9); color: #fff; }
+        .funds-alert-msg { background: rgba(255,0,0,0.2); border: 2px solid #ff0000; color: #FFD700; padding: 10px; border-radius: 8px; margin-top: 8px; text-align: center; font-weight: 800; font-size: 12px; display: none; } .funds-alert-msg.show { display: block; }
+        .admin-key-info { background: #0d0d1a; padding: 6px 10px; border-radius: 6px; margin: 3px 0; font-size: 10px; border-left: 4px solid #00B894; color: #b2bec3; }
+        .input-readonly { background: #1a1a3e !important; cursor: not-allowed; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- LOGIN -->
+        <div id="login-screen">
+            <div style="text-align:center;padding:15px 0"><div style="font-size:50px">🐱</div><h2 style="font-size:24px;font-weight:900;background:linear-gradient(135deg,#FFD700,#FF0000,#e84393);-webkit-background-clip:text;-webkit-text-fill-color:transparent">GENINS INVESTIMENT</h2><p style="color:#b2bec3;font-size:12px;margin-top:3px">Plataforma de Investimentos • 5% ao dia</p></div>
+            <div class="online-users-float"><div style="font-size:11px">👥 USUÁRIOS ONLINE</div><div class="online-count" id="online-users-count">1,471</div><div style="font-size:10px">⚡ Ativos agora</div></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0"><div class="login-bubble">💰 Depósitos<br><b id="fake-deposits">127</b></div><div class="login-bubble">💸 Saques<br><b id="fake-withdraws">89</b></div><div class="login-bubble">👥 Membros<br><b id="fake-members">87k</b></div></div>
+            <div id="invite-message" class="hidden" style="background:rgba(0,184,148,0.2);color:#00B894;padding:10px;border-radius:10px;text-align:center;margin:10px 0;font-weight:700;font-size:13px"></div>
+            <div class="login-tabs"><button class="login-tab active" id="tab-login-btn" onclick="switchLoginTab('login')">🚀 Entrar</button><button class="login-tab" id="tab-register-btn" onclick="switchLoginTab('register')">📝 Criar Conta</button></div>
+            <div id="login-fields"><input type="tel" id="login-phone" class="input-3d" placeholder="📱 Número"><input type="password" id="login-password" class="input-3d" placeholder="🔒 Senha"><button onclick="handleLogin()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);font-size:15px;padding:14px">🚀 Entrar</button><p style="text-align:center;font-size:11px;color:#FFD700;cursor:pointer;margin-top:6px" onclick="resetPassword()">🔐 Esqueci a senha</p></div>
+            <div id="register-fields" class="hidden"><input type="tel" id="reg-phone" class="input-3d" placeholder="📱 Número"><input type="text" id="reg-name" class="input-3d" placeholder="👤 Nome completo"><input type="password" id="reg-password" class="input-3d" placeholder="🔒 Senha"><input type="password" id="reg-confirm" class="input-3d" placeholder="🔒 Confirmar senha"><button onclick="handleLogin()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);font-size:15px;padding:14px">📝 Criar Conta</button></div>
+            <div class="support-bar" style="margin-top:12px"><button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp"><i class="fab fa-whatsapp"></i> Suporte</button><button onclick="openSupportGroup()" class="btn-support btn-support-group"><i class="fab fa-whatsapp"></i> Grupo</button></div>
+        </div>
+        <!-- APP -->
+        <div id="app-screen" class="hidden">
+            <div class="header-3d"><span class="logo-text" id="admin-trigger">🐱 GENINS INVESTIMENT</span><div class="header-icons"><i class="fas fa-bell" onclick="showNotifications()"></i><i class="fas fa-user-circle" onclick="switchTab('profile')"></i></div></div>
+            <div class="support-bar"><button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp"><i class="fab fa-whatsapp"></i> Suporte</button><button onclick="openSupportGroup()" class="btn-support btn-support-group"><i class="fab fa-whatsapp"></i> Grupo</button></div>
+            <div class="timer-bar collect" id="collect-timer-bar">💎 <span id="collect-timer-label">Coleta:</span> <span id="collect-timer">00:00:00</span></div>
+            <div class="timer-bar withdraw" id="withdraw-timer-bar">💸 <span id="withdraw-timer-label">Saque:</span> <span id="withdraw-timer">00:00:00</span></div>
+            <div id="tab-home" class="tab-content">
+                <div class="balance-card-3d"><div class="balance-title">💎 Saldo Principal</div><div class="balance-amount" id="main-balance">0.00</div><div class="commission-display">💰 Comissão: <span id="commission-balance">0.00</span></div></div>
+                <div class="actions-grid">
+                    <button class="btn-3d btn-deposit" onclick="openDepositModal()"><i class="fas fa-plus-circle"></i> Depositar</button>
+                    <button class="btn-3d btn-withdraw" id="btn-withdraw-main" onclick="openWithdrawModal()"><i class="fas fa-minus-circle"></i> Levantar</button>
+                    <button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()"><i class="fas fa-hand-holding-usd"></i> 🔴 COLETAR</button>
+                    <button class="btn-3d btn-friends" onclick="switchTab('referral')"><i class="fas fa-users"></i> Convidar</button>
+                    <button class="btn-3d btn-install-app" onclick="showInstallInstructions()"><i class="fas fa-mobile-alt"></i> 📲 ADICIONAR APP</button>
+                </div>
+                <div id="collect-status" class="status-text"></div>
+                <a href="https://youtube.com/@GENINS_INVESTIMENT" target="_blank" class="btn-assistir-video" id="btn-youtube">🎬 ASSISTA 5 MIN E INSCREVA-SE • GANHE 100 MT/DIA</a>
+                <p class="texto-chamativo-video">⚡ GANHOS DIÁRIOS ATIVOS • INSCREVA-SE JÁ ⚡</p>
+                <h3 class="section-title-3d">👑 Planos VIP • 5% ao dia</h3>
+                <div class="vip-grid" id="vip-groups"></div>
+            </div>
+            <div id="tab-vips" class="tab-content hidden"><h3 class="section-title-3d">👑 Meus VIPs</h3><div id="my-vips" style="margin:3px 8px"></div></div>
+            <div id="tab-funds" class="tab-content hidden"><h3 class="section-title-3d">💰 Fundos de Riqueza</h3><div id="funds-list"></div></div>
+            <div id="tab-tarefas" class="tab-content hidden"><h3 class="section-title-3d">📋 Tarefas GENINS</h3><div id="tarefas-list" style="padding:0 8px"></div></div>
+            <div id="tab-referral" class="tab-content hidden"><h3 class="section-title-3d">👥 Convidar Amigos</h3><div style="background:#0a0a2e;border:2px solid #FFD700;border-radius:14px;padding:14px;margin:8px;color:#fff"><h4>🎁 10% de Comissão</h4><p style="font-size:11px;color:#b2bec3">Por cada depósito dos indicados!</p><div id="referral-link-text" style="background:#0d0d1a;padding:8px;border-radius:8px;font-size:10px;word-break:break-all;margin:8px 0;border:1px dashed #FF0000;color:#b2bec3"></div><button onclick="copyReferralLink()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);font-size:13px">📋 Copiar Link</button></div><div class="referral-stats"><div class="referral-stat-card"><div class="referral-stat-icon">👥</div><div class="referral-stat-value" id="referral-count">0</div><div class="referral-stat-label">TOTAL</div></div><div class="referral-stat-card"><div class="referral-stat-icon">👑</div><div class="referral-stat-value" id="referral-vip-count">0</div><div class="referral-stat-label">COM VIP</div><div style="font-size:9px;color:#FFD700">MT <span id="referral-total">0.00</span></div></div></div><div id="referred-users-list" style="margin:3px 8px"></div></div>
+            <div id="tab-profile" class="tab-content hidden"><div style="text-align:center;padding:25px;color:white"><i class="fas fa-user-circle" style="font-size:65px;color:#FFD700"></i><h3 id="profile-name" style="font-size:22px"></h3><p id="profile-phone" style="color:#b2bec3"></p><p id="profile-vip" style="color:#FFD700;font-weight:700"></p><p id="profile-vip-expiry" style="font-size:11px;color:#999"></p><div class="timer-bar collect">💎 Coleta: <span id="profile-collect-timer">00:00:00</span></div><div class="timer-bar withdraw">💸 Saque: <span id="profile-withdraw-timer">00:00:00</span></div><div class="support-bar" style="margin:10px 0"><button onclick="openSupportWhatsapp()" class="btn-support btn-support-whatsapp"><i class="fab fa-whatsapp"></i> Suporte</button><button onclick="openSupportGroup()" class="btn-support btn-support-group"><i class="fab fa-whatsapp"></i> Grupo</button></div><button onclick="showInstallInstructions()" class="btn-modal-3d" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);margin-bottom:6px"><i class="fas fa-download"></i> Adicionar App</button><button onclick="switchTab('history')" class="btn-modal-3d" style="background:#3742FA">📋 Histórico</button><button onclick="showAboutSection()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);margin-bottom:6px">📖 SOBRE NÓS</button><button onclick="logout()" class="btn-modal-3d" style="background:#FF0000;margin-top:8px">🚪 Sair</button></div></div>
+            <div id="tab-history" class="tab-content hidden"><h3 class="section-title-3d">💸 Levantamentos</h3><div id="withdrawal-history" style="margin:3px 8px"></div><h3 class="section-title-3d">💰 Depósitos</h3><div id="deposit-history" style="margin:3px 8px"></div><h3 class="section-title-3d">📊 Lucros</h3><div id="profit-history" style="margin:3px 8px"></div></div>
+            <nav class="nav-3d">
+                <button class="nav-item-3d active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i>Home</button>
+                <button class="nav-item-3d" id="nav-vips" onclick="switchTab('vips')"><i class="fas fa-crown"></i>VIPs</button>
+                <button class="nav-item-3d" id="nav-funds" onclick="switchTab('funds')"><i class="fas fa-coins"></i>Fundos</button>
+                <button class="nav-item-3d" id="nav-tarefas" onclick="switchTab('tarefas')"><i class="fas fa-tasks"></i>Tarefas</button>
+                <button class="nav-item-3d" id="nav-referral" onclick="switchTab('referral')"><i class="fas fa-users"></i>Convidar</button>
+                <button class="nav-item-3d" id="nav-profile" onclick="switchTab('profile')"><i class="fas fa-user"></i>Meu</button>
+            </nav>
+        </div>
+        <!-- MODAIS -->
+        <div id="deposit-modal" class="modal-overlay hidden">
+            <div class="modal-3d">
+                <h3>💰 Depositar</h3>
+                <div id="payment-tabs" style="display:flex;gap:4px">
+                    <div class="payment-tab active" onclick="selectPaymentMethod('mpesa')" style="flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;background:#00B894;color:white;font-weight:700;font-size:13px">📱 M-Pesa</div>
+                    <div class="payment-tab" onclick="selectPaymentMethod('emola')" style="flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;background:#444;color:white;font-weight:700;font-size:13px">📱 e-Mola</div>
+                </div>
+                <div id="payment-info-box" style="background:rgba(255,215,0,0.1);padding:8px;border-radius:8px;margin:6px 0;text-align:center;font-size:12px;color:#FFD700"></div>
+                <input type="text" id="deposit-user-phone" class="input-3d input-readonly" placeholder="📱 Número do Usuário" readonly>
+                <input type="text" id="deposit-user-name" class="input-3d input-readonly" placeholder="👤 Nome do Usuário" readonly>
+                <input type="number" id="deposit-amount" class="input-3d" placeholder="💰 Valor (MT)">
+                <input type="text" id="deposit-ref" class="input-3d" placeholder="🧾 Referência/Comprovativo">
+                <button onclick="confirmDeposit()" class="btn-modal-3d" style="background:#00B894" id="btn-confirm-deposit">✅ Enviar Comprovativo</button>
+                <button onclick="closeModal('deposit-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button>
+            </div>
+        </div>
+        <div id="withdraw-modal" class="modal-overlay hidden"><div class="modal-3d"><h3>💸 Levantar</h3><div id="withdraw-modal-status" style="padding:10px;border-radius:8px;text-align:center;margin:6px 0;font-size:12px;font-weight:700">Verificando...</div><div style="margin:8px 0"><h4>📋 Tabela de Levantamentos</h4><div id="withdrawal-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0"></div></div><div id="selected-withdrawal" style="background:rgba(255,215,0,0.1);padding:8px;border-radius:8px;text-align:center;font-weight:700;color:#FFD700">Selecione um valor</div><p style="font-size:11px;color:#b2bec3">Taxa: <b>10%</b> | <b>1 saque/24h</b></p><button onclick="confirmWithdrawal()" class="btn-modal-3d" style="background:#FF0000" id="btn-confirm-withdraw">💸 Solicitar Saque</button><button onclick="closeModal('withdraw-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button></div></div>
+        <div id="admin-modal" class="modal-overlay hidden"><div class="modal-3d" style="max-height:85vh;max-width:420px"><h2>🔐 Painel Admin</h2>
+            <div class="admin-section"><h4><i class="fas fa-key"></i> Chaves de Acesso</h4><p style="font-size:9px;color:#b2bec3">Cada chave funciona separadamente</p><div class="admin-key-info" id="admin-key1-info"><b>🔑 Chave 1:</b> <span id="admin-key1-display">••••••••</span><br><small style="color:#00B894">✅ Ativa</small></div><input id="admin-key1-input" class="input-3d" placeholder="Nova Chave 1"><div class="admin-key-info" id="admin-key2-info"><b>🔑 Chave 2:</b> <span id="admin-key2-display">••••••••</span><br><small id="admin-key2-status" style="color:#b2bec3">⚪ Desativada</small></div><input id="admin-key2-input" class="input-3d" placeholder="Nova Chave 2"><button onclick="saveAdminKeys()" class="btn-modal-3d" style="background:#6c5ce7">💾 Salvar Chaves</button><button onclick="clearAdminKey2()" class="btn-modal-3d" style="background:#636e72;font-size:11px;padding:10px">🗑️ Limpar Chave 2</button></div>
+            <div class="admin-section"><h4><i class="fab fa-youtube"></i> Link do YouTube</h4><p style="font-size:9px;color:#b2bec3">Link do botão "Assistir Vídeos"</p><input id="admin-youtube-link" class="input-3d" placeholder="https://youtube.com/@SEU_CANAL"><button onclick="saveYouTubeLink()" class="btn-modal-3d" style="background:#FF0000"><i class="fab fa-youtube"></i> 💾 Salvar Link</button></div>
+            <div class="admin-section"><h4><i class="fab fa-whatsapp"></i> Suporte</h4><input id="admin-telegram" class="input-3d" placeholder="Link Telegram"><input id="admin-whatsapp" class="input-3d" placeholder="Número WhatsApp"><input id="admin-group-link" class="input-3d" placeholder="Link do Grupo WhatsApp"><button onclick="saveSupportLinks()" class="btn-modal-3d" style="background:#3742FA">💾 Salvar Suporte</button></div>
+            <div class="admin-section"><h4><i class="fas fa-credit-card"></i> Pagamentos</h4><input id="admin-mpesa-num" class="input-3d" placeholder="Nº M-Pesa"><input id="admin-mpesa-name" class="input-3d" placeholder="Nome M-Pesa"><input id="admin-emola-num" class="input-3d" placeholder="Nº e-Mola"><input id="admin-emola-name" class="input-3d" placeholder="Nome e-Mola"><button onclick="savePaymentNumbers()" class="btn-modal-3d" style="background:#00B894">💾 Salvar</button></div>
+            <div class="switch-container daily"><span>🔘 Saques Diários (Seg-Sex)</span><label class="switch"><input type="checkbox" id="allow-daily-withdraw" onchange="toggleDailyWithdraw()"><span class="slider"></span></label></div><div id="daily-withdraw-status" style="text-align:center;font-size:10px;margin:3px 0;font-weight:700"></div>
+            <div class="funds-admin-box"><div class="funds-admin-title"><i class="fas fa-coins"></i> Controle Fundos de Riquezas</div><div class="funds-status-mini active" id="fundsStatusBadge"><span class="funds-dot-mini green" id="fundsStatusDot"></span><span id="fundsStatusLabel">TODOS OS FUNDOS ATIVOS</span></div><button class="btn-funds-toggle on" id="btnFundsMaster" onclick="toggleAllFunds()">🔴 DESLIGAR TODOS OS FUNDOS</button><div class="funds-alert-msg" id="fundsAlertMsg">⚠️ FICA ATENTO! Todos os fundos de riquezas foram DESLIGADOS!</div></div>
+            <div class="admin-section"><h4><i class="fas fa-book"></i> Artigos Sobre Nós (máx 10)</h4><input id="artigo-data" class="input-3d" placeholder="Data"><input id="artigo-titulo" class="input-3d" placeholder="Título"><textarea id="artigo-texto" class="input-3d" placeholder="Texto..."></textarea><input type="file" id="artigo-imagem" accept="image/*" style="color:white;margin:6px 0;width:100%"><button onclick="adicionarArtigo()" class="btn-modal-3d" style="background:linear-gradient(135deg,#00B894,#00cec9);font-size:12px">➕ Adicionar Artigo</button><div id="artigos-lista" style="margin-top:10px;font-size:10px"></div></div>
+            <div class="admin-section"><h4><i class="fas fa-unlock-alt"></i> Recuperações de Senha</h4><div id="password-reset-requests" style="font-size:10px"></div></div>
+            <div class="admin-section"><h4><i class="fas fa-clock"></i> Depósitos Pendentes</h4><div id="pending-deposits" style="font-size:10px"></div></div>
+            <div class="admin-section"><h4><i class="fas fa-money-bill-wave"></i> Saques Pendentes</h4><div id="pending-withdrawals" style="font-size:10px"></div></div>
+            <div class="admin-section"><h4><i class="fas fa-search"></i> Pesquisar / Excluir</h4><div style="display:flex;gap:5px"><input id="search-user-phone" class="input-3d" placeholder="Número" style="flex:1"><button onclick="searchUser()" class="btn-modal-3d" style="width:auto;background:#3742FA">🔍</button></div><div id="search-result" style="font-size:10px"></div></div>
+            <div class="admin-section"><h4><i class="fas fa-users"></i> Usuários</h4><div id="admin-users-list" style="max-height:180px;overflow-y:auto;font-size:10px"></div></div>
+            <button onclick="closeModal('admin-modal')" class="btn-modal-3d" style="background:#636e72;margin-top:10px">❌ Fechar</button></div></div>
+        <div id="install-modal" class="modal-overlay hidden"><div class="modal-3d" style="text-align:center"><div style="font-size:45px">📲</div><h3 style="color:#FFD700">Adicionar à Tela Inicial</h3><p style="color:#b2bec3;font-size:12px">Acesse o <b style="color:#FF0000">GENINS INVESTIMENT</b> como app!</p><div id="install-instructions" style="background:#0d0d1a;border-radius:12px;padding:14px;margin:10px 0;text-align:left;font-size:12px;color:#b2bec3;line-height:1.8"></div><button onclick="closeModal('install-modal')" class="btn-modal-3d" style="background:#FF0000">👍 ENTENDI!</button></div></div>
+    </div>
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyDFWtfZuhLtPY8yq9UJs3PXibh_TJRi1mY", databaseURL: "https://moz-anima-pha-default-rtdb.firebaseio.com/", projectId: "moz-anima-pha" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(), rtdb = firebase.database();
+        const COLETA_COOLDOWN = 24, SAQUE_COOLDOWN = 24, VIP_EXPIRY_DAYS = 1095;
+        const VIP_CONFIG = [
+            { id: 0, name: 'Estagiário', price: 0, daily: 7.5, totalReturn: 30, duration: 4, withdrawDay: 'Diário', icon: '🎓', color: '#FFD700', classe: 'vip-0', isStarter: true },
+            { id: 1, name: 'VIP 1', price: 300, daily: 15, monthly: 450, withdrawDay: 'Quinta-feira', icon: '🥉', color: '#00d2ff', classe: 'vip-1' },
+            { id: 2, name: 'VIP 2', price: 600, daily: 30, monthly: 900, withdrawDay: 'Quinta-feira', icon: '🥈', color: '#00cec9', classe: 'vip-2' },
+            { id: 3, name: 'VIP 3', price: 1000, daily: 50, monthly: 1500, withdrawDay: 'Quinta-feira', icon: '🥇', color: '#FFD700', classe: 'vip-3' },
+            { id: 4, name: 'VIP 4', price: 3000, daily: 150, monthly: 4500, withdrawDay: 'Quinta-feira', icon: '💎', color: '#e84393', classe: 'vip-4' },
+            { id: 5, name: 'VIP 5', price: 5000, daily: 250, monthly: 7500, withdrawDay: 'Quinta-feira', icon: '👑', color: '#6c5ce7', classe: 'vip-5' },
+            { id: 6, name: 'VIP 6', price: 10000, daily: 500, monthly: 15000, withdrawDay: 'Quarta-feira', icon: '💚', color: '#FF4500', classe: 'vip-6' },
+            { id: 7, name: 'VIP 7', price: 30000, daily: 1500, monthly: 45000, withdrawDay: 'Quarta-feira', icon: '💙', color: '#FF0000', classe: 'vip-7' }
+        ];
+        const FUNDS_CONFIG = [
+            { id: 1, name: 'Fundo Pro', min: 1000, base: 2500, retorno: 4250, dias: 17, percent: 70, color: '#FFD700', classe: 'fundo-pro' },
+            { id: 2, name: 'Fundo Elite', min: 2500, base: 6000, retorno: 6600, dias: 22, percent: 10, color: '#6c5ce7', classe: 'fundo-elite' },
+            { id: 3, name: 'Fundo Premium', min: 5000, base: 12000, retorno: 15000, dias: 30, percent: 25, color: '#FF0000', classe: 'fundo-premium' },
+            { id: 4, name: 'Fundo Master', min: 10000, base: 25000, retorno: 35000, dias: 45, percent: 40, color: '#00b894', classe: 'fundo-master' },
+            { id: 5, name: 'Fundo Lenda', min: 25000, base: 60000, retorno: 90000, dias: 60, percent: 50, color: '#fd79a8', classe: 'fundo-lenda' }
+        ];
+        const W_VALS = [150, 500, 1500, 3000, 5000, 10000, 20000, 50000, 100000];
+        const TAREFAS_CONFIG = [
+            { nome: 'Nv 1: Bronze GENINS', valor: 200, convidados: 4, icon: '🥉' }, { nome: 'Nv 2: Prata GENINS', valor: 400, convidados: 8, icon: '🥈' },
+            { nome: 'Nv 3: Ouro GENINS', valor: 600, convidados: 12, icon: '🥇' }, { nome: 'Nv 4: Platina GENINS', valor: 900, convidados: 15, icon: '💎' },
+            { nome: 'Nv 5: Diamante GENINS', valor: 1500, convidados: 20, icon: '💚' }, { nome: 'Nv 6: Master GENINS', valor: 2000, convidados: 25, icon: '👑' },
+            { nome: 'Nv 7: Elite GENINS', valor: 3000, convidados: 30, icon: '💙' }, { nome: 'Nv 8: Lenda GENINS', valor: 5000, convidados: 40, icon: '💜' },
+            { nome: 'Nv 9: Imortal GENINS', valor: 8000, convidados: 50, icon: '🔥' }, { nome: 'Nv 10: GENINS Imortal', valor: 12000, convidados: 60, icon: '👁️' }
+        ];
+        let currentUser = null, loginMode = 'login', selectedWithdrawal = null, isLoggedIn = false;
+        let adminClicks = 0, globalFundsActive = true, allowDailyWithdraw = false;
+        let cachedUserData = null, cachedSettings = null, artigosTemp = [];
+        let collectTimerInterval = null, withdrawTimerInterval = null;
+        let currentPaymentMethod = 'mpesa';
+
+        async function getData(p) { const s = await rtdb.ref(p).once('value'); return s.val() }
+        async function setData(p, d) { return await rtdb.ref(p).set(d) }
+        async function pushData(p, d) { return (await rtdb.ref(p).push(d)).key }
+        async function updateData(p, d) { return await rtdb.ref(p).update(d) }
+        async function deleteData(p) { await rtdb.ref(p).remove() }
+        async function getUser(p) { if (cachedUserData && cachedUserData.phone === p) return cachedUserData; const d = await getData(`users/${p}`); if (d) cachedUserData = d; return d }
+        async function saveUser(u) { cachedUserData = u; const d = { phone: u.phone, name: u.name || '', password: u.password || '', balance: Number(u.balance) || 0, commission: Number(u.commission) || 0, vipLevel: u.vipLevel !== undefined && u.vipLevel !== null ? Number(u.vipLevel) : null, vipStart: u.vipStart || null, vipPurchased: u.vipPurchased || {}, investments: Array.isArray(u.investments) ? u.investments : [], referredBy: u.referredBy || null, referralBonus: Number(u.referralBonus) || 0, lastCollectDate: u.lastCollectDate || null, lastWithdrawDate: u.lastWithdrawDate || null, starterUsed: Boolean(u.starterUsed), createdAt: u.createdAt || new Date().toISOString() }; return setData(`users/${u.phone}`, d) }
+        async function getAllUsers() { const d = await getData('users'); return d ? Object.values(d) : [] }
+        async function getAllTransactions() { const d = await getData('transactions'); return d ? Object.entries(d).map(([id, val]) => ({ id, ...val })) : [] }
+        async function addTransaction(t) { return await pushData('transactions', t) }
+        async function updateTransaction(id, u) { await updateData(`transactions/${id}`, u) }
+        async function getAdminKeys() { if (cachedSettings?.adminKeys) return cachedSettings.adminKeys; const k = await getData('settings/adminKeys'); if (!k) { const d = { key1: 'GENINS2024', key2: '' }; await setData('settings/adminKeys', d); return d } cachedSettings = { ...cachedSettings, adminKeys: k }; return k }
+        async function saveAdminKeysToDB(keys) { await setData('settings/adminKeys', keys); if (cachedSettings) cachedSettings.adminKeys = keys }
+        function isValidAdminKey(k, a) { return k && (k === a.key1 || k === a.key2 || k === 'genins2024') }
+        async function getSetting(k) { if (cachedSettings && cachedSettings[k] !== undefined) return cachedSettings[k]; const v = await getData(`settings/${k}`); if (v === null || v === undefined) { const d = { payments: { mpesa: { num: '851511841', name: 'Benjamim Celeste' }, emola: { num: '870514180', name: 'Amelia Ricardo' } }, allowDailyWithdraw: false, support: { telegram: '', whatsapp: '258851511841', groupLink: '' }, globalFundsActive: true }; return d[k] } if (!cachedSettings) cachedSettings = {}; cachedSettings[k] = v; return v }
+        async function saveSetting(k, v) { await setData(`settings/${k}`, v); if (cachedSettings) cachedSettings[k] = v }
+
+        function getCooldownRemaining(lastDate, hours) { if (!lastDate) return 0; return Math.max(0, new Date(lastDate).getTime() + (hours * 3600000) - Date.now()) }
+        function formatTime(ms) { if (ms <= 0) return '00:00:00'; const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000); return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` }
+        function isOnCooldown(lastDate, hours) { return getCooldownRemaining(lastDate, hours) > 0 }
+        function canCollect() { if (!currentUser || currentUser.vipLevel === null || currentUser.vipLevel === undefined) return false; if (new Date().getDay() === 0) return false; return !isOnCooldown(currentUser.lastCollectDate, COLETA_COOLDOWN) }
+        function canWithdraw() { if (!currentUser || currentUser.vipLevel === null || currentUser.vipLevel === undefined) return false; if (new Date().getDay() === 0) return false; if (new Date().getDay() === 6) return false; return !isOnCooldown(currentUser.lastWithdrawDate, SAQUE_COOLDOWN) }
+
+        function updateTimers() {
+            if (!currentUser) return;
+            const cRem = getCooldownRemaining(currentUser.lastCollectDate, COLETA_COOLDOWN);
+            const wRem = getCooldownRemaining(currentUser.lastWithdrawDate, SAQUE_COOLDOWN);
+            const ctEl = document.getElementById('collect-timer'), wtEl = document.getElementById('withdraw-timer');
+            const pctEl = document.getElementById('profile-collect-timer'), pwtEl = document.getElementById('profile-withdraw-timer');
+            if (ctEl) ctEl.textContent = formatTime(cRem); if (wtEl) wtEl.textContent = formatTime(wRem);
+            if (pctEl) pctEl.textContent = formatTime(cRem); if (pwtEl) pwtEl.textContent = formatTime(wRem);
+            const cBar = document.getElementById('collect-timer-bar'), wBar = document.getElementById('withdraw-timer-bar');
+            if (cBar) { cBar.classList.toggle('blocked', cRem > 0); const span = cBar.querySelector('span'); if (span) span.textContent = cRem > 0 ? '⏰ Coleta:' : '✅ Coleta:'; }
+            if (wBar) { wBar.classList.toggle('blocked', wRem > 0); const span = wBar.querySelector('span'); if (span) span.textContent = wRem > 0 ? '⏰ Saque:' : '✅ Saque:'; }
+            const btnC = document.getElementById('btn-collect-main'), btnW = document.getElementById('btn-withdraw-main');
+            const statusEl = document.getElementById('collect-status');
+            if (btnC) btnC.disabled = !canCollect();
+            if (btnW) btnW.disabled = !canWithdraw();
+            if (statusEl) { const v = VIP_CONFIG.find(x => x.id === currentUser?.vipLevel); if (!v) statusEl.innerHTML = '<span style="color:#FFA502;">Ative um VIP para coletar</span>'; else if (cRem > 0) statusEl.innerHTML = `<span style="color:#FF0000;">⏰ Aguarde: ${formatTime(cRem)}</span>`; else statusEl.innerHTML = `<span style="color:#00B894;">✅ Disponível: <b>MT ${v.daily.toFixed(2)}</b></span>` }
+        }
+        function startTimers() { if (collectTimerInterval) clearInterval(collectTimerInterval); if (withdrawTimerInterval) clearInterval(withdrawTimerInterval); collectTimerInterval = setInterval(async () => { if (!currentUser || !isLoggedIn) return; const freshUser = await getUser(currentUser.phone); if (freshUser) { currentUser.lastCollectDate = freshUser.lastCollectDate || null; currentUser.lastWithdrawDate = freshUser.lastWithdrawDate || null; currentUser.balance = Number(freshUser.balance) || 0; } updateTimers(); }, 1000); }
+        function updateUI() { if (!currentUser) return; document.getElementById('main-balance').textContent = (Number(currentUser.balance)||0).toFixed(2); document.getElementById('commission-balance').textContent = (Number(currentUser.commission)||0).toFixed(2); document.getElementById('profile-name').textContent = currentUser.name || 'Usuário'; document.getElementById('profile-phone').textContent = currentUser.phone; const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel); document.getElementById('profile-vip').textContent = v ? `${v.icon} ${v.name}` : 'Sem VIP'; if (v && currentUser.vipStart) { const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter); document.getElementById('profile-vip-expiry').textContent = ei.text } }
+        function getVIPExpiryDate(vs, isStarter) { return new Date(new Date(vs).getTime() + (isStarter ? 4 : VIP_EXPIRY_DAYS) * 86400000) }
+        function getVIPExpiryCountdown(vs, isStarter) { if (!vs) return { expired: true, text: '⏰ VIP não ativo' }; const e = getVIPExpiryDate(vs, isStarter), n = new Date(), diff = e - n; if (diff <= 0) return { expired: true, text: '⏰ Expirado!' }; const days = Math.floor(diff / 86400000); return { expired: false, text: `⏳ ${days}d restantes` } }
+        function switchLoginTab(mode) { loginMode = mode; document.getElementById('tab-login-btn').classList.toggle('active', mode==='login'); document.getElementById('tab-register-btn').classList.toggle('active', mode==='register'); document.getElementById('login-fields').classList.toggle('hidden', mode!=='login'); document.getElementById('register-fields').classList.toggle('hidden', mode!=='register') }
+        function resetPassword() { const phone = document.getElementById('login-phone').value.trim(); if (!phone) return alert('Digite seu número!'); pushData('password_resets', { phone, status: 'pending', date: new Date().toISOString() }); alert('✅ Solicitação enviada!') }
+        function decodeRefCode(code) { try { return atob(code).match(/^\d+$/)?atob(code):code } catch { return code } }
+
+        async function handleLogin() {
+            if (isLoggedIn) return;
+            let phone, pw, name, cf;
+            if (loginMode === 'login') { phone = document.getElementById('login-phone').value.trim(); pw = document.getElementById('login-password').value }
+            else { phone = document.getElementById('reg-phone').value.trim(); name = document.getElementById('reg-name').value.trim(); pw = document.getElementById('reg-password').value; cf = document.getElementById('reg-confirm').value }
+            if (!phone || !pw) return alert('Preencha os campos!');
+            phone = phone.replace(/\D/g, '');
+            try {
+                if (loginMode === 'register') {
+                    if (pw !== cf) return alert('Senhas não coincidem!');
+                    if (!name) return alert('Preencha o nome!');
+                    if (pw.length < 6) return alert('Senha curta! Mínimo 6');
+                    if (await getUser(phone)) return alert('❌ Número já registrado!');
+                    const params = new URLSearchParams(window.location.search), ref = params.get('ref')||'', decodedRef = ref?decodeRefCode(ref):null;
+                    let rb = null; if (decodedRef) { const ru = await getUser(decodedRef); if (ru && ru.phone !== phone) rb = decodedRef }
+                    currentUser = { phone, name, password: pw, balance: 0, commission: 0, vipLevel: null, vipStart: null, vipPurchased: {}, investments: [], referredBy: rb, referralBonus: 0, lastCollectDate: null, lastWithdrawDate: null, starterUsed: false, createdAt: new Date().toISOString() };
+                    await saveUser(currentUser);
+                } else {
+                    const u = await getUser(phone); if (!u) return alert('❌ Número não encontrado!');
+                    if (u.password !== pw) return alert('❌ Senha incorreta!');
+                    if (!u.vipPurchased || typeof u.vipPurchased !== 'object') u.vipPurchased = {};
+                    if (!Array.isArray(u.investments)) u.investments = [];
+                    if (u.vipLevel === undefined) u.vipLevel = null; if (u.vipStart === undefined) u.vipStart = null;
+                    if (u.lastCollectDate === undefined || u.lastCollectDate === null) u.lastCollectDate = null;
+                    if (u.lastWithdrawDate === undefined || u.lastWithdrawDate === null) u.lastWithdrawDate = null;
+                    if (u.starterUsed === undefined) u.starterUsed = false;
+                    u.balance = Number(u.balance)||0; u.commission = Number(u.commission)||0;
+                    u.referralBonus = Number(u.referralBonus)||0; u.starterUsed = Boolean(u.starterUsed);
+                    await saveUser(u); currentUser = u;
+                }
+                isLoggedIn = true; document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-screen').classList.remove('hidden');
+                refreshAll(); switchTab('home'); startTimers();
+            } catch(e) { alert('Erro: '+e.message) }
+        }
+        async function logout() { isLoggedIn = false; if (collectTimerInterval) clearInterval(collectTimerInterval); if (withdrawTimerInterval) clearInterval(withdrawTimerInterval); currentUser = null; cachedUserData = null; document.getElementById('app-screen').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); switchLoginTab('login') }
+        async function refreshAll() { updateUI(); updateTimers(); await loadVIPs(); await loadFunds(); loadTarefas(); loadReferralTab() }
+
+        async function collectNow() {
+            if (!currentUser) return alert('Faça login!');
+            const freshUser = await getUser(currentUser.phone); if (!freshUser) return alert('Erro!'); currentUser = freshUser;
+            if (!canCollect()) { const r = getCooldownRemaining(currentUser.lastCollectDate, COLETA_COOLDOWN); if (r>0) return alert(`⏰ Aguarde: ${formatTime(r)}`); return alert('❌ Indisponível!') }
+            const v = VIP_CONFIG.find(x=>x.id===currentUser.vipLevel); if (!v) return alert('Ative um VIP!');
+            const amount = v.daily; currentUser.balance = (Number(currentUser.balance)||0)+amount;
+            currentUser.lastCollectDate = new Date().toISOString();
+            if (v.isStarter && currentUser.vipStart) { const daysUsed = (Date.now()-new Date(currentUser.vipStart).getTime())/86400000; if (daysUsed>=v.duration) { currentUser.balance = (Number(currentUser.balance)||0)-amount+v.totalReturn; currentUser.vipLevel=null; currentUser.vipStart=null; currentUser.lastCollectDate=null } }
+            await saveUser(currentUser); await addTransaction({ phone: currentUser.phone, type: 'vip_return', amount, date: new Date().toISOString() });
+            updateUI(); updateTimers(); await loadVIPs(); alert(`✅ Coletado!\n💰 MT ${amount.toFixed(2)}\n⏰ Próxima em 24h`);
+        }
+
+        async function confirmWithdrawal() {
+            if (!currentUser) return alert('Faça login!');
+            const freshUser = await getUser(currentUser.phone); if (!freshUser) return alert('Erro!'); currentUser = freshUser;
+            if (!canWithdraw()) { const r = getCooldownRemaining(currentUser.lastWithdrawDate, SAQUE_COOLDOWN); if (r>0) return alert(`⏰ Aguarde: ${formatTime(r)}`); return alert('❌ Indisponível!') }
+            const amt = selectedWithdrawal; if (!amt) return alert('Selecione um valor!');
+            const bal = Number(currentUser.balance)||0; if (amt>bal) return alert('Saldo insuficiente!');
+            const fee=amt*0.1, net=amt-fee; currentUser.balance=bal-amt; currentUser.lastWithdrawDate=new Date().toISOString();
+            await saveUser(currentUser); await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'withdraw_pending', amount: amt, fee, net, status: 'pending', date: new Date().toISOString() });
+            closeModal('withdraw-modal'); updateUI(); updateTimers(); alert(`⏳ Saque solicitado!\n💰 MT ${amt.toLocaleString()}\n💸 Receberá: MT ${net.toFixed(2)}`);
+        }
+
+        async function loadVIPs() { const c=document.getElementById('vip-groups'); if(!c)return; const cvl=currentUser?.vipLevel; if(!currentUser?.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; c.innerHTML=VIP_CONFIG.map(v=>{const isA=currentUser&&currentUser.vipLevel===v.id;const wasP=currentUser.vipPurchased[v.id];const blocked=cvl!==null&&cvl!==undefined&&v.id<cvl&&!isA;const showButton=!blocked&&!wasP&&!(v.isStarter&&currentUser.starterUsed);const wDay=v.withdrawDay;return`<div class="vip-card-3d ${v.classe}"><div class="vip-card-inner"><div class="vip-badge-3d" style="background:${v.color}">${v.icon} ${v.name}${v.isStarter?' GRÁTIS':''}</div><h3 class="vip-name">${v.icon} ${v.name}</h3><div class="vip-price">💰 ${v.isStarter?'<b>GRÁTIS</b>':'<b>MT '+v.price.toLocaleString()+'</b>'}</div><div class="vip-details"><div class="vip-detail-item detail-daily"><div class="detail-label">💎 Diário${v.isStarter?'':' (5%)'}</div><div class="detail-value">MT ${v.daily}</div></div><div class="vip-detail-item detail-monthly"><div class="detail-label">📊 ${v.isStarter?'Total':'Mensal'}</div><div class="detail-value">MT ${v.isStarter?v.totalReturn:v.monthly?.toLocaleString()}</div></div><div class="vip-detail-item detail-total"><div class="detail-label">📅 ${v.isStarter?'Duração':'Saque'}</div><div class="detail-value">${v.isStarter?v.duration+'d':wDay}</div></div><div class="vip-detail-item detail-days"><div class="detail-label">${v.isStarter?'🎯 Retorno':''}</div><div class="detail-value">${v.isStarter?'MT '+v.totalReturn:''}</div></div></div>${isA?`<div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;margin-top:5px;color:#00B894;font-weight:700">✅ ATIVO</div>`:''}${showButton?`<button onclick="investVIP(${v.id})" class="btn-invest-3d" style="background:${v.color};">🚀 Ativar ${v.name}</button>`:''}</div></div>`}).join('') }
+        async function loadFunds() { const c=document.getElementById('funds-list'); if(!c)return; c.innerHTML=FUNDS_CONFIG.map(f=>`<div class="fundo-card ${f.classe}"><div class="fundo-inner"><div class="fundo-header"><span class="fundo-nome" style="color:${f.color}">💰 ${f.name}</span><span class="fundo-badge" style="background:${f.color}22;color:${f.color}">${f.percent}%</span></div><div class="fundo-grid"><div class="fundo-item"><small>MIN</small><br><b style="color:#FFD700">${f.min} MT</b></div><div class="fundo-item"><small>BASE</small><br><b>${f.base} MT</b></div><div class="fundo-item"><small>RETORNO</small><br><b style="color:#00B894">${f.retorno} MT</b></div><div class="fundo-item"><small>DIAS</small><br><b style="color:#e84393">${f.dias}</b></div></div><button onclick="investFund(${f.id})" class="btn-invest-3d" style="background:${f.color};color:#000">💰 Investir</button></div></div>`).join('') }
+        function loadTarefas() { const c=document.getElementById('tarefas-list'); if(!c)return; c.innerHTML=TAREFAS_CONFIG.map(t=>`<div class="tarefa-card"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:30px">${t.icon}</span><div><div class="tarefa-nivel">${t.nome}</div><div class="tarefa-convidados">${t.convidados} convidados</div></div></div><div class="tarefa-valor">+${t.valor} MT</div></div>`).join('') }
+        async function loadReferralTab() { if(!currentUser)return;const refCode=btoa(currentUser.phone).substring(0,12);document.getElementById('referral-link-text').textContent=location.origin+location.pathname+'?ref='+refCode;const all=await getAllUsers();const my=all.filter(u=>u.referredBy===currentUser.phone);const vipCount=my.filter(u=>u.vipLevel!==null&&u.vipLevel!==undefined).length;document.getElementById('referral-count').textContent=my.length;document.getElementById('referral-vip-count').textContent=vipCount;document.getElementById('referral-total').textContent=(Number(currentUser.referralBonus)||0).toFixed(2);document.getElementById('referred-users-list').innerHTML=my.length?my.map(u=>`<div class="history-item">👤 ${u.name||'-'} 📱 ${u.phone} ${u.vipLevel?'👑 VIP':''}</div>`).join(''):'<p style="color:#666">Nenhum</p>' }
+        async function loadWithdrawalHistory() { const c=document.getElementById('withdrawal-history'); if(!c)return;const txs=await getTransactions(currentUser?.phone);const w=txs?.filter(t=>t.type==='withdraw').reverse()||[];c.innerHTML=w.length?w.map(t=>`<div class="history-item">💸 MT ${Number(t.amount).toFixed(2)} | Líq: MT ${Number(t.net).toFixed(2)}</div>`).join(''):'<p style="color:#666">Nenhum</p>' }
+        async function loadDepositHistory() { const c=document.getElementById('deposit-history'); if(!c)return;const txs=await getTransactions(currentUser?.phone);const d=txs?.filter(t=>t.type==='deposit_approved').reverse()||[];c.innerHTML=d.length?d.map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join(''):'<p style="color:#666">Nenhum</p>' }
+        async function loadProfitHistory() { const c=document.getElementById('profit-history'); if(!c)return;const txs=await getTransactions(currentUser?.phone);c.innerHTML=txs?.filter(t=>['vip_return','fund_complete'].includes(t.type)).slice(-5).reverse().map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join('')||'<p style="color:#666">Nenhum</p>' }
+
+        async function investVIP(id) { const v=VIP_CONFIG.find(x=>x.id===id); if(!currentUser.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={}; if(v.isStarter){if(currentUser.starterUsed)return alert('⚠️ Estagiário já foi usado!');if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined)return alert('⚠️ Já tem um VIP ativo!');currentUser.vipLevel=0;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[0]=new Date().toISOString();currentUser.starterUsed=true;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();return alert(`✅ Estagiário ATIVADO!\n💰 Diário: MT ${v.daily}\n🎯 Total: MT ${v.totalReturn}\n📅 ${v.duration} dias`)} if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined&&id<=currentUser.vipLevel)return alert('⚠️ Compre um VIP SUPERIOR!');const bal=Number(currentUser.balance)||0;if(bal<v.price)return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price}`);currentUser.balance=bal-v.price;currentUser.vipLevel=id;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[id]=new Date().toISOString();currentUser.lastCollectDate=null;currentUser.lastWithdrawDate=null;await saveUser(currentUser);updateUI();updateTimers();await loadVIPs();alert(`✅ ${v.name} ATIVADO!\n💰 MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily}\n📊 Mensal: MT ${(v.monthly||0).toLocaleString()}`) }
+        async function investFund(id) { const f=FUNDS_CONFIG.find(x=>x.id===id);const bal=Number(currentUser.balance)||0;if(bal<f.base)return alert('⚠️ Saldo insuficiente!');currentUser.balance=bal-f.base;if(!currentUser.investments||!Array.isArray(currentUser.investments))currentUser.investments=[];currentUser.investments.push({fundId:id,totalReturn:f.retorno,completed:false,startDate:new Date().toISOString()});await saveUser(currentUser);updateUI();alert(`✅ ${f.name} ativado!`)}
+        async function completeFund(idx) { const inv=currentUser.investments[idx];if(!inv||inv.completed)return;currentUser.balance=(Number(currentUser.balance)||0)+Number(inv.totalReturn);currentUser.investments[idx].completed=true;await saveUser(currentUser);updateUI();await loadFunds();alert('🎉 Resgatado!') }
+
+        async function updatePaymentInfo() { const p=await getSetting('payments');const box=document.getElementById('payment-info-box');if(currentPaymentMethod==='mpesa')box.innerHTML=`<b>📱 M-Pesa:</b> ${p.mpesa.num} - <b>${p.mpesa.name}</b>`;else box.innerHTML=`<b>📱 e-Mola:</b> ${p.emola.num} - <b>${p.emola.name}</b>` }
+        function selectPaymentMethod(m) { currentPaymentMethod=m;document.querySelectorAll('#payment-tabs .payment-tab').forEach((e,i)=>{e.style.background=(i===0&&m==='mpesa')||(i===1&&m==='emola')?'#00B894':'#444'});updatePaymentInfo() }
+        
+        // FUNÇÃO openDepositModal ATUALIZADA
+        function openDepositModal() {
+            if (currentUser) {
+                document.getElementById('deposit-user-phone').value = currentUser.phone || '';
+                document.getElementById('deposit-user-name').value = currentUser.name || '';
+            }
+            document.getElementById('deposit-amount').value = '';
+            document.getElementById('deposit-ref').value = '';
+            document.getElementById('deposit-modal').classList.remove('hidden');
+            updatePaymentInfo();
+        }
+        
+        function openWithdrawModal() { selectedWithdrawal=null;loadWithdrawalButtons();document.getElementById('withdraw-modal').classList.remove('hidden') }
+        function loadWithdrawalButtons() { const c=document.getElementById('withdrawal-buttons');if(!c)return;const s=canWithdraw();c.innerHTML=W_VALS.map(v=>`<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal===v?'selected':''}" ${!s?'disabled':''}>${v>=1000?'MT '+(v/1000)+'k':'MT '+v}</button>`).join('') }
+        function selectWithdrawal(v) { selectedWithdrawal=v;document.getElementById('selected-withdrawal').innerHTML=`<b>MT ${v.toLocaleString()}</b> | Líq: <b>MT ${(v*0.9).toFixed(2)}</b>` }
+        
+        // FUNÇÃO confirmDeposit ATUALIZADA
+        async function confirmDeposit() {
+            const phone = document.getElementById('deposit-user-phone').value.trim();
+            const name = document.getElementById('deposit-user-name').value.trim();
+            const amount = parseFloat(document.getElementById('deposit-amount').value);
+            const ref = document.getElementById('deposit-ref').value.trim();
+            const btnConfirm = document.getElementById('btn-confirm-deposit');
+            
+            if (!phone) return alert('⚠️ Preencha o número do usuário!');
+            if (!name) return alert('⚠️ Preencha o nome do usuário!');
+            if (!amount || amount < 100) return alert('⚠️ Valor mínimo: MT 100');
+            if (!ref) return alert('⚠️ Preencha a referência/comprovativo!');
+            
+            btnConfirm.disabled = true;
+            btnConfirm.textContent = '⏳ Enviando...';
+            
+            try {
+                const user = await getUser(phone);
+                const userName = user ? user.name : name;
+                
+                await addTransaction({
+                    phone: phone,
+                    name: userName,
+                    type: 'deposit_pending',
+                    amount: amount,
+                    ref: ref,
+                    status: 'pending',
+                    date: new Date().toISOString()
+                });
+                
+                closeModal('deposit-modal');
+                alert('✅ Comprovativo enviado com sucesso!\n\n📱 Número: ' + phone + '\n👤 Nome: ' + userName + '\n💰 Valor: MT ' + amount.toFixed(2) + '\n\n⏳ Aguardando aprovação do administrador.');
+                
+            } catch (error) {
+                alert('❌ Erro ao enviar: ' + error.message);
+                btnConfirm.disabled = false;
+                btnConfirm.textContent = '✅ Enviar Comprovativo';
+            }
+        }
+        
+        function copyReferralLink() { const refCode=btoa(currentUser.phone).substring(0,12);navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+refCode).then(()=>alert('📋 Copiado!')) }
+        function showNotifications() { alert('🔔 Nenhuma notificação.') }
+        function showInstallInstructions() { const div=document.getElementById('install-instructions');const ua=navigator.userAgent;let h='';if(/android/i.test(ua))h='<p><b>1️⃣</b> Toque nos 3 pontinhos ⋮</p><p><b>2️⃣</b> Adicionar à tela inicial</p><p><b>3️⃣</b> Adicionar</p><p>✅ Pronto!</p>';else if(/iPhone|iPad|iPod/i.test(ua))h='<p><b>1️⃣</b> Compartilhar 📤</p><p><b>2️⃣</b> Adicionar à Tela de Início</p><p><b>3️⃣</b> Adicionar</p><p>✅ Pronto!</p>';else h='<p>📱 Acesse pelo celular</p>';div.innerHTML=h;document.getElementById('install-modal').classList.remove('hidden') }
+        function switchTab(tab) { document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));const tabEl=document.getElementById(`tab-${tab}`);if(tabEl)tabEl.classList.remove('hidden');document.querySelectorAll('.nav-item-3d').forEach(e=>e.classList.remove('active'));const navEl=document.getElementById(`nav-${tab}`);if(navEl)navEl.classList.add('active');if(tab==='vips'){const c=document.getElementById('my-vips');if(currentUser?.vipLevel!==null&&currentUser?.vipLevel!==undefined){const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(v){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);c.innerHTML=`<div class="vip-card-3d ${v.classe} active-vip"><div class="vip-card-inner"><h3>${v.icon} ${v.name}</h3><div class="vip-price">💰 <b>MT ${v.daily}/dia</b></div><div style="background:#1a1a4e;padding:8px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;margin-top:5px;color:#FFD700">${ei.text}</div><div style="background:rgba(0,184,148,0.2);padding:8px;border-radius:8px;text-align:center;font-weight:700;font-size:12px;border:2px solid #00B894;color:#00B894;margin-top:3px">✅ ATIVO</div></div></div>`}}else c.innerHTML='<p style="text-align:center;color:#666">Nenhum VIP ativo</p>'}if(tab==='funds')loadFunds();if(tab==='tarefas')loadTarefas();if(tab==='referral')loadReferralTab();if(tab==='history'){loadWithdrawalHistory();loadDepositHistory();loadProfitHistory()} }
+        
+        // FUNÇÃO closeModal ATUALIZADA
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            if (id === 'deposit-modal') {
+                const btnConfirm = document.getElementById('btn-confirm-deposit');
+                if (btnConfirm) {
+                    btnConfirm.disabled = false;
+                    btnConfirm.textContent = '✅ Enviar Comprovativo';
+                }
+            }
+        }
+        
+        document.addEventListener('click', e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.add('hidden')})
+        async function openSupportWhatsapp() { const sp=await getSetting('support');window.open(`https://wa.me/${sp?.whatsapp||'258851511841'}`,'_blank') }
+        async function openSupportGroup() { const sp=await getSetting('support');if(sp?.groupLink)window.open(sp.groupLink,'_blank') }
+
+        async function saveYouTubeLink() { const link=document.getElementById('admin-youtube-link').value.trim();if(!link)return alert('⚠️ Cole o link!');await saveSetting('youtubeLink',link);document.getElementById('btn-youtube').href=link;alert('✅ Salvo!') }
+        async function loadYouTubeLink() { const link=await getSetting('youtubeLink');if(link){document.getElementById('btn-youtube').href=link} }
+
+        document.getElementById('admin-trigger')?.addEventListener('click',async()=>{adminClicks++;if(adminClicks>=5){const p=prompt('🔐 Senha Admin:');const keys=await getAdminKeys();if(isValidAdminKey(p,keys)){document.getElementById('admin-modal').classList.remove('hidden');document.getElementById('allow-daily-withdraw').checked=allowDailyWithdraw;updateDailyWithdrawStatus();document.getElementById('admin-key1-display').textContent='••••••••';document.getElementById('admin-key2-display').textContent=keys.key2?'••••••••':'Não definida';document.getElementById('admin-key2-status').textContent=keys.key2?'✅ Ativa':'⚪ Desativada';const pm=await getSetting('payments'),sp=await getSetting('support');document.getElementById('admin-mpesa-num').value=pm.mpesa.num;document.getElementById('admin-mpesa-name').value=pm.mpesa.name;document.getElementById('admin-emola-num').value=pm.emola.num;document.getElementById('admin-emola-name').value=pm.emola.name;document.getElementById('admin-telegram').value=sp.telegram;document.getElementById('admin-whatsapp').value=sp.whatsapp;document.getElementById('admin-group-link').value=sp.groupLink||'';await loadYouTubeLink();await carregarArtigos();await loadPasswordResets();await loadPending();await loadPendingWithdrawals();await loadAUsers()}adminClicks=0}})
+        async function saveAdminKeys() { const k1=document.getElementById('admin-key1-input').value.trim();if(!k1)return alert('⚠️ Chave 1 obrigatória!');await saveAdminKeysToDB({key1:k1,key2:document.getElementById('admin-key2-input').value.trim()||''});alert('✅ Salvo!') }
+        async function clearAdminKey2() { if(!confirm('Desativar Chave 2?'))return;const keys=await getAdminKeys();keys.key2='';await saveAdminKeysToDB(keys);alert('✅ Desativada!') }
+        async function toggleDailyWithdraw() { allowDailyWithdraw=document.getElementById('allow-daily-withdraw').checked;await saveSetting('allowDailyWithdraw',allowDailyWithdraw);updateDailyWithdrawStatus();updateTimers();await loadVIPs() }
+        function updateDailyWithdrawStatus() { const el=document.getElementById('daily-withdraw-status');if(el)el.innerHTML=allowDailyWithdraw?'<span style="color:#00B894">✅ Saques Diários ATIVADOS</span>':'<span style="color:#FFA502">⚠️ Modo Normal</span>' }
+        async function saveSupportLinks() { await saveSetting('support',{telegram:document.getElementById('admin-telegram').value,whatsapp:document.getElementById('admin-whatsapp').value,groupLink:document.getElementById('admin-group-link').value});alert('✅ Salvo!') }
+        async function savePaymentNumbers() { await saveSetting('payments',{mpesa:{num:document.getElementById('admin-mpesa-num').value,name:document.getElementById('admin-mpesa-name').value},emola:{num:document.getElementById('admin-emola-num').value,name:document.getElementById('admin-emola-name').value}});alert('✅ Salvo!') }
+        async function loadPasswordResets() { const d=await getData('password_resets');const list=d?Object.entries(d).map(([id,val])=>({id,...val})):[];const pending=list.filter(x=>x.status==='pending');document.getElementById('password-reset-requests').innerHTML=pending.length?pending.map(x=>`<div class="pending-item"><b>📱${x.phone}</b><br><button onclick="adminResetPassword('${x.phone}','${x.id}')" style="background:#3742FA;color:white;border:none;padding:3px 6px;border-radius:5px">🔑 Redefinir</button></div>`).join(''):'<p style="color:#666">Nenhuma</p>' }
+        async function adminResetPassword(phone,resetId) { const np=prompt('Nova senha:','123456');if(!np)return;const u=await getUser(phone);if(u){u.password=np;await saveUser(u)}if(resetId)await updateData(`password_resets/${resetId}`,{status:'resolved'});await loadPasswordResets();alert('✅ Senha: '+np) }
+        async function loadPending() { const t=await getAllTransactions();const p=t.filter(x=>x.type==='deposit_pending'&&x.status==='pending');document.getElementById('pending-deposits').innerHTML=p.length?p.map(x=>`<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>🧾 Ref: ${x.ref||'-'}<br><button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:3px 8px;border-radius:5px">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:3px 8px;border-radius:5px">❌ Rejeitar</button></div>`).join(''):'<p style="color:#666">Nenhum</p>' }
+        async function loadPendingWithdrawals() { const t=await getAllTransactions();const p=t.filter(x=>x.type==='withdraw_pending'&&x.status==='pending');document.getElementById('pending-withdrawals').innerHTML=p.length?p.map(x=>`<div class="pending-item" style="border-left:3px solid #FF0000"><b>👤 ${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>💸 <b style="color:#00B894">ENVIAR: MT ${Number(x.net).toFixed(2)}</b><br><button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:5px 10px;border-radius:5px;font-weight:700;margin-top:5px">✅ APROVAR</button><button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:5px 10px;border-radius:5px;font-weight:700">❌ Rejeitar</button></div>`).join(''):'<p style="color:#666">Nenhum</p>' }
+        async function rejectTransaction(id) { const allTxs=await getAllTransactions();const tx=allTxs.find(t=>t.id===id);if(tx&&tx.type==='withdraw_pending'){if(!confirm(`Rejeitar saque de MT ${Number(tx.amount).toFixed(2)}?`))return;const u=await getUser(tx.phone);if(u){u.balance=(Number(u.balance)||0)+Number(tx.amount);u.lastWithdrawDate=null;await saveUser(u)}}else{if(!confirm('Rejeitar?'))return}await updateTransaction(id,{status:'rejected'});await loadPending();await loadPendingWithdrawals() }
+        async function approveDeposit(id,amount,phone) { const u=await getUser(phone);if(u){u.balance=(Number(u.balance)||0)+Number(amount);if(u.referredBy){const rf=await getUser(u.referredBy);if(rf){const b=Number(amount)*0.10;rf.commission=(Number(rf.commission)||0)+b;rf.referralBonus=(Number(rf.referralBonus)||0)+b;await saveUser(rf);await addTransaction({phone:rf.phone,type:'referral_bonus',amount:b,fromPhone:phone,date:new Date().toISOString()})}}await saveUser(u);if(currentUser&&currentUser.phone===u.phone){currentUser=u;updateUI()}}await updateTransaction(id,{status:'approved',type:'deposit_approved'});await loadPending();await loadAUsers();alert('✅ Aprovado!') }
+        async function approveWithdrawal(id,amount,phone) { const fee=Number(amount)*0.1,net=Number(amount)-fee;const u=await getUser(phone);await updateTransaction(id,{status:'approved',type:'withdraw',fee,net});await loadPendingWithdrawals();await loadAUsers();if(currentUser&&currentUser.phone===phone){const updatedUser=await getUser(phone);if(updatedUser){currentUser=updatedUser;updateUI()}}alert(`✅ SAQUE APROVADO!\n\n👤 ${u?u.name||phone:phone}\n💰 MT ${Number(amount).toFixed(2)}\n💸 ENVIAR: MT ${net.toFixed(2)}`) }
+        async function searchUser() { const ph=document.getElementById('search-user-phone').value.trim();if(!ph)return;const u=await getUser(ph);document.getElementById('search-result').innerHTML=u?`<div class="pending-item"><b>${u.name||'-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance)||0).toFixed(2)} | VIP ${u.vipLevel||'-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:#FFA502;color:white;border:none;padding:3px 6px;border-radius:5px">💰 Editar</button><button onclick="adminResetPassword('${u.phone}')" style="background:#3742FA;color:white;border:none;padding:3px 6px;border-radius:5px">🔑 Senha</button><button onclick="deleteUserAccount('${u.phone}')" style="background:#FF0000;color:white;border:none;padding:3px 6px;border-radius:5px">🗑️ Excluir</button></div>`:'<p style="color:#666">Não encontrado</p>' }
+        async function editUserBalance(phone) { const u=await getUser(phone);if(!u)return;const nb=prompt('Novo saldo:',(Number(u.balance)||0));if(nb!==null&&!isNaN(parseFloat(nb))){u.balance=parseFloat(nb);await saveUser(u);alert('✅ Atualizado!');searchUser()} }
+        async function deleteUserAccount(phone) { if(!confirm(`EXCLUIR ${phone}?`))return;if(!confirm('IRREVERSÍVEL!'))return;await deleteData(`users/${phone}`);document.getElementById('search-result').innerHTML='<p style="color:#FF0000">🗑️ Excluído!</p>';await loadAUsers() }
+        async function loadAUsers() { const u=await getAllUsers();document.getElementById('admin-users-list').innerHTML=u.map(x=>`<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance)||0).toFixed(2)} | 👑 VIP ${x.vipLevel||'-'}</div>`).join('')||'<p style="color:#666">Nenhum</p>' }
+        async function toggleAllFunds() { globalFundsActive=!globalFundsActive;const badge=document.getElementById('fundsStatusBadge'),dot=document.getElementById('fundsStatusDot'),label=document.getElementById('fundsStatusLabel'),btn=document.getElementById('btnFundsMaster'),alert=document.getElementById('fundsAlertMsg');if(globalFundsActive){if(badge)badge.className='funds-status-mini active';if(dot)dot.className='funds-dot-mini green';if(label)label.textContent='TODOS OS FUNDOS ATIVOS';if(btn){btn.className='btn-funds-toggle on';btn.textContent='🔴 DESLIGAR TODOS OS FUNDOS'}if(alert)alert.classList.remove('show')}else{if(badge)badge.className='funds-status-mini inactive';if(dot)dot.className='funds-dot-mini red';if(label)label.textContent='⚠️ FICA ATENTO - FUNDOS DESLIGADOS';if(btn){btn.className='btn-funds-toggle off';btn.textContent='🟢 ATIVAR TODOS OS FUNDOS'}if(alert)alert.classList.add('show');setTimeout(()=>{if(alert)alert.classList.remove('show')},6000)}try{await rtdb.ref('settings/globalFundsActive').set(globalFundsActive)}catch(e){}await loadFunds() }
+        async function loadFundsState() { try{const snap=await rtdb.ref('settings/globalFundsActive').once('value');if(snap.val()===false){globalFundsActive=false;updateFundsUIAdmin()}}catch(e){globalFundsActive=true} }
+        function updateFundsUIAdmin() { if(!globalFundsActive){const badge=document.getElementById('fundsStatusBadge'),dot=document.getElementById('fundsStatusDot'),label=document.getElementById('fundsStatusLabel'),btn=document.getElementById('btnFundsMaster');if(badge)badge.className='funds-status-mini inactive';if(dot)dot.className='funds-dot-mini red';if(label)label.textContent='⚠️ FICA ATENTO - FUNDOS DESLIGADOS';if(btn){btn.className='btn-funds-toggle off';btn.textContent='🟢 ATIVAR TODOS OS FUNDOS'}}}
+        loadFundsState();
+
+        async function carregarArtigos() { const artigos=await getData('artigos');artigosTemp=artigos?Object.values(artigos):[];renderizarListaArtigos() }
+        function renderizarListaArtigos() { const container=document.getElementById('artigos-lista');if(!container)return;if(artigosTemp.length===0){container.innerHTML='<p style="color:#666">Nenhum artigo</p>';return}container.innerHTML=`<div style="color:#FFD700;font-size:11px">📝 ${artigosTemp.length}/10</div>${artigosTemp.map((artigo,index)=>`<div style="background:#0d0d1a;padding:8px;margin:4px 0;border-radius:8px;border-left:3px solid #FFD700;display:flex;justify-content:space-between;align-items:center"><div style="flex:1"><b style="color:#FFD700">${artigo.data}</b> - <span>${artigo.titulo||'Sem título'}</span></div><div><button onclick="editarArtigo(${index})" style="background:#FFA502;color:white;border:none;padding:3px 8px;border-radius:5px;font-size:10px;margin-right:3px">✏️</button><button onclick="excluirArtigo(${index})" style="background:#FF0000;color:white;border:none;padding:3px 8px;border-radius:5px;font-size:10px">🗑️</button></div></div>`).join('')}<button onclick="salvarTodosArtigos()" class="btn-modal-3d" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe);font-size:12px;margin-top:8px">💾 Salvar Todos</button>` }
+        async function adicionarArtigo() { if(artigosTemp.length>=10)return alert('⚠️ Máximo 10!');const data=document.getElementById('artigo-data').value.trim();const titulo=document.getElementById('artigo-titulo').value.trim();const texto=document.getElementById('artigo-texto').value.trim();const fileInput=document.getElementById('artigo-imagem');const file=fileInput.files[0];if(!data&&!titulo&&!texto)return alert('⚠️ Preencha algo!');if(file){const reader=new FileReader();reader.onload=function(e){const img=new Image();img.src=e.target.result;img.onload=function(){const canvas=document.createElement('canvas');const maxWidth=600;const scale=maxWidth/img.width;canvas.width=maxWidth;canvas.height=img.height*scale;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);const compressed=canvas.toDataURL('image/jpeg',0.7);artigosTemp.push({data:data||'Sem data',titulo:titulo||'Sem título',texto:texto||'',imagem:compressed,criadoEm:new Date().toISOString()});limparFormularioArtigo();renderizarListaArtigos()}};reader.readAsDataURL(file)}else{artigosTemp.push({data:data||'Sem data',titulo:titulo||'Sem título',texto:texto||'',imagem:null,criadoEm:new Date().toISOString()});limparFormularioArtigo();renderizarListaArtigos()} }
+        function limparFormularioArtigo() { document.getElementById('artigo-data').value='';document.getElementById('artigo-titulo').value='';document.getElementById('artigo-texto').value='';document.getElementById('artigo-imagem').value='' }
+        function editarArtigo(index) { const artigo=artigosTemp[index];document.getElementById('artigo-data').value=artigo.data;document.getElementById('artigo-titulo').value=artigo.titulo;document.getElementById('artigo-texto').value=artigo.texto;artigosTemp.splice(index,1);renderizarListaArtigos();alert('📝 Edite e clique em Adicionar') }
+        function excluirArtigo(index) { if(!confirm('Excluir?'))return;artigosTemp.splice(index,1);renderizarListaArtigos() }
+        async function salvarTodosArtigos() { if(artigosTemp.length===0){await deleteData('artigos');alert('✅ Salvos!');return}const artigosObj={};artigosTemp.forEach((artigo,index)=>{artigosObj[index]=artigo});await setData('artigos',artigosObj);alert(`✅ ${artigosTemp.length} artigos salvos!`) }
+        async function showAboutSection() { const artigos=await getData('artigos');if(!artigos||Object.keys(artigos).length===0)return alert('📝 Nenhum artigo');const artigosArray=Object.values(artigos);const modal=document.createElement('div');modal.className='modal-overlay';modal.onclick=function(e){if(e.target===modal)modal.remove()};modal.innerHTML=`<div class="modal-3d" style="max-height:90vh;overflow-y:auto;text-align:center"><div style="font-size:50px">📖</div><h2 style="color:#FFD700">SOBRE NÓS</h2><div style="display:flex;flex-direction:column;gap:15px">${artigosArray.map((artigo,index)=>`<div style="background:#0d0d1a;border-radius:14px;padding:14px;text-align:left">${artigo.data?`<div style="color:#e84393;font-weight:700">📅 ${artigo.data}</div>`:''}${artigo.titulo?`<h4 style="color:#FFD700">${artigo.titulo}</h4>`:''}${artigo.imagem?`<div style="margin:10px 0"><img src="${artigo.imagem}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px" onerror="this.style.display='none'"></div>`:''}${artigo.texto?`<p style="color:#b2bec3;font-size:13px;line-height:1.7;white-space:pre-line">${artigo.texto}</p>`:''}</div>`).join('')}</div><button onclick="this.closest('.modal-overlay').remove()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393);margin-top:15px">👍 FECHAR</button></div>`;document.body.appendChild(modal) }
+
+        window.addEventListener('DOMContentLoaded',()=>{switchLoginTab('login');setInterval(()=>{document.getElementById('fake-deposits').textContent=Math.floor(Math.random()*500+100);document.getElementById('fake-withdraws').textContent=Math.floor(Math.random()*300+50);document.getElementById('fake-members').textContent=(Math.random()*30+70).toFixed(0)+'k';document.getElementById('online-users-count').textContent=Math.floor(Math.random()*(87000-1471)+1471).toLocaleString()},3000);loadYouTubeLink()});
+    </script>
+</body>
+</html>
