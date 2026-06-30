@@ -1191,7 +1191,7 @@
                 <div class="balance-card-3d"><div class="balance-main"><div class="balance-label">💎 Saldo Principal</div><div class="balance-amount" id="main-balance">0.00</div></div><div class="balance-stats"><div class="balance-stat-item"><div class="balance-stat-value" id="ganho-ontem">0.00</div><div class="balance-stat-label">📅 Ontem</div></div><div class="balance-stat-item"><div class="balance-stat-value" id="ganho-hoje">0.00</div><div class="balance-stat-label">📊 Hoje</div></div><div class="balance-stat-item"><div class="balance-stat-value" id="ganho-ano">0.00</div><div class="balance-stat-label">📈 Este Ano</div></div></div></div>
                 <div class="actions-grid"><button class="btn-3d btn-deposit" onclick="openDepositModal()"><i class="fas fa-plus-circle"></i> Depositar</button><button class="btn-3d btn-withdraw" id="btn-withdraw-main" onclick="openWithdrawModal()"><i class="fas fa-minus-circle"></i> Levantar</button><button class="btn-3d btn-collect" id="btn-collect-main" onclick="collectNow()"><i class="fas fa-hand-holding-usd"></i> 🔴 COLETAR</button><button class="btn-3d btn-friends" onclick="switchTab('referral')"><i class="fas fa-users"></i> Convidar</button><button class="btn-3d btn-install-app" onclick="showInstallInstructions()"><i class="fas fa-mobile-alt"></i> 📲 ADICIONAR APP</button></div>
                 <div id="collect-status" class="status-text"></div>
-                <a href="https://youtube.com/@GENINS_INVESTIMENT" target="_blank" class="btn-youtube-premium" id="btn-youtube"><i class="fab fa-youtube"></i> 🎬 ASSISTA E INSCREVA-SE • GANHE 100 MT/DIA</a>
+                <a href="#" target="_blank" class="btn-youtube-premium" id="btn-youtube"><i class="fab fa-youtube"></i> 🎬 ASSISTA E INSCREVA-SE • GANHE 100 MT/DIA</a>
                 <p class="texto-chamativo-video">⚡ INSCREVA-SE NO CANAL E GANHE BÔNUS DIÁRIOS ⚡</p>
                 <h3 class="section-title-3d">👑 Planos VIP • 5% ao dia</h3>
                 <div class="vip-grid" id="vip-groups"></div>
@@ -1220,6 +1220,18 @@
         <div id="install-modal" class="modal-overlay hidden"><div class="modal-3d" style="text-align:center"><div style="font-size:50px">📲</div><h3 style="color:#FFD700">Adicionar à Tela Inicial</h3><p style="color:#b2bec3">Acesse o <b style="color:#FF0000">GENINS INVESTIMENT</b> como app!</p><div id="install-instructions" style="background:rgba(255,255,255,0.03);border-radius:14px;padding:16px;margin:12px 0;text-align:left;font-size:13px;color:#b2bec3;line-height:1.8"></div><button onclick="closeModal('install-modal')" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393)">👍 ENTENDI!</button></div></div>
         <div id="admin-modal" class="modal-overlay hidden"><div class="modal-3d" style="max-height:90vh;max-width:460px"><h2 style="color:#FFD700;text-align:center;margin-bottom:15px">🔐 Painel Admin</h2>
             
+            <!-- SEÇÃO LINK DO YOUTUBE -->
+            <div class="admin-section">
+                <h4><i class="fab fa-youtube"></i> Link do YouTube (Ganhe 100 MT/DIA)</h4>
+                <div style="margin-bottom:8px;">
+                    <label style="font-size:12px;color:#b2bec3;">Link atual:</label>
+                    <div id="youtube-link-display" style="background:#111;padding:8px;border-radius:8px;font-size:11px;word-break:break-all;color:#FFD700;margin:5px 0;"></div>
+                </div>
+                <input type="text" id="youtube-link-input" class="input-3d" placeholder="Cole o link do YouTube" value="https://youtu.be/BubdmsJ7F5E?si=6jbvx0Hk5wN8lSSd">
+                <button onclick="salvarYoutubeLink()" class="btn-modal-3d" style="background:#FF0000;font-size:12px;padding:10px;">💾 Salvar Link</button>
+                <button onclick="resetarYoutubeLink()" class="btn-modal-3d" style="background:#FFA502;font-size:11px;padding:8px;margin-top:5px;">🔄 Resetar Padrão</button>
+            </div>
+
             <!-- SEÇÃO ANÚNCIOS -->
             <div class="admin-section">
                 <h4><i class="fas fa-ad"></i> Gerenciar Anúncios (Firebase)</h4>
@@ -1401,6 +1413,10 @@
         firebase.initializeApp(firebaseConfig); 
         const rtdb = firebase.database();
 
+        // ==================== LINK PADRÃO DO YOUTUBE ====================
+        const YOUTUBE_LINK_PADRAO = 'https://youtu.be/BubdmsJ7F5E?si=6jbvx0Hk5wN8lSSd';
+        let youtubeLinkAtual = YOUTUBE_LINK_PADRAO;
+
         // ==================== BANNER ROTATIVO ====================
         let currentBannerSlide = 0;
         const totalBannerSlides = 10;
@@ -1575,6 +1591,61 @@
         async function updateTransaction(id, u) { await updateData(`transactions/${id}`, u); }
         async function getTransactions(phone) { const a = await getAllTransactions(); return a.filter(t => t.phone === phone); }
 
+        // ==================== FUNÇÕES DO LINK DO YOUTUBE ====================
+        async function carregarYoutubeLink() {
+            try {
+                const link = await getData('settings/youtubeLink');
+                if (link) {
+                    youtubeLinkAtual = link;
+                } else {
+                    youtubeLinkAtual = YOUTUBE_LINK_PADRAO;
+                    await setData('settings/youtubeLink', youtubeLinkAtual);
+                }
+                atualizarBotaoYoutube();
+                document.getElementById('youtube-link-display').textContent = youtubeLinkAtual;
+                document.getElementById('youtube-link-input').value = youtubeLinkAtual;
+                console.log('📺 Link do YouTube carregado:', youtubeLinkAtual);
+            } catch (e) {
+                console.error('Erro ao carregar link do YouTube:', e);
+                youtubeLinkAtual = YOUTUBE_LINK_PADRAO;
+                atualizarBotaoYoutube();
+            }
+        }
+
+        async function salvarYoutubeLink() {
+            const novoLink = document.getElementById('youtube-link-input').value.trim();
+            if (!novoLink) {
+                alert('⚠️ Por favor, cole um link válido do YouTube!');
+                return;
+            }
+            if (!novoLink.includes('youtu.be') && !novoLink.includes('youtube.com')) {
+                if (!confirm('⚠️ O link não parece ser do YouTube. Deseja continuar mesmo assim?')) return;
+            }
+            youtubeLinkAtual = novoLink;
+            await setData('settings/youtubeLink', youtubeLinkAtual);
+            atualizarBotaoYoutube();
+            document.getElementById('youtube-link-display').textContent = youtubeLinkAtual;
+            alert('✅ Link do YouTube atualizado com sucesso!');
+            console.log('📺 Novo link do YouTube:', youtubeLinkAtual);
+        }
+
+        async function resetarYoutubeLink() {
+            if (!confirm('Resetar para o link padrão?')) return;
+            youtubeLinkAtual = YOUTUBE_LINK_PADRAO;
+            await setData('settings/youtubeLink', youtubeLinkAtual);
+            atualizarBotaoYoutube();
+            document.getElementById('youtube-link-display').textContent = youtubeLinkAtual;
+            document.getElementById('youtube-link-input').value = youtubeLinkAtual;
+            alert('✅ Link resetado para o padrão!');
+        }
+
+        function atualizarBotaoYoutube() {
+            const btn = document.getElementById('btn-youtube');
+            if (btn) {
+                btn.href = youtubeLinkAtual;
+            }
+        }
+
         // ==================== FUNÇÕES DE ANÚNCIOS FIREBASE ====================
         async function carregarAnunciosFirebase() {
             try {
@@ -1585,7 +1656,6 @@
                     console.log('📢 Anúncios carregados do Firebase:', { banners: anunciosAtuais.length, popups: popupsAtuais.length });
                     return true;
                 } else {
-                    // Se não existir, criar com dados padrão
                     anunciosAtuais = JSON.parse(JSON.stringify(ANUNCIOS_PADRAO));
                     popupsAtuais = JSON.parse(JSON.stringify(POPUPS_PADRAO));
                     await setData('anuncios', { banners: anunciosAtuais, popups: popupsAtuais });
@@ -1602,7 +1672,6 @@
 
         async function salvarAnunciosFirebase() {
             try {
-                // Coleta os dados do admin
                 const items = document.querySelectorAll('#admin-anuncios-list .admin-anuncio-item');
                 if (items.length > 0) {
                     const novosBanners = [];
@@ -1639,7 +1708,6 @@
                 alert('✅ Anúncios salvos no Firebase!');
                 carregarAdminAnuncios();
                 
-                // Reinicia os popups com as novas configurações
                 if (isLoggedIn) {
                     iniciarAlternanciaPopups();
                 }
@@ -1669,7 +1737,6 @@
             
             let html = '';
             
-            // Banners
             html += '<div style="margin-bottom:15px;"><b style="color:#FFD700;">📢 Banners (5 variações)</b><br><span style="font-size:10px;color:#888;">Cada usuário vê um banner diferente</span></div>';
             anunciosAtuais.forEach((a, index) => {
                 html += `
@@ -1689,7 +1756,6 @@
                 `;
             });
 
-            // Popups
             html += '<div style="margin:15px 0 10px;"><b style="color:#6c5ce7;">🔄 Popups (alternam)</b><br><span style="font-size:10px;color:#888;">Aparecem apenas após login</span></div>';
             popupsAtuais.forEach((p) => {
                 html += `
@@ -1730,7 +1796,6 @@
                 hash = (hash << 5) - hash + userId.charCodeAt(i);
                 hash = hash & hash;
             }
-            // Filtra apenas banners ativos
             const ativos = anunciosAtuais.filter(a => a.tipo === 'banner' && a.ativo !== false);
             if (ativos.length === 0) return anunciosAtuais[0] || ANUNCIOS_PADRAO[0];
             const indice = Math.abs(hash) % ativos.length;
@@ -1769,7 +1834,6 @@
                 beneficiosEl.innerHTML = benHTML;
             }
             
-            // Partículas
             const partContainer = document.getElementById('particulasContainer');
             if (partContainer) {
                 partContainer.innerHTML = '';
@@ -1813,26 +1877,22 @@
             const aviatorPopup = document.getElementById('aviatorPopup');
             const marvelPopup = document.getElementById('earplanePopup');
             
-            // Verifica se os popups estão ativos
             const aviatorConfig = getPopupConfig(0);
             const marvelConfig = getPopupConfig(1);
             
             const aviatorAtivo = aviatorConfig && aviatorConfig.ativo !== false;
             const marvelAtivo = marvelConfig && marvelConfig.ativo !== false;
             
-            // Se nenhum estiver ativo, não faz nada
             if (!aviatorAtivo && !marvelAtivo) {
                 console.log('⏸️ Nenhum popup ativo');
                 return;
             }
             
-            // Esconde ambos
             aviatorPopup.classList.remove('visible');
             marvelPopup.classList.remove('visible');
             popupAviatorVisible = false;
             popupMarvelVisible = false;
             
-            // Se apenas um está ativo, mostra ele sempre
             if (aviatorAtivo && !marvelAtivo) {
                 setTimeout(() => {
                     if (isLoggedIn && currentUser) {
@@ -1867,7 +1927,6 @@
                 return;
             }
             
-            // Ambos ativos - alterna
             popupAlternancia = (popupAlternancia + 1) % 2;
             
             if (popupAlternancia === 0) {
@@ -1902,7 +1961,6 @@
         }
 
         function iniciarAlternanciaPopups() {
-            // Limpa intervalo anterior
             if (alternanciaInterval) {
                 clearInterval(alternanciaInterval);
                 alternanciaInterval = null;
@@ -1913,7 +1971,6 @@
                 return;
             }
             
-            // Verifica se há popups ativos
             const hasActive = popupsAtuais.some(p => p.ativo !== false);
             if (!hasActive) {
                 console.log('⏸️ Nenhum popup ativo');
@@ -1922,14 +1979,12 @@
             
             popupsIniciados = true;
             
-            // Mostra o primeiro popup após 2 segundos
             setTimeout(() => {
                 if (isLoggedIn && currentUser) {
                     alternarPopups();
                 }
             }, 2000);
             
-            // Usa o intervalo do primeiro popup ativo
             const primeiroAtivo = popupsAtuais.find(p => p.ativo !== false);
             const intervalo = (primeiroAtivo && primeiroAtivo.intervalo) || 70;
             
@@ -2494,11 +2549,12 @@
                 switchTab('home');
                 startTimers();
 
-                // Carrega anúncios e inicia popups
                 await carregarAnunciosFirebase();
                 initAnuncioBanner();
                 
-                // IMPORTANTE: Inicia os popups APÓS o login
+                // Carrega link do YouTube
+                await carregarYoutubeLink();
+                
                 setTimeout(() => {
                     iniciarAlternanciaPopups();
                 }, 1000);
@@ -2618,6 +2674,9 @@
             loadAdminEditVIPs();
             loadAdminEditFunds();
             carregarAdminAnuncios();
+
+            // Carrega o link do YouTube no admin
+            await carregarYoutubeLink();
 
             const all = await getAllUsers();
             const uv = all.filter(u => (u.vipPurchased && Object.keys(u.vipPurchased).length > 0) || u.vipLevel !== null);
@@ -2824,10 +2883,8 @@
             loadConfigs();
             loadCardColors();
 
-            // Carrega anúncios do Firebase
             await carregarAnunciosFirebase();
-
-            // Inicializa o banner
+            await carregarYoutubeLink();
             initAnuncioBanner();
 
             setInterval(() => {
@@ -2862,7 +2919,8 @@
             });
 
             console.log('🚀 GENINS INVESTIMENT - Sistema pronto!');
-            console.log('📢 Anúncios carregados:', anunciosAtuais.length, 'banners,', popupsAtuais.length, 'popups');
+            console.log('📢 Anúncios:', anunciosAtuais.length, 'banners,', popupsAtuais.length, 'popups');
+            console.log('📺 Link YouTube:', youtubeLinkAtual);
         });
     </script>
 </body>
