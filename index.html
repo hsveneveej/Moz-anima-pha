@@ -12,6 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style id="theme-style">
+        /* ===== ESTILOS DO SISTEMA GENINS ===== */
         :root {
             --bg-primary: #0a0a15; --bg-secondary: #1a1a4e; --bg-card: #0d0d1a;
             --text-primary: #ffffff; --text-secondary: #b2bec3;
@@ -46,7 +47,6 @@
             box-shadow: 0 0 30px rgba(255,69,0,0.6), 0 0 60px rgba(255,0,0,0.3), inset 0 0 30px rgba(255,100,0,0.1);
         }
         
-        /* Efeito de fogo no fundo */
         .banner-fire-container::before {
             content: '';
             position: absolute;
@@ -94,7 +94,6 @@
             }
         }
 
-        /* Partículas de fogo */
         .fire-particles {
             position: absolute;
             bottom: 0;
@@ -132,7 +131,6 @@
             100% { transform: translateY(-75px) scale(0.5); opacity: 0; background: #FF8C00; }
         }
 
-        /* Conteúdo do banner */
         .banner-content {
             position: relative;
             z-index: 2;
@@ -332,6 +330,769 @@
         .withdrawal-btn:hover { background:#1a1a4e; }
         .withdrawal-btn.selected { background:linear-gradient(135deg,#FF0000,#FF4500); color:white; border-color:#FF0000; transform:scale(1.05); }
         .tarefa-card { background:rgba(255,255,255,0.03); border-radius:18px; padding:16px; display:flex; align-items:center; justify-content:space-between; border:1px solid rgba(255,255,255,0.08); margin-bottom:10px; }
+
+        /* ===== ESTILOS DOS ANÚNCIOS ===== */
+        @keyframes slideInRight {
+            from { transform: translateX(150%) scale(0.8); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0) scale(1); opacity: 1; }
+            to { transform: translateX(150%) scale(0.5); opacity: 0; }
+        }
+        @keyframes pulseGold {
+            0%, 100% { box-shadow: 0 0 60px rgba(255,215,0,0.5), 0 0 120px rgba(255,215,0,0.3); }
+            50% { box-shadow: 0 0 100px rgba(255,215,0,0.9), 0 0 180px rgba(255,215,0,0.5); }
+        }
+        @keyframes pulseRed {
+            0%, 100% { box-shadow: 0 0 60px rgba(255,68,68,0.5), 0 0 120px rgba(255,68,68,0.3); }
+            50% { box-shadow: 0 0 100px rgba(255,68,68,0.9), 0 0 180px rgba(255,68,68,0.5); }
+        }
+        @keyframes pulsePurple {
+            0%, 100% { box-shadow: 0 0 60px rgba(155,89,182,0.5), 0 0 120px rgba(155,89,182,0.3); }
+            50% { box-shadow: 0 0 100px rgba(155,89,182,0.9), 0 0 180px rgba(155,89,182,0.5); }
+        }
+        @keyframes pulseCyan {
+            0%, 100% { box-shadow: 0 0 60px rgba(0,188,212,0.5), 0 0 120px rgba(0,188,212,0.3); }
+            50% { box-shadow: 0 0 100px rgba(0,188,212,0.9), 0 0 180px rgba(0,188,212,0.5); }
+        }
+        @keyframes pulseGreen {
+            0%, 100% { box-shadow: 0 0 60px rgba(0,255,136,0.5), 0 0 120px rgba(0,255,136,0.3); }
+            50% { box-shadow: 0 0 100px rgba(0,255,136,0.9), 0 0 180px rgba(0,255,136,0.5); }
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-20px) scale(1.15); }
+            60% { transform: translateY(-10px) scale(1.08); }
+        }
+        @keyframes blinkBadge {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.15); }
+        }
+        @keyframes shine {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+        @keyframes bounceValor {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.1); }
+            60% { transform: scale(0.95); }
+        }
+        @keyframes particulas {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translateY(-150px) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-250px) scale(0); opacity: 0; }
+        }
+
+        /* ===== BANNER DE ANÚNCIO (fixo na tela) ===== */
+        .anuncio-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999998;
+            animation: slideInRight 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .anuncio-container.saindo {
+            animation: slideOutRight 0.5s ease-in forwards;
+        }
+
+        .anuncio-base {
+            border-radius: 35px;
+            padding: 35px 30px 30px;
+            width: 500px;
+            max-width: 95vw;
+            cursor: default;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .anuncio-base:hover {
+            transform: translateY(-10px);
+        }
+
+        .anuncio-particulas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particula {
+            position: absolute;
+            border-radius: 50%;
+            animation: particulas 3s ease-in-out infinite;
+        }
+
+        .anuncio-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .anuncio-icon {
+            font-size: 70px;
+            animation: floatIcon 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+
+        .anuncio-titulo-group {
+            flex: 1;
+        }
+
+        .anuncio-titulo {
+            font-size: 26px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        .anuncio-subtitulo {
+            font-size: 14px;
+            font-weight: 700;
+            opacity: 0.9;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .anuncio-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .anuncio-bonus-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            border: 2px dashed rgba(255,255,255,0.2);
+        }
+
+        .anuncio-bonus-label {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .anuncio-valor {
+            font-size: 80px;
+            font-weight: 900;
+            line-height: 1;
+            animation: bounceValor 3s ease-in-out infinite;
+            display: block;
+        }
+
+        .anuncio-bonus-desc {
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .anuncio-contador {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contador-numero {
+            font-size: 28px;
+            font-weight: 900;
+            padding: 5px 15px;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .anuncio-beneficios {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .beneficio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .beneficio-item:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(5px);
+        }
+
+        .beneficio-icone {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .anuncio-btn {
+            display: block;
+            width: 100%;
+            padding: 22px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            margin-top: 15px;
+        }
+
+        .anuncio-btn:hover {
+            transform: scale(1.06);
+            letter-spacing: 4px;
+        }
+
+        .anuncio-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2.5s infinite;
+        }
+
+        .anuncio-fechar {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            backdrop-filter: blur(5px);
+        }
+
+        .anuncio-fechar:hover {
+            background: #ff4444;
+            border-color: #ff4444;
+            transform: rotate(90deg) scale(1.15);
+            box-shadow: 0 0 30px rgba(255,68,68,0.7);
+        }
+
+        .anuncio-dica {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+            font-weight: 700;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+
+        .anuncio-1 { background: linear-gradient(160deg, #1a1a00, #3d3d00, #1a1a00); border: 5px solid #ffd700; animation: pulseGold 2.5s infinite; }
+        .anuncio-1 .anuncio-titulo { color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.6); }
+        .anuncio-1 .anuncio-subtitulo { color: #ffe08a; }
+        .anuncio-1 .anuncio-valor { color: #ffd700; text-shadow: 0 0 50px rgba(255,215,0,0.9), 0 0 100px rgba(255,215,0,0.5); }
+        .anuncio-1 .anuncio-bonus-label { color: #ffe08a; }
+        .anuncio-1 .anuncio-bonus-desc { color: #ffd700; }
+        .anuncio-1 .contador-numero { color: #ffd700; border: 2px solid rgba(255,215,0,0.4); }
+        .anuncio-1 .anuncio-badge { background: #ff4444; color: #fff; animation: blinkBadge 1s infinite; }
+        .anuncio-1 .anuncio-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; box-shadow: 0 15px 45px rgba(255,140,0,0.6); }
+        .anuncio-1 .anuncio-dica { color: #ffd700; }
+        .anuncio-1 .beneficio-item { color: #fff; }
+        .anuncio-1 .beneficio-icone { color: #ffd700; }
+        .anuncio-1 .particula { background: #ffd700; box-shadow: 0 0 15px #ffd700; width: 6px; height: 6px; }
+
+        .anuncio-2 { background: linear-gradient(160deg, #1a0000, #3d0000, #1a0000); border: 5px solid #ff4444; animation: pulseRed 2.5s infinite; }
+        .anuncio-2 .anuncio-titulo { color: #ff4444; text-shadow: 0 0 30px rgba(255,68,68,0.6); }
+        .anuncio-2 .anuncio-subtitulo { color: #ff9999; }
+        .anuncio-2 .anuncio-valor { color: #ff6b6b; text-shadow: 0 0 50px rgba(255,68,68,0.9), 0 0 100px rgba(255,68,68,0.5); }
+        .anuncio-2 .anuncio-bonus-label { color: #ff9999; }
+        .anuncio-2 .anuncio-bonus-desc { color: #ff6b6b; }
+        .anuncio-2 .contador-numero { color: #ff6b6b; border: 2px solid rgba(255,107,107,0.4); }
+        .anuncio-2 .anuncio-badge { background: #ffd700; color: #000; }
+        .anuncio-2 .anuncio-btn { background: linear-gradient(135deg, #ff4444, #cc0000); color: #fff; box-shadow: 0 15px 45px rgba(255,68,68,0.6); }
+        .anuncio-2 .anuncio-dica { color: #ff6b6b; }
+        .anuncio-2 .beneficio-item { color: #fff; }
+        .anuncio-2 .beneficio-icone { color: #ff4444; }
+        .anuncio-2 .particula { background: #ff4444; box-shadow: 0 0 15px #ff4444; width: 6px; height: 6px; }
+
+        .anuncio-3 { background: linear-gradient(160deg, #1a0030, #3d0050, #1a0030); border: 5px solid #9b59b6; animation: pulsePurple 2.5s infinite; }
+        .anuncio-3 .anuncio-titulo { color: #9b59b6; text-shadow: 0 0 30px rgba(155,89,182,0.6); }
+        .anuncio-3 .anuncio-subtitulo { color: #c39bd3; }
+        .anuncio-3 .anuncio-valor { color: #bb86fc; text-shadow: 0 0 50px rgba(155,89,182,0.9), 0 0 100px rgba(155,89,182,0.5); }
+        .anuncio-3 .anuncio-bonus-label { color: #c39bd3; }
+        .anuncio-3 .anuncio-bonus-desc { color: #bb86fc; }
+        .anuncio-3 .contador-numero { color: #bb86fc; border: 2px solid rgba(187,134,252,0.4); }
+        .anuncio-3 .anuncio-badge { background: #00bcd4; color: #000; }
+        .anuncio-3 .anuncio-btn { background: linear-gradient(135deg, #9b59b6, #6a1b9a); color: #fff; box-shadow: 0 15px 45px rgba(155,89,182,0.6); }
+        .anuncio-3 .anuncio-dica { color: #bb86fc; }
+        .anuncio-3 .beneficio-item { color: #fff; }
+        .anuncio-3 .beneficio-icone { color: #bb86fc; }
+        .anuncio-3 .particula { background: #bb86fc; box-shadow: 0 0 15px #bb86fc; width: 6px; height: 6px; }
+
+        .anuncio-4 { background: linear-gradient(160deg, #001a1a, #003d3d, #001a1a); border: 5px solid #00bcd4; animation: pulseCyan 2.5s infinite; }
+        .anuncio-4 .anuncio-titulo { color: #00bcd4; text-shadow: 0 0 30px rgba(0,188,212,0.6); }
+        .anuncio-4 .anuncio-subtitulo { color: #80deea; }
+        .anuncio-4 .anuncio-valor { color: #00e5ff; text-shadow: 0 0 50px rgba(0,188,212,0.9), 0 0 100px rgba(0,188,212,0.5); }
+        .anuncio-4 .anuncio-bonus-label { color: #80deea; }
+        .anuncio-4 .anuncio-bonus-desc { color: #00e5ff; }
+        .anuncio-4 .contador-numero { color: #00e5ff; border: 2px solid rgba(0,229,255,0.4); }
+        .anuncio-4 .anuncio-badge { background: #ffd700; color: #000; animation: blinkBadge 1s infinite; }
+        .anuncio-4 .anuncio-btn { background: linear-gradient(135deg, #00bcd4, #00838f); color: #fff; box-shadow: 0 15px 45px rgba(0,188,212,0.6); }
+        .anuncio-4 .anuncio-dica { color: #00e5ff; }
+        .anuncio-4 .beneficio-item { color: #fff; }
+        .anuncio-4 .beneficio-icone { color: #00e5ff; }
+        .anuncio-4 .particula { background: #00e5ff; box-shadow: 0 0 15px #00e5ff; width: 6px; height: 6px; }
+
+        .anuncio-5 { background: linear-gradient(160deg, #001a0a, #003d1a, #001a0a); border: 5px solid #00ff88; animation: pulseGreen 2.5s infinite; }
+        .anuncio-5 .anuncio-titulo { color: #00ff88; text-shadow: 0 0 30px rgba(0,255,136,0.6); }
+        .anuncio-5 .anuncio-subtitulo { color: #80ffb3; }
+        .anuncio-5 .anuncio-valor { color: #00ff88; text-shadow: 0 0 50px rgba(0,255,136,0.9), 0 0 100px rgba(0,255,136,0.5); }
+        .anuncio-5 .anuncio-bonus-label { color: #80ffb3; }
+        .anuncio-5 .anuncio-bonus-desc { color: #00ff88; }
+        .anuncio-5 .contador-numero { color: #00ff88; border: 2px solid rgba(0,255,136,0.4); }
+        .anuncio-5 .anuncio-badge { background: #ffd700; color: #000; animation: blinkBadge 1s infinite; }
+        .anuncio-5 .anuncio-btn { background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; box-shadow: 0 15px 45px rgba(0,255,136,0.6); }
+        .anuncio-5 .anuncio-dica { color: #00ff88; }
+        .anuncio-5 .beneficio-item { color: #fff; }
+        .anuncio-5 .beneficio-icone { color: #00ff88; }
+        .anuncio-5 .particula { background: #00ff88; box-shadow: 0 0 15px #00ff88; width: 6px; height: 6px; }
+
+        @media (max-width: 520px) {
+            .anuncio-container { right: 5px; left: 5px; bottom: 15px; }
+            .anuncio-base { width: auto; max-width: 100%; padding: 25px 18px 22px; }
+            .anuncio-valor { font-size: 55px; }
+            .anuncio-icon { font-size: 50px; }
+            .anuncio-titulo { font-size: 20px; }
+            .anuncio-btn { font-size: 16px; padding: 16px; }
+            .beneficio-item { font-size: 12px; }
+        }
+
+        /* ===== POPUP AVIATOR DA CHINA ===== */
+        .aviator-popup {
+            position: fixed;
+            z-index: 999999;
+            width: 360px;
+            max-width: 92vw;
+            background: linear-gradient(180deg, #0D0800 0%, #0A0000 100%);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 40px rgba(255,215,0,0.2), 0 0 80px rgba(255,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+            transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                visibility 0.4s,
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                top 0.5s, left 0.5s, right 0.5s, bottom 0.5s;
+            overflow: hidden;
+            top: 60px;
+            right: 16px;
+            pointer-events: none;
+        }
+        .aviator-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .aviator-popup::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, #FFD700, #FF0000, #FFD700, #FF6600);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: borderGlow 3s ease infinite;
+            opacity: 0.6;
+        }
+        @keyframes borderGlow {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .aviator-popup::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #0D0800 0%, #0A0000 100%);
+            z-index: -1;
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+        .popup-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            color: #FFD700;
+            letter-spacing: 0.5px;
+        }
+        .popup-brand-emoji {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 8px #FFD700);
+            animation: bounceMini 2s ease-in-out infinite;
+        }
+        @keyframes bounceMini {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .popup-countdown {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #FFD700;
+            font-weight: 700;
+            background: rgba(255,215,0,0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,215,0,0.2);
+            transition: all 0.3s;
+        }
+        .popup-countdown.urgent {
+            color: #FF6B00;
+            border-color: rgba(255,107,0,0.4);
+            background: rgba(255,107,0,0.15);
+        }
+        .popup-countdown.expired {
+            color: #FF3333;
+            border-color: rgba(255,0,0,0.4);
+            background: rgba(255,0,0,0.15);
+        }
+        .popup-close {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(255,0,0,0.5);
+            border: 1px solid rgba(255,0,0,0.7);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            opacity: 1;
+            pointer-events: all;
+            animation: pulseClose 2s ease-in-out infinite;
+        }
+        @keyframes pulseClose {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,0,0,0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(255,0,0,0); }
+        }
+        .popup-close:active { transform: scale(0.9); background: rgba(255,0,0,0.8); }
+
+        .popup-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+        .popup-logo {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -1px;
+            color: #FFD700;
+            text-shadow: 0 0 30px rgba(255,215,0,0.5);
+        }
+        .popup-logo .dragon {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 10px #FFD700);
+            animation: dragonFloat 2s ease-in-out infinite;
+        }
+        @keyframes dragonFloat {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-6px) rotate(-3deg); }
+            75% { transform: translateY(4px) rotate(3deg); }
+        }
+        .popup-logo .china-text {
+            color: #FF3333;
+            text-shadow: 0 0 30px rgba(255,0,0,0.7), 0 0 60px rgba(255,0,0,0.3);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+
+        .escassez-container {
+            background: linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,0,51,0.1));
+            border: 1px solid rgba(255,215,0,0.35);
+            border-radius: 12px;
+            padding: 12px 14px;
+            text-align: center;
+        }
+        .escassez-titulo {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #FFD700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            animation: pulseTexto 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseTexto {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .progresso-container { width: 100%; margin-bottom: 8px; }
+        .progresso-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.6rem;
+            color: #CCCCCC;
+            font-weight: 700;
+        }
+        .progresso-info .preenchido { color: #FFD700; font-family: monospace; font-size: 0.75rem; }
+        .progresso-info .total { color: #8899AA; font-family: monospace; font-size: 0.75rem; }
+        .progresso-barra {
+            width: 100%;
+            height: 14px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .progresso-preenchimento {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #FFD700, #FF6600, #FF0033);
+            background-size: 200% 200%;
+            animation: progressoShine 2s ease-in-out infinite;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        @keyframes progressoShine {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .progresso-preenchimento::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+            border-radius: 10px;
+        }
+        
+        .vagas-texto {
+            font-size: 0.65rem;
+            color: #FFD700;
+            font-weight: 700;
+            text-align: center;
+        }
+        .vagas-texto .numero-vagas { color: #FF6600; font-size: 0.9rem; font-weight: 900; font-family: monospace; }
+        .vagas-texto .ultima { color: #FF0033; font-size: 0.8rem; font-weight: 900; animation: piscar 0.5s ease-in-out infinite; }
+        @keyframes piscar { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .bonus-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255,215,0,0.06);
+            border: 1px dashed rgba(255,215,0,0.35);
+            border-radius: 12px;
+            padding: 10px 12px;
+            text-align: center;
+        }
+        .bonus-amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(180deg, #FFE566, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.5));
+            line-height: 1;
+        }
+        .bonus-text { font-size: 0.65rem; color: #FFD700; font-weight: 700; }
+        .bonus-sub { font-size: 0.55rem; color: #CCAA66; }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+        }
+        .btn-popup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 10px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.6rem;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            letter-spacing: 0.3px;
+            text-align: center;
+        }
+        .btn-popup:active { transform: scale(0.94); }
+        .btn-popup .btn-ic { font-size: 1.2rem; }
+        .btn-popup .btn-txt { display: flex; flex-direction: column; line-height: 1.2; }
+        .btn-popup .btn-txt strong { font-size: 0.6rem; }
+        .btn-popup .btn-txt small { font-size: 0.48rem; opacity: 0.7; }
+
+        .btn-cadastro { background: linear-gradient(135deg, #CC0000, #FF0033); box-shadow: 0 4px 14px rgba(255,0,0,0.4); }
+        .btn-deposito { background: linear-gradient(135deg, #B8860B, #FFD700); color: #000 !important; box-shadow: 0 4px 14px rgba(212,160,23,0.4); animation: shimmer 3s infinite; background-size: 200% 200%; }
+        @keyframes shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .btn-deposito .btn-txt strong, .btn-deposito .btn-txt small { color: #000; }
+        .btn-youtube { background: linear-gradient(135deg, #6A00CC, #B400FF); box-shadow: 0 4px 14px rgba(180,0,255,0.4); }
+
+        .popup-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.5rem;
+            color: #667788;
+            letter-spacing: 0.5px;
+        }
+        .popup-footer span { display: flex; align-items: center; gap: 2px; }
+        .dot-green { width: 3px; height: 3px; background: #00FF88; border-radius: 50%; }
+
+        @media (max-width: 380px) {
+            .aviator-popup { width: 300px; right: 6px; top: 50px; }
+            .bonus-amount { font-size: 1.5rem; }
+            .popup-logo { font-size: 1.3rem; }
+            .popup-logo .china-text { font-size: 1.4rem; }
+            .btn-popup { padding: 8px 4px; }
+        }
+
+        /* ===== POPUP EARPLANE MARVEL ===== */
+        .earplane-popup {
+            position: fixed;
+            z-index: 999999;
+            width: 360px;
+            max-width: 92vw;
+            background: linear-gradient(180deg, #0A0010 0%, #0D0018 40%, #0A0015 100%);
+            border: 2px solid rgba(180, 0, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 40px rgba(180,0,255,0.2), 0 0 80px rgba(255,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+            transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                visibility 0.4s,
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                top 0.5s, left 0.5s, right 0.5s, bottom 0.5s;
+            overflow: hidden;
+            top: 60px;
+            right: 16px;
+            pointer-events: none;
+        }
+        .earplane-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .earplane-popup::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, #B400FF, #FF0033, #FFD700, #B400FF);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: borderGlow 3s ease infinite;
+            opacity: 0.7;
+        }
+        .earplane-popup::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #0A0010 0%, #0D0018 40%, #0A0015 100%);
+            z-index: -1;
+        }
+
+        .earplane-popup .popup-brand { color: #B400FF; }
+        .earplane-popup .popup-brand-emoji { filter: drop-shadow(0 0 8px #B400FF); }
+        .earplane-popup .popup-logo { color: #FF3B30; text-shadow: 0 0 30px rgba(255,59,48,0.5); }
+        .earplane-popup .popup-logo .jet { font-size: 1.4rem; filter: drop-shadow(0 0 10px #B400FF); }
+        .earplane-popup .popup-logo .marvel-text { color: #B400FF; text-shadow: 0 0 30px rgba(180,0,255,0.7), 0 0 60px rgba(180,0,255,0.3); font-size: 1.8rem; letter-spacing: 2px; }
+        .earplane-popup .escassez-container { background: linear-gradient(135deg, rgba(180,0,255,0.12), rgba(255,0,51,0.1)); border: 1px solid rgba(180,0,255,0.35); }
+        .earplane-popup .escassez-titulo { color: #CC66FF; }
+        .earplane-popup .progresso-info .preenchido { color: #CC66FF; }
+        .earplane-popup .vagas-texto { color: #CC66FF; }
+        .earplane-popup .vagas-texto .numero-vagas { color: #FFD700; }
+        .earplane-popup .vagas-texto .ultima { color: #FF0033; }
+        .earplane-popup .bonus-box { background: rgba(180,0,255,0.06); border: 1px dashed rgba(180,0,255,0.35); }
+        .earplane-popup .btn-youtube { background: linear-gradient(135deg, #6A00CC, #B400FF); box-shadow: 0 4px 14px rgba(180,0,255,0.4); }
+        .earplane-popup .progresso-preenchimento { background: linear-gradient(90deg, #B400FF, #FF0033, #FFD700); }
+
+        @media (max-width: 380px) {
+            .earplane-popup { width: 300px; right: 6px; top: 50px; }
+            .earplane-popup .bonus-amount { font-size: 1.5rem; }
+            .earplane-popup .popup-logo { font-size: 1.3rem; }
+            .earplane-popup .popup-logo .marvel-text { font-size: 1.4rem; }
+            .earplane-popup .btn-popup { padding: 8px 4px; }
+        }
     </style>
 </head>
 <body>
@@ -453,11 +1214,20 @@
             </nav>
         </div>
         
-        <!-- MODAIS (mantidos compactos) -->
+        <!-- MODAIS -->
         <div id="deposit-modal" class="modal-overlay hidden"><div class="modal-3d"><h3>💰 Depositar</h3><div id="payment-tabs" style="display:flex;gap:5px;margin-bottom:12px"><div class="payment-tab active" onclick="selectPaymentMethod('mpesa')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:#00B894;color:white;font-weight:700;font-size:14px">📱 M-Pesa</div><div class="payment-tab" onclick="selectPaymentMethod('emola')" style="flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;background:#444;color:white;font-weight:700;font-size:14px">📱 e-Mola</div></div><div id="payment-info-box" style="background:rgba(255,215,0,0.1);padding:10px;border-radius:10px;margin:8px 0;text-align:center;font-size:13px;color:#FFD700;font-weight:700"></div><input type="text" id="deposit-user-phone" class="input-3d input-readonly" placeholder="📱 Número" readonly><input type="text" id="deposit-user-name" class="input-3d input-readonly" placeholder="👤 Nome" readonly><input type="number" id="deposit-amount" class="input-3d" placeholder="💰 Valor (MT)"><input type="text" id="deposit-ref" class="input-3d" placeholder="🧾 Referência"><button onclick="confirmDeposit()" class="btn-modal-3d" style="background:linear-gradient(135deg,#00B894,#00cec9)" id="btn-confirm-deposit">✅ Enviar</button><button onclick="closeModal('deposit-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button></div></div>
         <div id="withdraw-modal" class="modal-overlay hidden"><div class="modal-3d"><h3>💸 Levantar</h3><div id="withdraw-modal-status" style="padding:12px;border-radius:10px;text-align:center;margin:8px 0;font-size:13px;font-weight:700">Verificando...</div><div style="margin:10px 0"><h4>📋 Tabela</h4><div id="withdrawal-buttons" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0"></div></div><div id="selected-withdrawal" style="background:rgba(255,215,0,0.1);padding:10px;border-radius:10px;text-align:center;font-weight:700;color:#FFD700">Selecione</div><p style="font-size:12px;color:#b2bec3;text-align:center;margin:8px 0">Taxa: <b>10%</b> | <b>1 saque/24h</b></p><button onclick="confirmWithdrawal()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#c0392b)" id="btn-confirm-withdraw">💸 Solicitar</button><button onclick="closeModal('withdraw-modal')" class="btn-modal-3d" style="background:#636e72">Cancelar</button></div></div>
         <div id="install-modal" class="modal-overlay hidden"><div class="modal-3d" style="text-align:center"><div style="font-size:50px">📲</div><h3 style="color:#FFD700">Adicionar à Tela Inicial</h3><p style="color:#b2bec3">Acesse o <b style="color:#FF0000">GENINS INVESTIMENT</b> como app!</p><div id="install-instructions" style="background:rgba(255,255,255,0.03);border-radius:14px;padding:16px;margin:12px 0;text-align:left;font-size:13px;color:#b2bec3;line-height:1.8"></div><button onclick="closeModal('install-modal')" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#e84393)">👍 ENTENDI!</button></div></div>
         <div id="admin-modal" class="modal-overlay hidden"><div class="modal-3d" style="max-height:90vh;max-width:460px"><h2 style="color:#FFD700;text-align:center;margin-bottom:15px">🔐 Painel Admin</h2>
+            
+            <!-- SEÇÃO ANÚNCIOS -->
+            <div class="admin-section">
+                <h4><i class="fas fa-ad"></i> Gerenciar Anúncios (Firebase)</h4>
+                <div id="admin-anuncios-list" style="font-size:11px;max-height:300px;overflow-y:auto;"></div>
+                <button onclick="salvarAnunciosFirebase()" class="btn-modal-3d" style="background:#6c5ce7;font-size:11px;padding:10px;margin-top:8px">💾 Salvar Anúncios no Firebase</button>
+                <button onclick="resetAnunciosPadrao()" class="btn-modal-3d" style="background:#FFA502;font-size:11px;padding:10px;margin-top:5px">🔄 Resetar Padrão</button>
+            </div>
+
             <div class="admin-section"><h4><i class="fas fa-palette"></i> Tema do Site</h4><div class="theme-selector"><button class="theme-btn theme-btn-fire active" onclick="changeTheme('default')" id="theme-default">🔥 Fogo</button><button class="theme-btn theme-btn-blue" onclick="changeTheme('blue')" id="theme-blue">💧 Azul</button><button class="theme-btn theme-btn-purple" onclick="changeTheme('purple')" id="theme-purple">🔮 Roxo</button><button class="theme-btn theme-btn-green" onclick="changeTheme('green')" id="theme-green">🍀 Verde</button><button class="theme-btn theme-btn-orange" onclick="changeTheme('orange')" id="theme-orange">🔶 Laranja</button><button class="theme-btn theme-btn-white" onclick="changeTheme('white')" id="theme-white">⬜ Branco</button></div><button onclick="saveTheme()" class="btn-modal-3d" style="background:linear-gradient(135deg,#FF0000,#FF4500);font-size:12px;padding:10px;margin-top:8px">💾 Salvar Tema</button></div>
             <div class="admin-section"><h4><i class="fas fa-crown"></i> Cores Cards VIP (Clique)</h4><div id="admin-vip-colors"></div><button onclick="saveVIPColors()" class="btn-modal-3d" style="background:#6c5ce7;font-size:11px;padding:10px;margin-top:8px">💾 Salvar Cores VIP</button></div>
             <div class="admin-section"><h4><i class="fas fa-coins"></i> Cores Cards Fundos (Clique)</h4><div id="admin-fundo-colors"></div><button onclick="saveFundoColors()" class="btn-modal-3d" style="background:#00B894;font-size:11px;padding:10px;margin-top:8px">💾 Salvar Cores Fundos</button></div>
@@ -474,40 +1244,219 @@
         </div></div>
     </div>
 
+    <!-- ===== ANÚNCIO BANNER FIXO (aparece antes e depois do login) ===== -->
+    <div class="anuncio-container" id="anuncioContainer">
+        <div class="anuncio-base anuncio-1" id="anuncioAtual">
+            <div class="anuncio-particulas" id="particulasContainer"></div>
+            <button class="anuncio-fechar" onclick="fecharAnuncio()">✕</button>
+            <div class="anuncio-header">
+                <span class="anuncio-icon">🎁</span>
+                <div class="anuncio-titulo-group">
+                    <span class="anuncio-titulo">PRESENTE INICIAL</span>
+                    <span class="anuncio-subtitulo">Convide amigos e ganhe</span>
+                    <span class="anuncio-badge">🎁 EXCLUSIVO</span>
+                </div>
+            </div>
+            <div class="anuncio-bonus-box">
+                <span class="anuncio-bonus-label">🎁 CONVIDE E GANHE</span>
+                <span class="anuncio-valor">750 MT</span>
+                <span class="anuncio-bonus-desc">Ao convidar 3 amigos que recarreguem!</span>
+            </div>
+            <div class="anuncio-contador">
+                <span>👥 Convide</span>
+                <span class="contador-numero">3</span>
+                <span>amigos</span>
+            </div>
+            <div class="anuncio-beneficios" id="beneficiosContainer"></div>
+            <button class="anuncio-btn" onclick="fecharAnuncio()">🎁 CONVIDAR E GANHAR</button>
+            <div class="anuncio-dica" id="dicaContainer"></div>
+        </div>
+    </div>
+
+    <!-- ===== POPUP AVIATOR DA CHINA ===== -->
+    <div class="aviator-popup" id="aviatorPopup">
+        <div class="popup-header">
+            <span class="popup-brand">
+                <span class="popup-brand-emoji">🐉</span> AVIATOR DA CHINA
+            </span>
+            <span class="popup-countdown" id="popupCountdownAviator">18s</span>
+            <button class="popup-close" id="popupCloseAviator">✕</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-logo">
+                <span class="dragon">🐉</span> AVIATOR <span class="china-text">DA CHINA</span>
+            </div>
+            <div class="escassez-container">
+                <div class="escassez-titulo">⚠️ BÔNUS LIMITADOS</div>
+                <div class="progresso-container">
+                    <div class="progresso-info">
+                        <span>Bônus resgatados</span>
+                        <span><span class="preenchido" id="preenchidosAviator">100</span><span class="total"> / <span id="totalBonusAviator">200</span></span></span>
+                    </div>
+                    <div class="progresso-barra">
+                        <div class="progresso-preenchimento" id="barraProgressoAviator" style="width: 50%;"></div>
+                    </div>
+                </div>
+                <div class="vagas-texto" id="vagasTextoAviator">
+                    Apenas <span class="numero-vagas" id="numeroVagasAviator">100</span> vagas restantes!
+                </div>
+            </div>
+            <div class="bonus-box">
+                <span style="font-size:1.5rem;">🧧</span>
+                <div style="text-align:center;">
+                    <span class="bonus-amount">888 MT</span>
+                    <span class="bonus-text"> DE BÔNUS</span><br>
+                    <span class="bonus-sub">no seu primeiro depósito</span>
+                </div>
+            </div>
+            <div class="btn-grid">
+                <a href="https://tracking.olabet.co.mz/C.ashx?btag=a_5777b_7c_&affid=5515&siteid=5777&adid=7&c=" target="_blank" rel="noopener" class="btn-popup btn-cadastro" onclick="registrarCliqueAviator()">
+                    <span class="btn-ic">👤</span>
+                    <span class="btn-txt"><strong>Criar Conta</strong><small>Grátis</small></span>
+                </a>
+                <a href="https://tracking.olabet.co.mz/C.ashx?btag=a_5777b_7c_&affid=5515&siteid=5777&adid=7&c=" target="_blank" rel="noopener" class="btn-popup btn-deposito" onclick="registrarCliqueAviator()">
+                    <span class="btn-ic">💰</span>
+                    <span class="btn-txt"><strong>Depositar</strong><small>888 MT Bônus</small></span>
+                </a>
+                <a href="https://youtu.be/LESPln04kmY?si=XLj6JtEhrsWnpb3C" target="_blank" rel="noopener" class="btn-popup btn-youtube" onclick="registrarCliqueAviator()">
+                    <span class="btn-ic">▶️</span>
+                    <span class="btn-txt"><strong>Mentoria</strong><small>YouTube</small></span>
+                </a>
+            </div>
+            <div class="popup-footer">
+                <span><span class="dot-green"></span> Provably Fair</span>
+                <span><span class="dot-green"></span> SHA-256</span>
+                <span><span class="dot-green"></span> Suporte 24/7</span>
+                <span><span class="dot-green"></span> +18</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== POPUP EARPLANE MARVEL ===== -->
+    <div class="earplane-popup" id="earplanePopup">
+        <div class="popup-header">
+            <span class="popup-brand">
+                <span class="popup-brand-emoji">✈️</span> EARPLANE MARVEL
+            </span>
+            <span class="popup-countdown" id="popupCountdownMarvel">18s</span>
+            <button class="popup-close" id="popupCloseMarvel">✕</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-logo">
+                <span class="jet">✈️</span> EARPLANE <span class="marvel-text">MARVEL</span>
+            </div>
+            <div class="escassez-container">
+                <div class="escassez-titulo">⚠️ BÔNUS LIMITADOS</div>
+                <div class="progresso-container">
+                    <div class="progresso-info">
+                        <span>Bônus resgatados</span>
+                        <span><span class="preenchido" id="preenchidosMarvel">100</span><span class="total"> / <span id="totalBonusMarvel">200</span></span></span>
+                    </div>
+                    <div class="progresso-barra">
+                        <div class="progresso-preenchimento" id="barraProgressoMarvel" style="width: 50%;"></div>
+                    </div>
+                </div>
+                <div class="vagas-texto" id="vagasTextoMarvel">
+                    Apenas <span class="numero-vagas" id="numeroVagasMarvel">100</span> vagas restantes!
+                </div>
+            </div>
+            <div class="bonus-box">
+                <span style="font-size:1.5rem;">🎁</span>
+                <div style="text-align:center;">
+                    <span class="bonus-amount">999 MT</span>
+                    <span class="bonus-text"> DE BÔNUS</span><br>
+                    <span class="bonus-sub">no seu primeiro depósito</span>
+                </div>
+            </div>
+            <div class="btn-grid">
+                <a href="https://media1.placard.co.mz/redirect.aspx?pid=11631&bid=1723" target="_blank" rel="noopener" class="btn-popup btn-cadastro" onclick="registrarCliqueMarvel()">
+                    <span class="btn-ic">👤</span>
+                    <span class="btn-txt"><strong>Criar Conta</strong><small>Grátis</small></span>
+                </a>
+                <a href="https://media1.placard.co.mz/redirect.aspx?pid=11631&bid=1723" target="_blank" rel="noopener" class="btn-popup btn-deposito" onclick="registrarCliqueMarvel()">
+                    <span class="btn-ic">💰</span>
+                    <span class="btn-txt"><strong>Depositar</strong><small>999 MT Bônus</small></span>
+                </a>
+                <a href="https://youtu.be/LESPln04kmY?si=XLj6JtEhrsWnpb3C" target="_blank" rel="noopener" class="btn-popup btn-youtube" onclick="registrarCliqueMarvel()">
+                    <span class="btn-ic">▶️</span>
+                    <span class="btn-txt"><strong>Mentoria</strong><small>YouTube</small></span>
+                </a>
+            </div>
+            <div class="popup-footer">
+                <span><span class="dot-green"></span> Provably Fair</span>
+                <span><span class="dot-green"></span> SHA-256</span>
+                <span><span class="dot-green"></span> Suporte 24/7</span>
+                <span><span class="dot-green"></span> +18</span>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ==================== BANNER ROTATIVO COM FOGO ====================
+        // ==================== CONFIGURAÇÃO FIREBASE ====================
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDFWtfZuhLtPY8yq9UJs3PXibh_TJRi1mY", 
+            databaseURL: "https://moz-anima-pha-default-rtdb.firebaseio.com/", 
+            projectId: "moz-anima-pha" 
+        };
+        firebase.initializeApp(firebaseConfig); 
+        const rtdb = firebase.database();
+
+        // ==================== BANNER ROTATIVO ====================
         let currentBannerSlide = 0;
         const totalBannerSlides = 10;
         
         function rotateBanner() {
-            // Esconde slide atual
             const currentSlide = document.getElementById(`banner-slide-${currentBannerSlide}`);
             if (currentSlide) currentSlide.classList.remove('active');
-            
-            // Avança para o próximo
             currentBannerSlide = (currentBannerSlide + 1) % totalBannerSlides;
-            
-            // Mostra novo slide
             const nextSlide = document.getElementById(`banner-slide-${currentBannerSlide}`);
             if (nextSlide) nextSlide.classList.add('active');
         }
         
-        // Inicia o banner
         function initBanner() {
-            // Mostra o primeiro slide
             const firstSlide = document.getElementById('banner-slide-0');
             if (firstSlide) firstSlide.classList.add('active');
-            
-            // Rotaciona a cada 3 segundos
             setInterval(rotateBanner, 3000);
         }
 
-        // ==================== FIREBASE ====================
-        const firebaseConfig = { apiKey:"AIzaSyDFWtfZuhLtPY8yq9UJs3PXibh_TJRi1mY", databaseURL:"https://moz-anima-pha-default-rtdb.firebaseio.com/", projectId:"moz-anima-pha" };
-        firebase.initializeApp(firebaseConfig); const rtdb = firebase.database();
+        // ==================== DADOS PADRÃO DOS ANÚNCIOS ====================
+        const ANUNCIOS_PADRAO = [
+            { id: 0, tipo: 'banner', classe: 'anuncio-1', icon: '🎁', titulo: 'PRESENTE INICIAL', subtitulo: 'Comece a ganhar agora', badge: '🎁 EXCLUSIVO', bonusLabel: '🎁 CONVIDE E GANHE', valor: '750 MT', bonusDesc: 'Ao convidar 3 amigos que recarreguem!', convidados: 3, beneficios: ['Convide 3 amigos para se cadastrar', 'Os 3 amigos precisam recarregar', 'Você recebe 750 MT de presente'], btnTexto: '🎁 CONVIDAR E GANHAR', dica: 'Presente enviado após a recarga dos 3 amigos!', corParticula: '#ffd700' },
+            { id: 1, tipo: 'banner', classe: 'anuncio-2', icon: '🎁', titulo: 'PRESENTE AVANÇADO', subtitulo: 'Ganhe ainda mais', badge: '⚡ POPULAR', bonusLabel: '🎁 CONVIDE E GANHE', valor: '1.500 MT', bonusDesc: 'Ao convidar 5 amigos que recarreguem!', convidados: 5, beneficios: ['Convide 5 amigos para se cadastrar', 'Os 5 amigos precisam recarregar', 'Você recebe 1.500 MT de presente'], btnTexto: '🎁 CONVIDAR E GANHAR', dica: 'O mais popular! Presente generoso', corParticula: '#ff4444' },
+            { id: 2, tipo: 'banner', classe: 'anuncio-3', icon: '🎁', titulo: 'PRESENTE PREMIUM', subtitulo: 'Multiplique seus ganhos', badge: '🌟 PREMIUM', bonusLabel: '🎁 CONVIDE E GANHE', valor: '3.000 MT', bonusDesc: 'Ao convidar 7 amigos que recarreguem!', convidados: 7, beneficios: ['Convide 7 amigos para se cadastrar', 'Os 7 amigos precisam recarregar', 'Você recebe 3.000 MT de presente'], btnTexto: '🎁 CONVIDAR E GANHAR', dica: 'Presente premium! Vale muito a pena', corParticula: '#bb86fc' },
+            { id: 3, tipo: 'banner', classe: 'anuncio-4', icon: '🎁', titulo: 'PRESENTE ELITE', subtitulo: 'Para quem quer o máximo', badge: '🔷 ELITE', bonusLabel: '🎁 CONVIDE E GANHE', valor: '5.000 MT', bonusDesc: 'Ao convidar 10 amigos que recarreguem!', convidados: 10, beneficios: ['Convide 10 amigos para se cadastrar', 'Os 10 amigos precisam recarregar', 'Você recebe 5.000 MT de presente'], btnTexto: '🎁 CONVIDAR E GANHAR', dica: 'Presente elite! O mais desejado', corParticula: '#00e5ff' },
+            { id: 4, tipo: 'banner', classe: 'anuncio-5', icon: '🎁', titulo: 'PRESENTE LENDÁRIO', subtitulo: 'O maior de todos', badge: '👑 LENDÁRIO', bonusLabel: '🎁 CONVIDE E GANHE', valor: '10.000 MT', bonusDesc: 'Ao convidar 15 amigos que recarreguem!', convidados: 15, beneficios: ['Convide 15 amigos para se cadastrar', 'Os 15 amigos precisam recarregar', 'Você recebe 10.000 MT de presente'], btnTexto: '🎁 CONVIDAR E GANHAR', dica: 'Presente lendário! O maior de todos', corParticula: '#00ff88' }
+        ];
 
-        const COLETA_COOLDOWN = 24, SAQUE_COOLDOWN = 24, VIP_EXPIRY_DAYS = 1095, ESTAGIARIO_DURATION = 4;
-        
+        const POPUPS_PADRAO = [
+            { id: 0, tipo: 'popup', nome: 'Aviator da China', ativo: true, intervalo: 70, bonus: '888 MT', linkCriarConta: 'https://tracking.olabet.co.mz/C.ashx?btag=a_5777b_7c_&affid=5515&siteid=5777&adid=7&c=', linkDepositar: 'https://tracking.olabet.co.mz/C.ashx?btag=a_5777b_7c_&affid=5515&siteid=5777&adid=7&c=', linkMentoria: 'https://youtu.be/LESPln04kmY?si=XLj6JtEhrsWnpb3C', classe: 'aviator-popup', logo: '🐉' },
+            { id: 1, tipo: 'popup', nome: 'Earplane Marvel', ativo: true, intervalo: 70, bonus: '999 MT', linkCriarConta: 'https://media1.placard.co.mz/redirect.aspx?pid=11631&bid=1723', linkDepositar: 'https://media1.placard.co.mz/redirect.aspx?pid=11631&bid=1723', linkMentoria: 'https://youtu.be/LESPln04kmY?si=XLj6JtEhrsWnpb3C', classe: 'earplane-popup', logo: '✈️' }
+        ];
+
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let anunciosAtuais = [];
+        let popupsAtuais = [];
+        let currentUser = null;
+        let loginMode = 'login';
+        let selectedWithdrawal = null;
+        let isLoggedIn = false;
+        let collectTimerInterval = null;
+        let withdrawTimerInterval = null;
+        let currentPaymentMethod = 'mpesa';
+        let currentTheme = 'default';
+        let adminClicks = 0;
+        let alternanciaInterval = null;
+        let popupAviatorVisible = false;
+        let popupMarvelVisible = false;
+        let popupAlternancia = 0;
+        let popupsIniciados = false;
+
+        // ==================== DADOS DO SISTEMA ====================
+        const COLETA_COOLDOWN = 24;
+        const SAQUE_COOLDOWN = 24;
+        const VIP_EXPIRY_DAYS = 1095;
+        const ESTAGIARIO_DURATION = 4;
+
         const COLOR_PRESETS = [
             { name:'🔥 Vermelho', bg:'linear-gradient(145deg, #1a0d0d, #440000)', border:'rgba(255,0,0,0.7)' },
             { name:'💙 Azul', bg:'linear-gradient(145deg, #0d1a2e, #002244)', border:'rgba(0,210,255,0.7)' },
@@ -519,8 +1468,23 @@
             { name:'🩵 Ciano', bg:'linear-gradient(145deg, #0d1a1a, #004444)', border:'rgba(0,206,201,0.7)' },
         ];
 
-        const DEFAULT_VIP_COLORS = { 0:{bg:'linear-gradient(145deg, #1a1a0d, #2d2d00)',border:'rgba(255,215,0,0.6)'},1:{bg:'linear-gradient(145deg, #0d1a2e, #002244)',border:'rgba(0,210,255,0.6)'},2:{bg:'linear-gradient(145deg, #0d1a1a, #004444)',border:'rgba(0,206,201,0.6)'},3:{bg:'linear-gradient(145deg, #1a1a0d, #3d3d00)',border:'rgba(253,203,110,0.6)'},4:{bg:'linear-gradient(145deg, #1a0d1a, #3d003d)',border:'rgba(232,67,147,0.6)'},5:{bg:'linear-gradient(145deg, #0d0d2e, #1a0044)',border:'rgba(108,92,231,0.6)'},6:{bg:'linear-gradient(145deg, #1a0d0d, #440000)',border:'rgba(255,69,0,0.6)'},7:{bg:'linear-gradient(145deg, #1a0000, #330000)',border:'rgba(255,0,0,0.8)'} };
-        const DEFAULT_FUNDO_COLORS = { pro:{bg:'linear-gradient(145deg, #1a1a0d, #2d2d00)',border:'rgba(255,215,0,0.6)'},elite:{bg:'linear-gradient(145deg, #0d0d2e, #1a0044)',border:'rgba(108,92,231,0.6)'},premium:{bg:'linear-gradient(145deg, #1a0d0d, #440000)',border:'rgba(255,0,0,0.6)'},master:{bg:'linear-gradient(145deg, #0d1a1a, #004444)',border:'rgba(0,184,148,0.6)'},lenda:{bg:'linear-gradient(145deg, #1a0d1a, #3d003d)',border:'rgba(253,121,168,0.6)'} };
+        const DEFAULT_VIP_COLORS = { 
+            0:{bg:'linear-gradient(145deg, #1a1a0d, #2d2d00)',border:'rgba(255,215,0,0.6)'},
+            1:{bg:'linear-gradient(145deg, #0d1a2e, #002244)',border:'rgba(0,210,255,0.6)'},
+            2:{bg:'linear-gradient(145deg, #0d1a1a, #004444)',border:'rgba(0,206,201,0.6)'},
+            3:{bg:'linear-gradient(145deg, #1a1a0d, #3d3d00)',border:'rgba(253,203,110,0.6)'},
+            4:{bg:'linear-gradient(145deg, #1a0d1a, #3d003d)',border:'rgba(232,67,147,0.6)'},
+            5:{bg:'linear-gradient(145deg, #0d0d2e, #1a0044)',border:'rgba(108,92,231,0.6)'},
+            6:{bg:'linear-gradient(145deg, #1a0d0d, #440000)',border:'rgba(255,69,0,0.6)'},
+            7:{bg:'linear-gradient(145deg, #1a0000, #330000)',border:'rgba(255,0,0,0.8)'} 
+        };
+        const DEFAULT_FUNDO_COLORS = { 
+            pro:{bg:'linear-gradient(145deg, #1a1a0d, #2d2d00)',border:'rgba(255,215,0,0.6)'},
+            elite:{bg:'linear-gradient(145deg, #0d0d2e, #1a0044)',border:'rgba(108,92,231,0.6)'},
+            premium:{bg:'linear-gradient(145deg, #1a0d0d, #440000)',border:'rgba(255,0,0,0.6)'},
+            master:{bg:'linear-gradient(145deg, #0d1a1a, #004444)',border:'rgba(0,184,148,0.6)'},
+            lenda:{bg:'linear-gradient(145deg, #1a0d1a, #3d003d)',border:'rgba(253,121,168,0.6)'} 
+        };
         
         let vipCardColors = JSON.parse(JSON.stringify(DEFAULT_VIP_COLORS));
         let fundoCardColors = JSON.parse(JSON.stringify(DEFAULT_FUNDO_COLORS));
@@ -545,113 +1509,1361 @@
         ];
 
         const W_VALS = [150,500,1500,3000,5000,10000,20000,50000,100000];
-        const TAREFAS_CONFIG = [{ nome:'Nv 1: Bronze',valor:200,convidados:4,icon:'🥉'},{ nome:'Nv 2: Prata',valor:400,convidados:8,icon:'🥈'},{ nome:'Nv 3: Ouro',valor:600,convidados:12,icon:'🥇'},{ nome:'Nv 4: Platina',valor:900,convidados:15,icon:'💎'},{ nome:'Nv 5: Diamante',valor:1500,convidados:20,icon:'💚'},{ nome:'Nv 6: Master',valor:2000,convidados:25,icon:'👑'},{ nome:'Nv 7: Elite',valor:3000,convidados:30,icon:'💙'},{ nome:'Nv 8: Lenda',valor:5000,convidados:40,icon:'💜'},{ nome:'Nv 9: Imortal',valor:8000,convidados:50,icon:'🔥'},{ nome:'Nv 10: Imortal',valor:12000,convidados:60,icon:'👁️'}];
+        const TAREFAS_CONFIG = [
+            { nome:'Nv 1: Bronze',valor:200,convidados:4,icon:'🥉'},
+            { nome:'Nv 2: Prata',valor:400,convidados:8,icon:'🥈'},
+            { nome:'Nv 3: Ouro',valor:600,convidados:12,icon:'🥇'},
+            { nome:'Nv 4: Platina',valor:900,convidados:15,icon:'💎'},
+            { nome:'Nv 5: Diamante',valor:1500,convidados:20,icon:'💚'},
+            { nome:'Nv 6: Master',valor:2000,convidados:25,icon:'👑'},
+            { nome:'Nv 7: Elite',valor:3000,convidados:30,icon:'💙'},
+            { nome:'Nv 8: Lenda',valor:5000,convidados:40,icon:'💜'},
+            { nome:'Nv 9: Imortal',valor:8000,convidados:50,icon:'🔥'},
+            { nome:'Nv 10: Imortal',valor:12000,convidados:60,icon:'👁️'}
+        ];
 
-        let currentUser=null,loginMode='login',selectedWithdrawal=null,isLoggedIn=false;
-        let collectTimerInterval=null,withdrawTimerInterval=null;
-        let currentPaymentMethod='mpesa',currentTheme='default',adminClicks=0;
+        // ==================== FUNÇÕES FIREBASE ====================
+        async function getData(p) { try { const s = await rtdb.ref(p).once('value'); return s.val(); } catch(e) { return null; } }
+        async function setData(p, d) { try { await rtdb.ref(p).set(d); } catch(e) {} }
+        async function pushData(p, d) { try { const r = await rtdb.ref(p).push(d); return r.key; } catch(e) { return null; } }
+        async function updateData(p, d) { try { await rtdb.ref(p).update(d); } catch(e) {} }
+        async function deleteData(p) { try { await rtdb.ref(p).remove(); } catch(e) {} }
 
-        async function getData(p){try{const s=await rtdb.ref(p).once('value');return s.val()}catch(e){return null}}
-        async function setData(p,d){try{await rtdb.ref(p).set(d)}catch(e){}}
-        async function pushData(p,d){try{const r=await rtdb.ref(p).push(d);return r.key}catch(e){return null}}
-        async function updateData(p,d){try{await rtdb.ref(p).update(d)}catch(e){}}
-        async function deleteData(p){try{await rtdb.ref(p).remove()}catch(e){}}
-        async function getUser(phone){const d=await getData(`users/${phone}`);if(d){d.balance=Number(d.balance)||0;d.commission=Number(d.commission)||0;d.vipLevel=d.vipLevel!==undefined&&d.vipLevel!==null?Number(d.vipLevel):null;d.vipStart=d.vipStart||null;d.vipPurchased=d.vipPurchased||{};d.starterUsed=Boolean(d.starterUsed);d.lastCollectDate=d.lastCollectDate||null;d.lastWithdrawDate=d.lastWithdrawDate||null;d.referralBonus=Number(d.referralBonus)||0;d.investments=Array.isArray(d.investments)?d.investments:[];d.totalEarnings=Number(d.totalEarnings)||0}return d}
-        async function saveUser(u){const d={phone:u.phone,name:u.name||'',password:u.password||'',balance:Number(u.balance)||0,commission:Number(u.commission)||0,vipLevel:u.vipLevel!==undefined&&u.vipLevel!==null?Number(u.vipLevel):null,vipStart:u.vipStart||null,vipPurchased:u.vipPurchased||{},investments:Array.isArray(u.investments)?u.investments:[],referredBy:u.referredBy||null,referralBonus:Number(u.referralBonus)||0,lastCollectDate:u.lastCollectDate||null,lastWithdrawDate:u.lastWithdrawDate||null,starterUsed:Boolean(u.starterUsed),createdAt:u.createdAt||new Date().toISOString(),totalEarnings:Number(u.totalEarnings)||0};await setData(`users/${u.phone}`,d)}
-        async function getAllUsers(){const d=await getData('users');return d?Object.values(d):[]}
-        async function addTransaction(t){return await pushData('transactions',t)}
-        async function getAllTransactions(){const d=await getData('transactions');return d?Object.entries(d).map(([id,val])=>({id,...val})):[]}
-        async function updateTransaction(id,u){await updateData(`transactions/${id}`,u)}
-        async function getTransactions(phone){const a=await getAllTransactions();return a.filter(t=>t.phone===phone)}
+        async function getUser(phone) {
+            const d = await getData(`users/${phone}`);
+            if (d) {
+                d.balance = Number(d.balance) || 0;
+                d.commission = Number(d.commission) || 0;
+                d.vipLevel = d.vipLevel !== undefined && d.vipLevel !== null ? Number(d.vipLevel) : null;
+                d.vipStart = d.vipStart || null;
+                d.vipPurchased = d.vipPurchased || {};
+                d.starterUsed = Boolean(d.starterUsed);
+                d.lastCollectDate = d.lastCollectDate || null;
+                d.lastWithdrawDate = d.lastWithdrawDate || null;
+                d.referralBonus = Number(d.referralBonus) || 0;
+                d.investments = Array.isArray(d.investments) ? d.investments : [];
+                d.totalEarnings = Number(d.totalEarnings) || 0;
+            }
+            return d;
+        }
 
-        function getCooldownRemaining(ld,h){if(!ld)return 0;return Math.max(0,new Date(ld).getTime()+(h*3600000)-Date.now())}
-        function formatTime(ms){if(ms<=0)return'00:00:00';const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
-        function canCollect(){if(!currentUser)return false;const n=new Date();if(n.getDay()===0)return false;if(currentUser.vipLevel===null||currentUser.vipLevel===undefined)return false;if(currentUser.vipLevel===0){if(!currentUser.vipStart)return false;if((n-new Date(currentUser.vipStart))/(1000*3600*24)>=ESTAGIARIO_DURATION)return false}return!isOnCooldown(currentUser.lastCollectDate,COLETA_COOLDOWN)}
-        function canWithdraw(){if(!currentUser)return false;const n=new Date();if(n.getDay()===0||n.getDay()===6)return false;if(currentUser.vipLevel===null||currentUser.vipLevel===undefined||currentUser.vipLevel===0)return false;return!isOnCooldown(currentUser.lastWithdrawDate,SAQUE_COOLDOWN)}
-        function isOnCooldown(ld,h){return getCooldownRemaining(ld,h)>0}
-        function getVIPExpiryCountdown(vs,isSt){if(!vs)return{expired:true,text:'⏰ Não ativo'};const ed=new Date(new Date(vs).getTime()+(isSt?ESTAGIARIO_DURATION:VIP_EXPIRY_DAYS)*86400000),diff=ed-new Date();if(diff<=0)return{expired:true,text:'⏰ Expirado!'};const days=Math.floor(diff/86400000),hours=Math.floor((diff%86400000)/3600000);if(isSt)return{expired:false,text:days===0?`⏳ ${hours}h restantes`:`⏳ ${days}d ${hours}h restantes`};return{expired:false,text:`⏳ ${days}d restantes`}}
+        async function saveUser(u) {
+            const d = {
+                phone: u.phone,
+                name: u.name || '',
+                password: u.password || '',
+                balance: Number(u.balance) || 0,
+                commission: Number(u.commission) || 0,
+                vipLevel: u.vipLevel !== undefined && u.vipLevel !== null ? Number(u.vipLevel) : null,
+                vipStart: u.vipStart || null,
+                vipPurchased: u.vipPurchased || {},
+                investments: Array.isArray(u.investments) ? u.investments : [],
+                referredBy: u.referredBy || null,
+                referralBonus: Number(u.referralBonus) || 0,
+                lastCollectDate: u.lastCollectDate || null,
+                lastWithdrawDate: u.lastWithdrawDate || null,
+                starterUsed: Boolean(u.starterUsed),
+                createdAt: u.createdAt || new Date().toISOString(),
+                totalEarnings: Number(u.totalEarnings) || 0
+            };
+            await setData(`users/${u.phone}`, d);
+        }
 
-        function changeTheme(t){currentTheme=t;const b=document.body;b.classList.remove('theme-blue','theme-purple','theme-green','theme-orange','theme-white');if(t==='blue')b.classList.add('theme-blue');else if(t==='purple')b.classList.add('theme-purple');else if(t==='green')b.classList.add('theme-green');else if(t==='orange')b.classList.add('theme-orange');else if(t==='white')b.classList.add('theme-white');document.querySelectorAll('.theme-btn').forEach(btn=>btn.classList.remove('active'));const ab=document.getElementById(`theme-${t}`);if(ab)ab.classList.add('active')}
-        async function saveTheme(){await setData('settings/theme',currentTheme);alert('✅ Tema salvo!')}
-        async function loadTheme(){const s=await getData('settings/theme');if(s&&s!=='default')changeTheme(s)}
+        async function getAllUsers() { const d = await getData('users'); return d ? Object.values(d) : []; }
+        async function addTransaction(t) { return await pushData('transactions', t); }
+        async function getAllTransactions() { const d = await getData('transactions'); return d ? Object.entries(d).map(([id, val]) => ({ id, ...val })) : []; }
+        async function updateTransaction(id, u) { await updateData(`transactions/${id}`, u); }
+        async function getTransactions(phone) { const a = await getAllTransactions(); return a.filter(t => t.phone === phone); }
 
-        function applyCardColors(){let vs='',fs='';for(const[id,c]of Object.entries(vipCardColors))vs+=`.vip-card-bg-${id}{background:${c.bg}!important;border-color:${c.border}!important}`;for(const[id,c]of Object.entries(fundoCardColors))fs+=`.fundo-card-bg-${id}{background:${c.bg}!important;border-color:${c.border}!important}`;let s=document.getElementById('vip-card-colors');if(!s){s=document.createElement('style');s.id='vip-card-colors';document.head.appendChild(s)}s.textContent=vs;let f=document.getElementById('fundo-card-colors');if(!f){f=document.createElement('style');f.id='fundo-card-colors';document.head.appendChild(f)}f.textContent=fs}
-        async function loadCardColors(){const vc=await getData('settings/vipCardColors');if(vc)vipCardColors=vc;const fc=await getData('settings/fundoCardColors');if(fc)fundoCardColors=fc;applyCardColors()}
-        async function saveVIPColors(){await setData('settings/vipCardColors',vipCardColors);applyCardColors();alert('✅ Cores VIP salvas!')}
-        async function saveFundoColors(){await setData('settings/fundoCardColors',fundoCardColors);applyCardColors();alert('✅ Cores Fundos salvas!')}
-        function setVIPColor(id,bg,border){if(!vipCardColors[id])vipCardColors[id]={};vipCardColors[id].bg=bg;vipCardColors[id].border=border;applyCardColors()}
-        function setFundoColor(id,bg,border){if(!fundoCardColors[id])fundoCardColors[id]={};fundoCardColors[id].bg=bg;fundoCardColors[id].border=border;applyCardColors()}
+        // ==================== FUNÇÕES DE ANÚNCIOS FIREBASE ====================
+        async function carregarAnunciosFirebase() {
+            try {
+                const data = await getData('anuncios');
+                if (data && data.banners && data.popups) {
+                    anunciosAtuais = data.banners;
+                    popupsAtuais = data.popups;
+                    console.log('📢 Anúncios carregados do Firebase:', { banners: anunciosAtuais.length, popups: popupsAtuais.length });
+                    return true;
+                } else {
+                    // Se não existir, criar com dados padrão
+                    anunciosAtuais = JSON.parse(JSON.stringify(ANUNCIOS_PADRAO));
+                    popupsAtuais = JSON.parse(JSON.stringify(POPUPS_PADRAO));
+                    await setData('anuncios', { banners: anunciosAtuais, popups: popupsAtuais });
+                    console.log('📢 Anúncios padrão criados no Firebase');
+                    return true;
+                }
+            } catch (e) {
+                console.error('Erro ao carregar anúncios:', e);
+                anunciosAtuais = JSON.parse(JSON.stringify(ANUNCIOS_PADRAO));
+                popupsAtuais = JSON.parse(JSON.stringify(POPUPS_PADRAO));
+                return false;
+            }
+        }
 
-        function loadAdminVIPColors(){const c=document.getElementById('admin-vip-colors');if(!c)return;c.innerHTML=VIP_CONFIG.map(v=>{const cur=vipCardColors[v.id]||DEFAULT_VIP_COLORS[v.id];const pre=COLOR_PRESETS.map(p=>`<button class="color-preset-btn" style="background:${p.bg};border-color:${p.border}" onclick="setVIPColor(${v.id},'${p.bg.replace(/'/g,"\\'")}','${p.border}')" title="${p.name}">${p.name.split(' ')[0]}</button>`).join('');return`<div style="margin-bottom:12px;padding:8px;background:rgba(255,255,255,0.02);border-radius:10px"><b>${v.icon} ${v.name}</b> <span style="font-size:9px;color:#888">- Clique na cor:</span><div class="color-preset-grid">${pre}</div><div style="font-size:9px;color:#888;margin-top:3px">Atual: <span style="display:inline-block;width:20px;height:10px;background:${cur.bg};border:1px solid ${cur.border};border-radius:3px;vertical-align:middle"></span></div></div>`}).join('')}
-        function loadAdminFundoColors(){const c=document.getElementById('admin-fundo-colors');if(!c)return;const fn={pro:'💰 Fundo Pro',elite:'💎 Fundo Elite',premium:'👑 Fundo Premium',master:'🚀 Fundo Master',lenda:'🔥 Fundo Lenda'};c.innerHTML=Object.entries(fn).map(([id,name])=>{const cur=fundoCardColors[id]||DEFAULT_FUNDO_COLORS[id];const pre=COLOR_PRESETS.map(p=>`<button class="color-preset-btn" style="background:${p.bg};border-color:${p.border}" onclick="setFundoColor('${id}','${p.bg.replace(/'/g,"\\'")}','${p.border}')" title="${p.name}">${p.name.split(' ')[0]}</button>`).join('');return`<div style="margin-bottom:12px;padding:8px;background:rgba(255,255,255,0.02);border-radius:10px"><b>${name}</b> <span style="font-size:9px;color:#888">- Clique na cor:</span><div class="color-preset-grid">${pre}</div><div style="font-size:9px;color:#888;margin-top:3px">Atual: <span style="display:inline-block;width:20px;height:10px;background:${cur.bg};border:1px solid ${cur.border};border-radius:3px;vertical-align:middle"></span></div></div>`}).join('')}
+        async function salvarAnunciosFirebase() {
+            try {
+                // Coleta os dados do admin
+                const items = document.querySelectorAll('#admin-anuncios-list .admin-anuncio-item');
+                if (items.length > 0) {
+                    const novosBanners = [];
+                    const novosPopups = [];
+                    items.forEach(item => {
+                        const tipo = item.dataset.tipo;
+                        const id = parseInt(item.dataset.id);
+                        const ativo = item.querySelector('.anuncio-ativo').checked;
+                        
+                        if (tipo === 'banner') {
+                            const banner = anunciosAtuais.find(a => a.id === id) || JSON.parse(JSON.stringify(ANUNCIOS_PADRAO.find(a => a.id === id)));
+                            if (banner) {
+                                banner.ativo = ativo;
+                                banner.titulo = item.querySelector('.anuncio-titulo-input').value;
+                                banner.valor = item.querySelector('.anuncio-valor-input').value;
+                                banner.convidados = parseInt(item.querySelector('.anuncio-convidados-input').value) || 3;
+                                novosBanners.push(banner);
+                            }
+                        } else if (tipo === 'popup') {
+                            const popup = popupsAtuais.find(p => p.id === id) || JSON.parse(JSON.stringify(POPUPS_PADRAO.find(p => p.id === id)));
+                            if (popup) {
+                                popup.ativo = ativo;
+                                popup.intervalo = parseInt(item.querySelector('.anuncio-intervalo-input').value) || 70;
+                                popup.bonus = item.querySelector('.anuncio-bonus-input').value;
+                                novosPopups.push(popup);
+                            }
+                        }
+                    });
+                    anunciosAtuais = novosBanners;
+                    popupsAtuais = novosPopups;
+                }
+                
+                await setData('anuncios', { banners: anunciosAtuais, popups: popupsAtuais });
+                alert('✅ Anúncios salvos no Firebase!');
+                carregarAdminAnuncios();
+                
+                // Reinicia os popups com as novas configurações
+                if (isLoggedIn) {
+                    iniciarAlternanciaPopups();
+                }
+                return true;
+            } catch (e) {
+                console.error('Erro ao salvar anúncios:', e);
+                alert('❌ Erro ao salvar anúncios!');
+                return false;
+            }
+        }
 
-        function updateUI(){if(!currentUser)return;document.getElementById('main-balance').textContent=(Number(currentUser.balance)||0).toFixed(2);document.getElementById('profile-name').textContent=currentUser.name||'Usuário';document.getElementById('profile-phone').textContent=currentUser.phone;const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);document.getElementById('profile-vip').textContent=v?`${v.icon} ${v.name}`:'Sem VIP';if(v&&currentUser.vipStart){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);document.getElementById('profile-vip-expiry').textContent=ei.text;document.getElementById('profile-vip-expiry').style.color=ei.expired?'#FF0000':'#999'}else{document.getElementById('profile-vip-expiry').textContent=''};updateBalanceStats()}
-        async function updateBalanceStats(){if(!currentUser)return;const txs=await getTransactions(currentUser.phone);const now=new Date();const hoje=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();const ontem=hoje-86400000;let ganhoHoje=0,ganhoOntem=0;txs.forEach(t=>{const a=Number(t.amount)||0;const d=new Date(t.date).getTime();if(['vip_return','referral_bonus','fund_complete'].includes(t.type)){if(d>=hoje)ganhoHoje+=a;if(d>=ontem&&d<hoje)ganhoOntem+=a}});document.getElementById('ganho-hoje').textContent=ganhoHoje.toFixed(2);document.getElementById('ganho-ontem').textContent=ganhoOntem.toFixed(2);document.getElementById('ganho-ano').textContent=(Number(currentUser.totalEarnings)||0).toFixed(2)}
-        function updateTimers(){if(!currentUser)return;const cRem=getCooldownRemaining(currentUser.lastCollectDate,COLETA_COOLDOWN),wRem=getCooldownRemaining(currentUser.lastWithdrawDate,SAQUE_COOLDOWN);['collect-timer','withdraw-timer','profile-collect-timer','profile-withdraw-timer'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=formatTime(i%2===0?cRem:wRem)});const cBar=document.getElementById('collect-timer-bar'),wBar=document.getElementById('withdraw-timer-bar');if(cBar){cBar.querySelector('span:first-child').textContent=cRem>0?'⏰ Coleta:':'✅ Coleta:';cBar.classList.toggle('blocked',cRem>0)}if(wBar){wBar.querySelector('span:first-child').textContent=wRem>0?'⏰ Saque:':'✅ Saque:';wBar.classList.toggle('blocked',wRem>0)}const btnC=document.getElementById('btn-collect-main'),btnW=document.getElementById('btn-withdraw-main');if(btnC)btnC.disabled=!canCollect();if(btnW)btnW.disabled=!canWithdraw();const st=document.getElementById('collect-status');if(st){const v=VIP_CONFIG.find(x=>x.id===currentUser?.vipLevel);if(!v)st.innerHTML='<span style="color:#FFA502">Ative um VIP para coletar</span>';else if(v.isStarter){if(!currentUser.vipStart)st.innerHTML='<span style="color:#FFA502">Ative o Estagiário</span>';else{const ds=(new Date()-new Date(currentUser.vipStart))/(1000*3600*24);if(ds>=ESTAGIARIO_DURATION)st.innerHTML='<span style="color:#FF0000">⏰ Estágio finalizado. Ative um VIP!</span>';else if(cRem>0)st.innerHTML=`<span style="color:#FFA502">⏰ Próxima: ${formatTime(cRem)}</span>`;else st.innerHTML=`<span style="color:#00B894">✅ MT ${v.daily.toFixed(2)} (Dia ${Math.floor(ds)+1}/4)</span>`}}else if(cRem>0)st.innerHTML=`<span style="color:#FF0000">⏰ Aguarde: ${formatTime(cRem)}</span>`;else st.innerHTML=`<span style="color:#00B894">✅ MT ${v.daily.toFixed(2)}</span>`}}
-        function startTimers(){if(collectTimerInterval)clearInterval(collectTimerInterval);if(withdrawTimerInterval)clearInterval(withdrawTimerInterval);const f=async()=>{if(!currentUser||!isLoggedIn)return;try{const fu=await getUser(currentUser.phone);if(fu){currentUser.lastCollectDate=fu.lastCollectDate||null;currentUser.lastWithdrawDate=fu.lastWithdrawDate||null;currentUser.balance=Number(fu.balance)||0;currentUser.vipLevel=fu.vipLevel!==undefined?Number(fu.vipLevel):null;currentUser.vipStart=fu.vipStart||null;currentUser.totalEarnings=Number(fu.totalEarnings)||0}}catch(e){}updateTimers()};collectTimerInterval=setInterval(f,1000)}
+        async function resetAnunciosPadrao() {
+            if (!confirm('Resetar todos os anúncios para os valores padrão?')) return;
+            anunciosAtuais = JSON.parse(JSON.stringify(ANUNCIOS_PADRAO));
+            popupsAtuais = JSON.parse(JSON.stringify(POPUPS_PADRAO));
+            await setData('anuncios', { banners: anunciosAtuais, popups: popupsAtuais });
+            carregarAdminAnuncios();
+            if (isLoggedIn) {
+                iniciarAlternanciaPopups();
+            }
+            alert('✅ Anúncios resetados!');
+        }
 
-        function loadVIPs(){const c=document.getElementById('vip-groups');if(!c)return;const cvl=currentUser?.vipLevel;if(!currentUser?.vipPurchased||typeof currentUser.vipPurchased!=='object'){if(currentUser)currentUser.vipPurchased={}}
-        c.innerHTML=VIP_CONFIG.map(v=>{const isActive=currentUser&&currentUser.vipLevel===v.id;const wasPurchased=currentUser?.vipPurchased?.[v.id];let showButton=false;if(v.isStarter)showButton=!currentUser?.starterUsed&&(cvl===null||cvl===undefined);else{const blocked=cvl!==null&&cvl!==undefined&&v.id<=cvl&&!isActive;showButton=!blocked&&!wasPurchased}
-        let statusHTML='';if(isActive){if(v.isStarter&&currentUser.vipStart){const ds=(new Date()-new Date(currentUser.vipStart))/(1000*3600*24);if(ds>=ESTAGIARIO_DURATION)statusHTML='<div class="expired-badge">⏰ EXPIRADO • Ative um VIP</div>';else statusHTML=`<div class="active-badge">✅ ATIVO • Dia ${Math.floor(ds)+1}/4</div>`}else statusHTML='<div class="active-badge">✅ ATIVO</div>'}
-        return`<div class="vip-card-premium vip-card-bg-${v.id} ${v.classColor}"><div class="vip-card-header"><div class="vip-card-badge" style="background:${v.color}22;color:${v.color};border:2px solid ${v.color}44">${v.isStarter?'🎓 GRÁTIS':v.icon+' '+v.name}</div><div class="vip-icon-circle" style="background:${v.color}22;border:2px solid ${v.color}44">${v.icon}</div><div class="vip-card-title" style="color:${v.color}">${v.name}</div><div class="vip-card-subtitle">${v.isStarter?'Plano gratuito • 4 dias':'Investimento premium'}</div></div><div class="vip-card-body"><div class="vip-stats-row"><div class="vip-stat-box"><div class="vip-stat-label">💎 Diário</div><div class="vip-stat-value" style="color:${v.color}">MT ${v.daily}</div></div><div class="vip-stat-box"><div class="vip-stat-label">📊 ${v.isStarter?'Total':'Mensal'}</div><div class="vip-stat-value" style="color:${v.color}">MT ${v.isStarter?v.totalReturn:v.monthly?.toLocaleString()}</div></div><div class="vip-stat-box"><div class="vip-stat-label">📅 ${v.isStarter?'Duração':'Saque'}</div><div class="vip-stat-value" style="color:${v.color}">${v.isStarter?ESTAGIARIO_DURATION+'d':v.withdrawDay}</div></div><div class="vip-stat-box"><div class="vip-stat-label">${v.isStarter?'🎯 Retorno':'⏰ Validade'}</div><div class="vip-stat-value" style="color:${v.color}">${v.isStarter?'MT '+v.totalReturn:'3 anos'}</div></div></div>${statusHTML}${showButton?`<button onclick="investVIP(${v.id})" class="btn-vip-action" style="background:linear-gradient(135deg,${v.color},${v.color}cc)">🚀 ${v.isStarter?'ATIVAR GRÁTIS':'Ativar • MT '+v.price.toLocaleString()}</button>`:''}${wasPurchased&&!isActive?'<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;text-align:center;margin-top:8px;color:#b2bec3;font-size:12px">✅ Já ativado</div>':''}${!showButton&&!isActive&&!wasPurchased?'<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;text-align:center;margin-top:8px;color:#FFA502;font-size:12px">🔒 VIP superior</div>':''}</div></div>`}).join('')}
-        function loadFunds(){const c=document.getElementById('funds-list-tab');if(!c)return;c.innerHTML=FUNDS_CONFIG.map(f=>`<div class="fundo-card-premium ${f.classBg} ${f.classColor}"><div class="fundo-card-header"><div class="fundo-title-section"><div class="fundo-icon-circle" style="background:${f.color}22;border:2px solid ${f.color}44">${f.icon}</div><div><div style="font-size:20px;font-weight:900;color:${f.color}">${f.name}</div><div style="font-size:11px;color:#b2bec3">Longo prazo</div></div></div><div style="padding:6px 14px;border-radius:18px;font-weight:900;font-size:13px;background:${f.color}22;color:${f.color};border:2px solid ${f.color}44">+${f.percent}%</div></div><div class="fundo-card-body"><div class="fundo-stats-grid"><div class="fundo-stat-item"><div class="fundo-stat-label">💰 Mínimo</div><div class="fundo-stat-value" style="color:${f.color}">MT ${f.min.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">💵 Base</div><div class="fundo-stat-value" style="color:${f.color}">MT ${f.base.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">📈 Retorno</div><div class="fundo-stat-value" style="color:#00B894">MT ${f.retorno.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">📅 Prazo</div><div class="fundo-stat-value" style="color:#e84393">${f.dias}d</div></div></div><button onclick="investFund(${f.id})" class="btn-fundo-action" style="background:linear-gradient(135deg,${f.color},${f.color}cc)">💰 Investir</button></div></div>`).join('')}
-        function loadTarefas(){const c=document.getElementById('tarefas-list');if(!c)return;c.innerHTML=TAREFAS_CONFIG.map(t=>`<div class="tarefa-card"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:35px">${t.icon}</span><div><div style="font-weight:900;color:#FFD700;font-size:14px">${t.nome}</div><div style="font-size:11px;color:#aaa">${t.convidados} convidados</div></div></div><div style="font-weight:900;font-size:18px;color:#00B894">+${t.valor} MT</div></div>`).join('')}
+        function carregarAdminAnuncios() {
+            const container = document.getElementById('admin-anuncios-list');
+            if (!container) return;
+            
+            let html = '';
+            
+            // Banners
+            html += '<div style="margin-bottom:15px;"><b style="color:#FFD700;">📢 Banners (5 variações)</b><br><span style="font-size:10px;color:#888;">Cada usuário vê um banner diferente</span></div>';
+            anunciosAtuais.forEach((a, index) => {
+                html += `
+                    <div class="admin-anuncio-item pending-item" data-tipo="banner" data-id="${a.id}" style="border-left:3px solid ${a.corParticula || '#FFD700'};">
+                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                            <span style="font-size:24px;">${a.icon}</span>
+                            <input class="anuncio-titulo-input" value="${a.titulo}" style="background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 6px;font-size:11px;flex:1;min-width:80px;">
+                            <input class="anuncio-valor-input" value="${a.valor}" style="background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 6px;font-size:11px;width:80px;">
+                            <span style="font-size:10px;color:#888;">👥</span>
+                            <input class="anuncio-convidados-input" value="${a.convidados}" style="background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 6px;font-size:11px;width:35px;">
+                            <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;">
+                                <input class="anuncio-ativo" type="checkbox" ${a.ativo !== false ? 'checked' : ''}> Ativo
+                            </label>
+                        </div>
+                        <div style="font-size:9px;color:#666;margin-top:3px;">${a.subtitulo}</div>
+                    </div>
+                `;
+            });
 
-        async function collectNow(){if(!currentUser)return alert('Faça login!');try{const fu=await getUser(currentUser.phone);if(!fu)return alert('Erro!');currentUser=fu;if(!canCollect()){const r=getCooldownRemaining(currentUser.lastCollectDate,COLETA_COOLDOWN);if(r>0)return alert(`⏰ Aguarde: ${formatTime(r)}`);if(currentUser.vipLevel===0&&currentUser.vipStart){if((new Date()-new Date(currentUser.vipStart))/(1000*3600*24)>=ESTAGIARIO_DURATION)return alert('⏰ Estágio finalizado!')}return alert('❌ Indisponível!')}const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(!v)return alert('Ative um VIP!');const amount=v.daily;currentUser.balance=(Number(currentUser.balance)||0)+amount;currentUser.totalEarnings=(Number(currentUser.totalEarnings)||0)+amount;currentUser.lastCollectDate=new Date().toISOString();if(v.isStarter&&currentUser.vipStart){if((Date.now()-new Date(currentUser.vipStart).getTime())/86400000>=v.duration)currentUser.lastCollectDate=null}await saveUser(currentUser);await addTransaction({phone:currentUser.phone,type:'vip_return',amount,date:new Date().toISOString()});updateUI();updateTimers();loadVIPs();updateBalanceStats();alert(`✅ Coletado!\n💰 MT ${amount.toFixed(2)}`)}catch(e){alert('Erro!')}}
-        async function investVIP(id){const v=VIP_CONFIG.find(x=>x.id===id);if(!v)return;if(!currentUser.vipPurchased||typeof currentUser.vipPurchased!=='object')currentUser.vipPurchased={};if(v.isStarter){if(currentUser.starterUsed)return alert('⚠️ Já usou!');if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined)return alert('⚠️ Já tem VIP!');currentUser.vipLevel=0;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[0]=new Date().toISOString();currentUser.starterUsed=true;currentUser.lastCollectDate=null;currentUser.lastWithdrawDate=null;await saveUser(currentUser);updateUI();updateTimers();loadVIPs();return alert(`✅ ESTAGIÁRIO!\n💰 Diário: MT ${v.daily}\n📅 ${ESTAGIARIO_DURATION} dias`)}if(currentUser.vipLevel!==null&&currentUser.vipLevel!==undefined&&id<=currentUser.vipLevel)return alert('⚠️ Compre VIP SUPERIOR!');const bal=Number(currentUser.balance)||0;if(bal<v.price)return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price.toLocaleString()}`);currentUser.balance=bal-v.price;currentUser.vipLevel=id;currentUser.vipStart=new Date().toISOString();currentUser.vipPurchased[id]=new Date().toISOString();currentUser.lastCollectDate=null;currentUser.lastWithdrawDate=null;await saveUser(currentUser);updateUI();updateTimers();loadVIPs();alert(`✅ ${v.name} ATIVADO!\n💰 MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily}`)}
-        async function investFund(id){const f=FUNDS_CONFIG.find(x=>x.id===id);if(!f)return;const bal=Number(currentUser.balance)||0;if(bal<f.base)return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nNecessário: MT ${f.base.toLocaleString()}`);if(!confirm(`${f.name}?\n💰 MT ${f.base.toLocaleString()}\n📈 Retorno: MT ${f.retorno.toLocaleString()}\n📅 ${f.dias} dias`))return;currentUser.balance=bal-f.base;if(!currentUser.investments||!Array.isArray(currentUser.investments))currentUser.investments=[];currentUser.investments.push({fundId:id,name:f.name,base:f.base,totalReturn:f.retorno,completed:false,startDate:new Date().toISOString(),dias:f.dias});await saveUser(currentUser);await addTransaction({phone:currentUser.phone,type:'fund_investment',amount:f.base,fundName:f.name,date:new Date().toISOString()});updateUI();loadFunds();alert(`✅ Investido!\n💰 MT ${f.base.toLocaleString()}`)}
+            // Popups
+            html += '<div style="margin:15px 0 10px;"><b style="color:#6c5ce7;">🔄 Popups (alternam)</b><br><span style="font-size:10px;color:#888;">Aparecem apenas após login</span></div>';
+            popupsAtuais.forEach((p) => {
+                html += `
+                    <div class="admin-anuncio-item pending-item" data-tipo="popup" data-id="${p.id}" style="border-left:3px solid ${p.id === 0 ? '#FFD700' : '#9b59b6'};">
+                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                            <span style="font-size:24px;">${p.logo}</span>
+                            <span style="font-weight:700;font-size:12px;color:${p.id === 0 ? '#FFD700' : '#B400FF'};">${p.nome}</span>
+                            <span style="font-size:10px;color:#888;">⏱️</span>
+                            <input class="anuncio-intervalo-input" value="${p.intervalo}" style="background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 6px;font-size:11px;width:40px;">
+                            <span style="font-size:10px;color:#888;">s</span>
+                            <input class="anuncio-bonus-input" value="${p.bonus}" style="background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 6px;font-size:11px;width:80px;">
+                            <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;">
+                                <input class="anuncio-ativo" type="checkbox" ${p.ativo !== false ? 'checked' : ''}> Ativo
+                            </label>
+                        </div>
+                        <div style="font-size:9px;color:#666;margin-top:3px;">🎯 Criar: ${p.linkCriarConta.substring(0,30)}...</div>
+                    </div>
+                `;
+            });
 
-        function openDepositModal(){if(currentUser){document.getElementById('deposit-user-phone').value=currentUser.phone||'';document.getElementById('deposit-user-name').value=currentUser.name||''}document.getElementById('deposit-amount').value='';document.getElementById('deposit-ref').value='';document.getElementById('deposit-modal').classList.remove('hidden');updatePaymentInfo()}
-        async function updatePaymentInfo(){const p=await getData('settings/payments');const b=document.getElementById('payment-info-box');if(currentPaymentMethod==='mpesa')b.innerHTML=`<b>📱 M-Pesa:</b> ${p?.mpesa?.num||'851511841'} - <b>${p?.mpesa?.name||'Benjamim Celeste'}</b>`;else b.innerHTML=`<b>📱 e-Mola:</b> ${p?.emola?.num||'870514180'} - <b>${p?.emola?.name||'Amelia Ricardo'}</b>`}
-        function selectPaymentMethod(m){currentPaymentMethod=m;document.querySelectorAll('#payment-tabs .payment-tab').forEach((t,i)=>{t.style.background=(i===0&&m==='mpesa')||(i===1&&m==='emola')?'#00B894':'#444'});updatePaymentInfo()}
-        async function confirmDeposit(){const ph=document.getElementById('deposit-user-phone').value.trim(),nm=document.getElementById('deposit-user-name').value.trim(),am=parseFloat(document.getElementById('deposit-amount').value),rf=document.getElementById('deposit-ref').value.trim(),bt=document.getElementById('btn-confirm-deposit');if(!ph||!nm||!am||am<100||!rf)return alert('⚠️ Preencha tudo!');bt.disabled=true;bt.textContent='⏳...';try{await addTransaction({phone:ph,name:nm,type:'deposit_pending',amount:am,ref:rf,status:'pending',date:new Date().toISOString()});closeModal('deposit-modal');alert('✅ Enviado!')}catch(e){alert('❌ Erro!');bt.disabled=false;bt.textContent='✅ Enviar'}}
-        function openWithdrawModal(){selectedWithdrawal=null;loadWithdrawalButtons();document.getElementById('withdraw-modal').classList.remove('hidden');document.getElementById('selected-withdrawal').innerHTML='Selecione';document.getElementById('withdraw-modal-status').innerHTML=canWithdraw()?'<span style="color:#00B894">✅ Disponível</span>':'<span style="color:#FF0000">⏰ Bloqueado</span>'}
-        function loadWithdrawalButtons(){const c=document.getElementById('withdrawal-buttons');if(!c)return;const w=canWithdraw();c.innerHTML=W_VALS.map(v=>`<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal===v?'selected':''}" ${!w?'disabled style="opacity:0.4"':''}>${v>=1000?'MT '+(v/1000)+'k':'MT '+v}</button>`).join('')}
-        function selectWithdrawal(v){selectedWithdrawal=v;document.getElementById('selected-withdrawal').innerHTML=`<b>MT ${v.toLocaleString()}</b><br><span style="color:#00B894">Líq: MT ${(v*0.9).toFixed(2)}</span>`}
-        async function confirmWithdrawal(){if(!currentUser)return alert('Login!');try{const fu=await getUser(currentUser.phone);if(!fu)return alert('Erro!');currentUser=fu;if(!canWithdraw()){const r=getCooldownRemaining(currentUser.lastWithdrawDate,SAQUE_COOLDOWN);if(r>0)return alert(`⏰ Aguarde: ${formatTime(r)}`);return alert('❌ Indisponível!')}const amt=selectedWithdrawal;if(!amt)return alert('Selecione!');const bal=Number(currentUser.balance)||0;if(amt>bal)return alert('Saldo insuficiente!');const fee=amt*0.1,net=amt-fee;currentUser.balance=bal-amt;currentUser.lastWithdrawDate=new Date().toISOString();await saveUser(currentUser);await addTransaction({phone:currentUser.phone,name:currentUser.name,type:'withdraw_pending',amount:amt,fee,net,status:'pending',date:new Date().toISOString()});closeModal('withdraw-modal');updateUI();updateTimers();alert(`⏳ Solicitado!\n💰 MT ${amt.toLocaleString()}\n💸 MT ${net.toFixed(2)}`)}catch(e){alert('Erro!')}}
+            container.innerHTML = html;
+        }
 
-        function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));const te=document.getElementById(`tab-${t}`);if(te)te.classList.remove('hidden');document.querySelectorAll('.nav-item-3d').forEach(e=>e.classList.remove('active'));const ne=document.getElementById(`nav-${t}`);if(ne)ne.classList.add('active');if(t==='vips')loadMyVIPs();if(t==='funds')loadFunds();if(t==='tarefas')loadTarefas();if(t==='referral')loadReferralTab();if(t==='history'){loadWithdrawalHistory();loadDepositHistory();loadProfitHistory()}}
-        function loadMyVIPs(){const c=document.getElementById('my-vips');if(!c)return;if(currentUser?.vipLevel!==null&&currentUser?.vipLevel!==undefined){const v=VIP_CONFIG.find(x=>x.id===currentUser.vipLevel);if(v){const ei=getVIPExpiryCountdown(currentUser.vipStart,v.isStarter);c.innerHTML=`<div class="vip-card-premium vip-card-bg-${v.id} ${v.classColor}" style="margin:10px 0"><div class="vip-card-header"><div class="vip-card-badge" style="background:${v.color}22;color:${v.color};border:2px solid ${v.color}44">${v.icon} ${v.name}</div><div class="vip-icon-circle" style="background:${v.color}22;border:2px solid ${v.color}44">${v.icon}</div><div class="vip-card-title" style="color:${v.color}">${v.name}</div><div class="vip-card-subtitle">💎 MT ${v.daily}/dia</div></div><div class="vip-card-body"><div style="background:#1a1a4e;padding:12px;border-radius:12px;text-align:center;color:#FFD700;font-weight:700">${ei.text}</div>${ei.expired?'<div class="expired-badge" style="margin-top:10px">⏰ EXPIRADO</div>':'<div class="active-badge" style="margin-top:10px">✅ ATIVO</div>'}</div></div>`}}else{c.innerHTML='<p style="text-align:center;color:#666;padding:30px">Nenhum VIP ativo</p>'}}
-        function closeModal(id){document.getElementById(id).classList.add('hidden');if(id==='deposit-modal'){const b=document.getElementById('btn-confirm-deposit');if(b){b.disabled=false;b.textContent='✅ Enviar'}}}
-        function switchLoginTab(m){loginMode=m;const tl=document.getElementById('tab-login-btn'),tr=document.getElementById('tab-register-btn');tl.classList.toggle('active',m==='login');tr.classList.toggle('active',m==='register');tl.style.background=m==='login'?'linear-gradient(135deg,#FF0000,#e84393)':'transparent';tl.style.color=m==='login'?'white':'#b2bec3';tr.style.background=m==='register'?'linear-gradient(135deg,#FF0000,#e84393)':'transparent';tr.style.color=m==='register'?'white':'#b2bec3';document.getElementById('login-fields').classList.toggle('hidden',m!=='login');document.getElementById('register-fields').classList.toggle('hidden',m!=='register')}
-        async function handleLogin(){if(isLoggedIn)return;let ph,pw,nm,cf;if(loginMode==='login'){ph=document.getElementById('login-phone').value.trim();pw=document.getElementById('login-password').value}else{ph=document.getElementById('reg-phone').value.trim();nm=document.getElementById('reg-name').value.trim();pw=document.getElementById('reg-password').value;cf=document.getElementById('reg-confirm').value}if(!ph||!pw)return alert('⚠️ Preencha!');ph=ph.replace(/\D/g,'');try{if(loginMode==='register'){if(pw!==cf)return alert('⚠️ Senhas!');if(!nm)return alert('⚠️ Nome!');if(pw.length<6)return alert('⚠️ 6+ caracteres!');if(await getUser(ph))return alert('❌ Já registrado!');const params=new URLSearchParams(window.location.search),ref=params.get('ref')||'',dr=ref?(()=>{try{return atob(ref)}catch{return ref}})():null;let rb=null;if(dr){const ru=await getUser(dr);if(ru&&ru.phone!==ph)rb=dr}currentUser={phone:ph,name:nm,password:pw,balance:0,commission:0,vipLevel:null,vipStart:null,vipPurchased:{},investments:[],referredBy:rb,referralBonus:0,lastCollectDate:null,lastWithdrawDate:null,starterUsed:false,createdAt:new Date().toISOString(),totalEarnings:0};await saveUser(currentUser)}else{const u=await getUser(ph);if(!u)return alert('❌ Não encontrado!');if(u.password!==pw)return alert('❌ Senha!');currentUser=u}isLoggedIn=true;document.getElementById('login-screen').classList.add('hidden');document.getElementById('app-screen').classList.remove('hidden');initBanner();refreshAll();switchTab('home');startTimers()}catch(e){alert('❌ '+e.message)}}
-        async function logout(){isLoggedIn=false;if(collectTimerInterval)clearInterval(collectTimerInterval);if(withdrawTimerInterval)clearInterval(withdrawTimerInterval);currentUser=null;document.getElementById('app-screen').classList.add('hidden');document.getElementById('login-screen').classList.remove('hidden');switchLoginTab('login')}
-        async function refreshAll(){updateUI();updateTimers();loadVIPs();loadFunds();loadReferralTab();updateBalanceStats()}
+        // ==================== INICIALIZAÇÃO DOS ANÚNCIOS ====================
+        function getUserId() {
+            let userId = localStorage.getItem('genins_user_id');
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+                localStorage.setItem('genins_user_id', userId);
+            }
+            return userId;
+        }
 
-        async function loadReferralTab(){if(!currentUser)return;const rc=btoa(currentUser.phone).substring(0,12);document.getElementById('referral-link-text').textContent=location.origin+location.pathname+'?ref='+rc;const all=await getAllUsers(),my=all.filter(u=>u.referredBy===currentUser.phone),vc=my.filter(u=>u.vipLevel!==null&&u.vipLevel!==undefined&&u.vipLevel>0).length;document.getElementById('referral-count').textContent=my.length;document.getElementById('referral-vip-count').textContent=vc;document.getElementById('referral-total').textContent=(Number(currentUser.referralBonus)||0).toFixed(2);document.getElementById('referred-users-list').innerHTML=my.length?my.map(u=>`<div class="history-item">👤 ${u.name||'-'} 📱${u.phone} ${u.vipLevel>0?'👑 VIP':u.vipLevel===0?'🎓 Estagiário':''}</div>`).join(''):'<p style="color:#666;padding:10px">Nenhum</p>'}
-        function copyReferralLink(){const rc=btoa(currentUser.phone).substring(0,12);navigator.clipboard?.writeText(location.origin+location.pathname+'?ref='+rc).then(()=>alert('📋 Copiado!')).catch(()=>prompt('Copie:',location.origin+location.pathname+'?ref='+rc))}
-        function showNotifications(){alert('🔔 Nenhuma notificação.')}
-        function showInstallInstructions(){const d=document.getElementById('install-instructions'),ua=navigator.userAgent;let i='';if(/android/i.test(ua))i='<p><b>1️⃣</b> 3 pontinhos ⋮</p><p><b>2️⃣</b> Adicionar à tela inicial</p><p><b>3️⃣</b> Adicionar</p><p style="color:#00B894">✅ Pronto!</p>';else if(/iPhone|iPad|iPod/i.test(ua))i='<p><b>1️⃣</b> Compartilhar 📤</p><p><b>2️⃣</b> Adicionar à Tela de Início</p><p><b>3️⃣</b> Adicionar</p><p style="color:#00B894">✅ Pronto!</p>';else i='<p>📱 Acesse pelo celular</p>';d.innerHTML=i;document.getElementById('install-modal').classList.remove('hidden')}
-        async function openSupportWhatsapp(){const s=await getData('settings/support');window.open(`https://wa.me/${s?.whatsapp||'258851511841'}`,'_blank')}
-        async function openSupportGroup(){const s=await getData('settings/support');if(s?.groupLink)window.open(s.groupLink,'_blank');else alert('📱 Grupo não configurado.')}
-        function resetPassword(){const ph=document.getElementById('login-phone').value.trim();if(!ph)return alert('Digite seu número!');pushData('password_resets',{phone:ph,status:'pending',date:new Date().toISOString()});alert('✅ Solicitação enviada!')}
+        function getAnuncioParaUsuario() {
+            const userId = getUserId();
+            let hash = 0;
+            for (let i = 0; i < userId.length; i++) {
+                hash = (hash << 5) - hash + userId.charCodeAt(i);
+                hash = hash & hash;
+            }
+            // Filtra apenas banners ativos
+            const ativos = anunciosAtuais.filter(a => a.tipo === 'banner' && a.ativo !== false);
+            if (ativos.length === 0) return anunciosAtuais[0] || ANUNCIOS_PADRAO[0];
+            const indice = Math.abs(hash) % ativos.length;
+            return ativos[indice];
+        }
 
-        async function loadWithdrawalHistory(){const c=document.getElementById('withdrawal-history');if(!c)return;const txs=await getTransactions(currentUser?.phone);const w=txs?.filter(t=>['withdraw','withdraw_pending'].includes(t.type)).reverse()||[];c.innerHTML=w.length?w.map(t=>`<div class="history-item">💸 MT ${Number(t.amount).toFixed(2)} | Líq: MT ${Number(t.net||t.amount*0.9).toFixed(2)} | ${t.status==='pending'?'⏳':'✅'}</div>`).join(''):'<p style="color:#666;padding:10px">Nenhum</p>'}
-        async function loadDepositHistory(){const c=document.getElementById('deposit-history');if(!c)return;const txs=await getTransactions(currentUser?.phone);const d=txs?.filter(t=>t.type==='deposit_approved').reverse()||[];c.innerHTML=d.length?d.map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`).join(''):'<p style="color:#666;padding:10px">Nenhum</p>'}
-        async function loadProfitHistory(){const c=document.getElementById('profit-history');if(!c)return;const txs=await getTransactions(currentUser?.phone);const p=txs?.filter(t=>['vip_return','fund_complete','referral_bonus','fund_investment'].includes(t.type)).slice(-10).reverse();c.innerHTML=p.length?p.map(t=>`<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)} | ${t.type==='vip_return'?'Coleta':t.type==='referral_bonus'?'Comissão':'Fundo'}</div>`).join(''):'<p style="color:#666;padding:10px">Nenhum</p>'}
+        function initAnuncioBanner() {
+            const anuncio = getAnuncioParaUsuario();
+            if (!anuncio) return;
+            
+            const container = document.getElementById('anuncioAtual');
+            if (!container) return;
+            
+            container.classList.remove('anuncio-1','anuncio-2','anuncio-3','anuncio-4','anuncio-5');
+            container.classList.add(anuncio.classe || 'anuncio-1');
+            
+            container.querySelector('.anuncio-icon').textContent = anuncio.icon || '🎁';
+            container.querySelector('.anuncio-titulo').textContent = anuncio.titulo || 'PRESENTE';
+            container.querySelector('.anuncio-subtitulo').textContent = anuncio.subtitulo || '';
+            container.querySelector('.anuncio-badge').textContent = anuncio.badge || '🎁 EXCLUSIVO';
+            container.querySelector('.anuncio-bonus-label').textContent = anuncio.bonusLabel || '🎁 CONVIDE E GANHE';
+            container.querySelector('.anuncio-valor').textContent = anuncio.valor || '750 MT';
+            container.querySelector('.anuncio-bonus-desc').textContent = anuncio.bonusDesc || '';
+            container.querySelector('.contador-numero').textContent = anuncio.convidados || 3;
+            container.querySelector('.anuncio-btn').textContent = anuncio.btnTexto || '🎁 CONVIDAR E GANHAR';
+            
+            const dicaEl = document.getElementById('dicaContainer');
+            if (dicaEl) dicaEl.innerHTML = anuncio.dica || '';
+            
+            const beneficiosEl = document.getElementById('beneficiosContainer');
+            if (beneficiosEl && anuncio.beneficios) {
+                let benHTML = '';
+                anuncio.beneficios.forEach(function(b) {
+                    benHTML += '<div class="beneficio-item"><span class="beneficio-icone">👤</span><span>' + b + '</span></div>';
+                });
+                beneficiosEl.innerHTML = benHTML;
+            }
+            
+            // Partículas
+            const partContainer = document.getElementById('particulasContainer');
+            if (partContainer) {
+                partContainer.innerHTML = '';
+                const cor = anuncio.corParticula || '#ffd700';
+                for (var i = 0; i < 20; i++) {
+                    var p = document.createElement('div');
+                    p.className = 'particula';
+                    p.style.left = Math.random() * 90 + '%';
+                    p.style.bottom = Math.random() * 90 + '%';
+                    p.style.animationDelay = Math.random() * 3 + 's';
+                    p.style.animationDuration = (Math.random() * 2.5 + 2) + 's';
+                    p.style.width = (Math.random() * 8 + 4) + 'px';
+                    p.style.height = p.style.width;
+                    p.style.background = cor;
+                    p.style.boxShadow = '0 0 ' + (Math.random() * 20 + 10) + 'px ' + cor;
+                    partContainer.appendChild(p);
+                }
+            }
+            
+            console.log('🎁 Anúncio para usuário:', getUserId());
+            console.log('📌', anuncio.titulo, '|', anuncio.valor);
+        }
 
-        async function loadAdminData(){loadAdminVIPColors();loadAdminFundoColors();loadAdminEditVIPs();loadAdminEditFunds();const all=await getAllUsers();const uv=all.filter(u=>(u.vipPurchased&&Object.keys(u.vipPurchased).length>0)||u.vipLevel!==null);const vc=document.getElementById('admin-vips-comprados');if(vc)vc.innerHTML=uv.length?uv.map(u=>{const cv=VIP_CONFIG.find(v=>v.id===u.vipLevel);const pv=Object.entries(u.vipPurchased||{}).map(([id,date])=>{const v=VIP_CONFIG.find(x=>x.id===parseInt(id));return v?`${v.icon} ${v.name} (${new Date(date).toLocaleDateString()})`:''}).filter(Boolean).join('<br>');return`<div class="pending-item" style="border-left:3px solid #FFD700"><b>👤 ${u.name||u.phone}</b> 📱${u.phone}<br><span style="color:#FFD700">Ativo:</span> ${cv?cv.icon+' '+cv.name:'Nenhum'}<br><span style="color:#6c5ce7">Comprados:</span><br>${pv||'Nenhum'}</div>`}).join(''):'<p style="color:#666">Nenhum</p>';const uf=all.filter(u=>u.investments&&u.investments.length>0);const fc=document.getElementById('admin-fundos-investidos');if(fc)fc.innerHTML=uf.length?uf.map(u=>{const fs=u.investments.map(inv=>{const f=FUNDS_CONFIG.find(x=>x.id===inv.fundId);if(!f)return'';const de=Math.floor((new Date()-new Date(inv.startDate))/(1000*3600*24)),rem=Math.max(0,inv.dias-de);return`<div style="margin:3px 0;padding:5px;background:rgba(255,255,255,0.03);border-radius:5px">${f.icon} ${f.name}<br>💰 MT ${inv.base.toLocaleString()} | 📈 MT ${inv.totalReturn.toLocaleString()}<br>⏰ ${rem}d | ${inv.completed?'✅':'⏳'}</div>`}).join('');return`<div class="pending-item" style="border-left:3px solid #3742FA"><b>👤 ${u.name||u.phone}</b> 📱${u.phone}<br><span style="color:#3742FA">Fundos:</span><br>${fs}</div>`}).join(''):'<p style="color:#666">Nenhum</p>';await loadPending();await loadPendingWithdrawals();await loadAUsers()}
-        async function loadAdminEditVIPs(){const c=document.getElementById('admin-edit-vips');if(!c)return;c.innerHTML=VIP_CONFIG.map((v,i)=>`<div class="pending-item"><b>${v.icon} ${v.name}</b> ${v.isStarter?'(Grátis)':'MT '+v.price}<br>💰 Diário: <input onchange="updateVIPConfig(${i},'daily',this.value)" value="${v.daily}" style="width:60px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT | Mensal: <input onchange="updateVIPConfig(${i},'monthly',this.value)" value="${v.monthly||0}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT<br>Preço: <input onchange="updateVIPConfig(${i},'price',this.value)" value="${v.price}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT</div>`).join('')+'<button onclick="saveVIPConfig()" class="btn-modal-3d" style="background:#6c5ce7;font-size:11px;padding:8px;margin-top:5px">💾 Salvar VIPs</button>'}
-        async function loadAdminEditFunds(){const c=document.getElementById('admin-edit-funds');if(!c)return;c.innerHTML=FUNDS_CONFIG.map((f,i)=>`<div class="pending-item"><b>${f.icon} ${f.name}</b> +${f.percent}%<br>💰 Base: <input onchange="updateFundConfig(${i},'base',this.value)" value="${f.base}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT | Retorno: <input onchange="updateFundConfig(${i},'retorno',this.value)" value="${f.retorno}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT<br>Dias: <input onchange="updateFundConfig(${i},'dias',this.value)" value="${f.dias}" style="width:40px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> | %: <input onchange="updateFundConfig(${i},'percent',this.value)" value="${f.percent}" style="width:40px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px">%</div>`).join('')+'<button onclick="saveFundConfig()" class="btn-modal-3d" style="background:#00B894;font-size:11px;padding:8px;margin-top:5px">💾 Salvar Fundos</button>'}
-        function updateVIPConfig(i,k,v){const nv=parseFloat(v);if(!isNaN(nv)&&nv>=0)VIP_CONFIG[i][k]=nv}
-        async function saveVIPConfig(){await setData('settings/vipConfig',VIP_CONFIG);alert('✅ VIPs salvos!');loadVIPs();loadAdminEditVIPs()}
-        function updateFundConfig(i,k,v){const nv=parseFloat(v);if(!isNaN(nv)&&nv>=0)FUNDS_CONFIG[i][k]=nv}
-        async function saveFundConfig(){await setData('settings/fundConfig',FUNDS_CONFIG);alert('✅ Fundos salvos!');loadFunds();loadAdminEditFunds()}
-        async function loadConfigs(){const vc=await getData('settings/vipConfig');if(vc&&Array.isArray(vc))VIP_CONFIG=vc;const fc=await getData('settings/fundConfig');if(fc&&Array.isArray(fc))FUNDS_CONFIG=fc}
-        async function loadPending(){const t=await getAllTransactions();const p=t.filter(x=>x.type==='deposit_pending'&&x.status==='pending');const c=document.getElementById('pending-deposits');if(c)c.innerHTML=p.length?p.map(x=>`<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>🧾 ${x.ref||'-'}<br><button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:3px 8px;border-radius:5px;margin-top:3px">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:3px 8px;border-radius:5px">❌ Rejeitar</button></div>`).join(''):'<p style="color:#666">Nenhum</p>'}
-        async function loadPendingWithdrawals(){const t=await getAllTransactions();const p=t.filter(x=>x.type==='withdraw_pending'&&x.status==='pending');const c=document.getElementById('pending-withdrawals');if(c)c.innerHTML=p.length?p.map(x=>`<div class="pending-item" style="border-left:3px solid #FF0000"><b>👤 ${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>💸 <b style="color:#00B894">ENVIAR: MT ${Number(x.net).toFixed(2)}</b><br><button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:5px 10px;border-radius:5px;margin-top:5px">✅ APROVAR</button> <button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:5px 10px;border-radius:5px">❌ Rejeitar</button></div>`).join(''):'<p style="color:#666">Nenhum</p>'}
-        async function rejectTransaction(id){const all=await getAllTransactions();const tx=all.find(t=>t.id===id);if(tx&&tx.type==='withdraw_pending'){if(!confirm(`Rejeitar MT ${Number(tx.amount).toFixed(2)}?`))return;const u=await getUser(tx.phone);if(u){u.balance=(Number(u.balance)||0)+Number(tx.amount);u.lastWithdrawDate=null;await saveUser(u)}}else{if(!confirm('Rejeitar?'))return}await updateTransaction(id,{status:'rejected'});await loadPending();await loadPendingWithdrawals()}
-        async function approveDeposit(id,amount,phone){const u=await getUser(phone);if(u){u.balance=(Number(u.balance)||0)+Number(amount);if(u.referredBy){const rf=await getUser(u.referredBy);if(rf){const b=Number(amount)*0.10;rf.commission=(Number(rf.commission)||0)+b;rf.referralBonus=(Number(rf.referralBonus)||0)+b;await saveUser(rf);await addTransaction({phone:rf.phone,type:'referral_bonus',amount:b,fromPhone:phone,date:new Date().toISOString()})}}await saveUser(u);if(currentUser&&currentUser.phone===u.phone){currentUser=u;updateUI()}}await updateTransaction(id,{status:'approved',type:'deposit_approved'});await loadPending();await loadAdminData();alert('✅ Aprovado!')}
-        async function approveWithdrawal(id,amount,phone){const fee=Number(amount)*0.1,net=Number(amount)-fee;const u=await getUser(phone);await updateTransaction(id,{status:'approved',type:'withdraw',fee,net});await loadPendingWithdrawals();await loadAdminData();if(currentUser&&currentUser.phone===phone){const uu=await getUser(phone);if(uu){currentUser=uu;updateUI()}}alert(`✅ SAQUE APROVADO!\n👤 ${u?u.name||phone:phone}\n💰 MT ${Number(amount).toFixed(2)}\n💸 ENVIAR: MT ${net.toFixed(2)}`)}
-        async function searchUser(){const ph=document.getElementById('search-user-phone').value.trim();if(!ph)return;const u=await getUser(ph);document.getElementById('search-result').innerHTML=u?`<div class="pending-item"><b>${u.name||'-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance)||0).toFixed(2)} | VIP ${u.vipLevel||'-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:#FFA502;color:white;border:none;padding:3px 6px;border-radius:5px">💰 Editar</button> <button onclick="adminResetPassword('${u.phone}')" style="background:#3742FA;color:white;border:none;padding:3px 6px;border-radius:5px">🔑 Senha</button> <button onclick="deleteUserAccount('${u.phone}')" style="background:#FF0000;color:white;border:none;padding:3px 6px;border-radius:5px">🗑️ Excluir</button></div>`:'<p style="color:#666">Não encontrado</p>'}
-        async function editUserBalance(ph){const u=await getUser(ph);if(!u)return;const nb=prompt('Novo saldo:',(Number(u.balance)||0));if(nb!==null&&!isNaN(parseFloat(nb))){u.balance=parseFloat(nb);await saveUser(u);alert('✅ Atualizado!');searchUser()}}
-        async function adminResetPassword(ph){const np=prompt('Nova senha:','123456');if(!np)return;const u=await getUser(ph);if(u){u.password=np;await saveUser(u)}alert('✅ Senha: '+np)}
-        async function deleteUserAccount(ph){if(!confirm(`EXCLUIR ${ph}?`))return;if(!confirm('IRREVERSÍVEL!'))return;await deleteData(`users/${ph}`);document.getElementById('search-result').innerHTML='<p style="color:#FF0000">🗑️ Excluído!</p>';await loadAdminData()}
-        async function loadAUsers(){const u=await getAllUsers();const c=document.getElementById('admin-users-list');if(c)c.innerHTML=u.map(x=>`<div class="pending-item"><b>${x.name||'-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance)||0).toFixed(2)} | 👑 VIP ${x.vipLevel||'-'}</div>`).join('')||'<p style="color:#666">Nenhum</p>'}
-        async function saveAdminKeys(){const k1=document.getElementById('admin-key1-input').value.trim();if(!k1)return alert('⚠️ Chave 1 obrigatória!');await setData('settings/adminKeys',{key1:k1,key2:document.getElementById('admin-key2-input').value.trim()||''});alert('✅ Salvo!')}
-        async function getAdminKeys(){const k=await getData('settings/adminKeys');return k||{key1:'GENINS2024',key2:''}}
+        function fecharAnuncio() {
+            const container = document.getElementById('anuncioContainer');
+            container.classList.add('saindo');
+            setTimeout(function() { container.style.display = 'none'; }, 500);
+        }
 
-        window.addEventListener('DOMContentLoaded',()=>{switchLoginTab('login');loadTheme();loadConfigs();loadCardColors();setInterval(()=>{document.getElementById('fake-deposits').textContent=Math.floor(Math.random()*500+100);document.getElementById('fake-withdraws').textContent=Math.floor(Math.random()*300+50);document.getElementById('fake-members').textContent=(Math.random()*30+70).toFixed(0)+'k';document.getElementById('online-users-count').textContent=Math.floor(Math.random()*(87000-1471)+1471).toLocaleString()},3000);document.addEventListener('click',(e)=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.add('hidden')});document.getElementById('admin-trigger')?.addEventListener('click',async()=>{adminClicks++;if(adminClicks>=5){const p=prompt('🔐 Senha Admin:');const keys=await getAdminKeys();if(p===keys.key1||p===keys.key2||p==='genins2024'){document.getElementById('admin-modal').classList.remove('hidden');document.getElementById('admin-key1-display').textContent='••••••••';document.getElementById('admin-key2-display').textContent=keys.key2?'••••••••':'Não definida';await loadAdminData();document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));const ab=document.getElementById(`theme-${currentTheme}`);if(ab)ab.classList.add('active')}else{alert('❌ Senha incorreta!')}adminClicks=0}})});
+        // ==================== POPUPS COM FIREBASE ====================
+        function getPopupConfig(id) {
+            return popupsAtuais.find(p => p.id === id) || POPUPS_PADRAO.find(p => p.id === id);
+        }
+
+        function alternarPopups() {
+            if (!isLoggedIn || !currentUser) {
+                console.log('⏸️ Popups: usuário não logado');
+                return;
+            }
+            
+            const aviatorPopup = document.getElementById('aviatorPopup');
+            const marvelPopup = document.getElementById('earplanePopup');
+            
+            // Verifica se os popups estão ativos
+            const aviatorConfig = getPopupConfig(0);
+            const marvelConfig = getPopupConfig(1);
+            
+            const aviatorAtivo = aviatorConfig && aviatorConfig.ativo !== false;
+            const marvelAtivo = marvelConfig && marvelConfig.ativo !== false;
+            
+            // Se nenhum estiver ativo, não faz nada
+            if (!aviatorAtivo && !marvelAtivo) {
+                console.log('⏸️ Nenhum popup ativo');
+                return;
+            }
+            
+            // Esconde ambos
+            aviatorPopup.classList.remove('visible');
+            marvelPopup.classList.remove('visible');
+            popupAviatorVisible = false;
+            popupMarvelVisible = false;
+            
+            // Se apenas um está ativo, mostra ele sempre
+            if (aviatorAtivo && !marvelAtivo) {
+                setTimeout(() => {
+                    if (isLoggedIn && currentUser) {
+                        aviatorPopup.classList.add('visible');
+                        popupAviatorVisible = true;
+                        console.log('🐉 Mostrando AVIATOR DA CHINA (único ativo)');
+                        setTimeout(() => {
+                            if (popupAviatorVisible) {
+                                aviatorPopup.classList.remove('visible');
+                                popupAviatorVisible = false;
+                            }
+                        }, 18000);
+                    }
+                }, 500);
+                return;
+            }
+            
+            if (!aviatorAtivo && marvelAtivo) {
+                setTimeout(() => {
+                    if (isLoggedIn && currentUser) {
+                        marvelPopup.classList.add('visible');
+                        popupMarvelVisible = true;
+                        console.log('✈️ Mostrando EARPLANE MARVEL (único ativo)');
+                        setTimeout(() => {
+                            if (popupMarvelVisible) {
+                                marvelPopup.classList.remove('visible');
+                                popupMarvelVisible = false;
+                            }
+                        }, 18000);
+                    }
+                }, 500);
+                return;
+            }
+            
+            // Ambos ativos - alterna
+            popupAlternancia = (popupAlternancia + 1) % 2;
+            
+            if (popupAlternancia === 0) {
+                setTimeout(() => {
+                    if (isLoggedIn && currentUser) {
+                        aviatorPopup.classList.add('visible');
+                        popupAviatorVisible = true;
+                        console.log('🐉 Mostrando AVIATOR DA CHINA');
+                        setTimeout(() => {
+                            if (popupAviatorVisible) {
+                                aviatorPopup.classList.remove('visible');
+                                popupAviatorVisible = false;
+                            }
+                        }, 18000);
+                    }
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    if (isLoggedIn && currentUser) {
+                        marvelPopup.classList.add('visible');
+                        popupMarvelVisible = true;
+                        console.log('✈️ Mostrando EARPLANE MARVEL');
+                        setTimeout(() => {
+                            if (popupMarvelVisible) {
+                                marvelPopup.classList.remove('visible');
+                                popupMarvelVisible = false;
+                            }
+                        }, 18000);
+                    }
+                }, 500);
+            }
+        }
+
+        function iniciarAlternanciaPopups() {
+            // Limpa intervalo anterior
+            if (alternanciaInterval) {
+                clearInterval(alternanciaInterval);
+                alternanciaInterval = null;
+            }
+            
+            if (!isLoggedIn || !currentUser) {
+                console.log('⏸️ Popups: aguardando login...');
+                return;
+            }
+            
+            // Verifica se há popups ativos
+            const hasActive = popupsAtuais.some(p => p.ativo !== false);
+            if (!hasActive) {
+                console.log('⏸️ Nenhum popup ativo');
+                return;
+            }
+            
+            popupsIniciados = true;
+            
+            // Mostra o primeiro popup após 2 segundos
+            setTimeout(() => {
+                if (isLoggedIn && currentUser) {
+                    alternarPopups();
+                }
+            }, 2000);
+            
+            // Usa o intervalo do primeiro popup ativo
+            const primeiroAtivo = popupsAtuais.find(p => p.ativo !== false);
+            const intervalo = (primeiroAtivo && primeiroAtivo.intervalo) || 70;
+            
+            console.log('🔄 Popups iniciados - Intervalo:', intervalo, 's');
+            
+            alternanciaInterval = setInterval(() => {
+                if (isLoggedIn && currentUser) {
+                    alternarPopups();
+                }
+            }, intervalo * 1000);
+        }
+
+        // ==================== FUNÇÕES DE CLIQUE DOS POPUPS ====================
+        window.registrarCliqueAviator = function() {
+            console.log('🖱️ Clique no AVIATOR DA CHINA');
+            const preenchidos = document.getElementById('preenchidosAviator');
+            const total = document.getElementById('totalBonusAviator');
+            const barra = document.getElementById('barraProgressoAviator');
+            const vagas = document.getElementById('numeroVagasAviator');
+            const texto = document.getElementById('vagasTextoAviator');
+            
+            let p = parseInt(preenchidos.textContent) || 100;
+            let t = parseInt(total.textContent) || 200;
+            p = Math.min(p + Math.floor(Math.random() * 3) + 1, t - 1);
+            preenchidos.textContent = p;
+            barra.style.width = ((p / t) * 100) + '%';
+            const restantes = t - p;
+            vagas.textContent = restantes;
+            if (restantes <= 1) {
+                texto.innerHTML = '🔥 <span class="ultima">ÚLTIMA VAGA!</span> 🔥';
+            } else if (restantes <= 3) {
+                texto.innerHTML = '⚠️ Apenas <span class="numero-vagas">' + restantes + '</span> vagas! Corra!';
+            } else if (restantes <= 10) {
+                texto.innerHTML = '⏰ Só mais <span class="numero-vagas">' + restantes + '</span> vagas!';
+            }
+        };
+
+        window.registrarCliqueMarvel = function() {
+            console.log('🖱️ Clique no EARPLANE MARVEL');
+            const preenchidos = document.getElementById('preenchidosMarvel');
+            const total = document.getElementById('totalBonusMarvel');
+            const barra = document.getElementById('barraProgressoMarvel');
+            const vagas = document.getElementById('numeroVagasMarvel');
+            const texto = document.getElementById('vagasTextoMarvel');
+            
+            let p = parseInt(preenchidos.textContent) || 100;
+            let t = parseInt(total.textContent) || 200;
+            p = Math.min(p + Math.floor(Math.random() * 3) + 1, t - 1);
+            preenchidos.textContent = p;
+            barra.style.width = ((p / t) * 100) + '%';
+            const restantes = t - p;
+            vagas.textContent = restantes;
+            if (restantes <= 1) {
+                texto.innerHTML = '🔥 <span class="ultima">ÚLTIMA VAGA MARVEL!</span> 🔥';
+            } else if (restantes <= 3) {
+                texto.innerHTML = '⚠️ Apenas <span class="numero-vagas">' + restantes + '</span> vagas! Corra!';
+            } else if (restantes <= 10) {
+                texto.innerHTML = '⏰ Só mais <span class="numero-vagas">' + restantes + '</span> vagas MARVEL!';
+            }
+        };
+
+        // ==================== FUNÇÕES DE TEMPO ====================
+        function getCooldownRemaining(ld, h) { if (!ld) return 0; return Math.max(0, new Date(ld).getTime() + (h * 3600000) - Date.now()); }
+        function formatTime(ms) { if (ms <= 0) return '00:00:00'; const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000); return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
+        function canCollect() { if (!currentUser) return false; const n = new Date(); if (n.getDay() === 0) return false; if (currentUser.vipLevel === null || currentUser.vipLevel === undefined) return false; if (currentUser.vipLevel === 0) { if (!currentUser.vipStart) return false; if ((n - new Date(currentUser.vipStart)) / (1000 * 3600 * 24) >= ESTAGIARIO_DURATION) return false; } return !isOnCooldown(currentUser.lastCollectDate, COLETA_COOLDOWN); }
+        function canWithdraw() { if (!currentUser) return false; const n = new Date(); if (n.getDay() === 0 || n.getDay() === 6) return false; if (currentUser.vipLevel === null || currentUser.vipLevel === undefined || currentUser.vipLevel === 0) return false; return !isOnCooldown(currentUser.lastWithdrawDate, SAQUE_COOLDOWN); }
+        function isOnCooldown(ld, h) { return getCooldownRemaining(ld, h) > 0; }
+        function getVIPExpiryCountdown(vs, isSt) { if (!vs) return { expired: true, text: '⏰ Não ativo' }; const ed = new Date(new Date(vs).getTime() + (isSt ? ESTAGIARIO_DURATION : VIP_EXPIRY_DAYS) * 86400000), diff = ed - new Date(); if (diff <= 0) return { expired: true, text: '⏰ Expirado!' }; const days = Math.floor(diff / 86400000), hours = Math.floor((diff % 86400000) / 3600000); if (isSt) return { expired: false, text: days === 0 ? `⏳ ${hours}h restantes` : `⏳ ${days}d ${hours}h restantes` }; return { expired: false, text: `⏳ ${days}d restantes` }; }
+
+        // ==================== FUNÇÕES DO SISTEMA ====================
+        function changeTheme(t) {
+            currentTheme = t;
+            const b = document.body;
+            b.classList.remove('theme-blue', 'theme-purple', 'theme-green', 'theme-orange', 'theme-white');
+            if (t === 'blue') b.classList.add('theme-blue');
+            else if (t === 'purple') b.classList.add('theme-purple');
+            else if (t === 'green') b.classList.add('theme-green');
+            else if (t === 'orange') b.classList.add('theme-orange');
+            else if (t === 'white') b.classList.add('theme-white');
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            const ab = document.getElementById(`theme-${t}`);
+            if (ab) ab.classList.add('active');
+        }
+        async function saveTheme() { await setData('settings/theme', currentTheme); alert('✅ Tema salvo!'); }
+        async function loadTheme() { const s = await getData('settings/theme'); if (s && s !== 'default') changeTheme(s); }
+
+        function applyCardColors() {
+            let vs = '', fs = '';
+            for (const [id, c] of Object.entries(vipCardColors)) vs += `.vip-card-bg-${id}{background:${c.bg}!important;border-color:${c.border}!important}`;
+            for (const [id, c] of Object.entries(fundoCardColors)) fs += `.fundo-card-bg-${id}{background:${c.bg}!important;border-color:${c.border}!important}`;
+            let s = document.getElementById('vip-card-colors');
+            if (!s) { s = document.createElement('style'); s.id = 'vip-card-colors'; document.head.appendChild(s); }
+            s.textContent = vs;
+            let f = document.getElementById('fundo-card-colors');
+            if (!f) { f = document.createElement('style'); f.id = 'fundo-card-colors'; document.head.appendChild(f); }
+            f.textContent = fs;
+        }
+        async function loadCardColors() { const vc = await getData('settings/vipCardColors'); if (vc) vipCardColors = vc; const fc = await getData('settings/fundoCardColors'); if (fc) fundoCardColors = fc; applyCardColors(); }
+        async function saveVIPColors() { await setData('settings/vipCardColors', vipCardColors); applyCardColors(); alert('✅ Cores VIP salvas!'); }
+        async function saveFundoColors() { await setData('settings/fundoCardColors', fundoCardColors); applyCardColors(); alert('✅ Cores Fundos salvas!'); }
+        function setVIPColor(id, bg, border) { if (!vipCardColors[id]) vipCardColors[id] = {}; vipCardColors[id].bg = bg; vipCardColors[id].border = border; applyCardColors(); }
+        function setFundoColor(id, bg, border) { if (!fundoCardColors[id]) fundoCardColors[id] = {}; fundoCardColors[id].bg = bg; fundoCardColors[id].border = border; applyCardColors(); }
+
+        // ==================== LOAD ADMIN ====================
+        function loadAdminVIPColors() {
+            const c = document.getElementById('admin-vip-colors');
+            if (!c) return;
+            c.innerHTML = VIP_CONFIG.map(v => {
+                const cur = vipCardColors[v.id] || DEFAULT_VIP_COLORS[v.id];
+                const pre = COLOR_PRESETS.map(p => `<button class="color-preset-btn" style="background:${p.bg};border-color:${p.border}" onclick="setVIPColor(${v.id},'${p.bg.replace(/'/g, "\\'")}','${p.border}')" title="${p.name}">${p.name.split(' ')[0]}</button>`).join('');
+                return `<div style="margin-bottom:12px;padding:8px;background:rgba(255,255,255,0.02);border-radius:10px"><b>${v.icon} ${v.name}</b> <span style="font-size:9px;color:#888">- Clique na cor:</span><div class="color-preset-grid">${pre}</div><div style="font-size:9px;color:#888;margin-top:3px">Atual: <span style="display:inline-block;width:20px;height:10px;background:${cur.bg};border:1px solid ${cur.border};border-radius:3px;vertical-align:middle"></span></div></div>`;
+            }).join('');
+        }
+
+        function loadAdminFundoColors() {
+            const c = document.getElementById('admin-fundo-colors');
+            if (!c) return;
+            const fn = { pro: '💰 Fundo Pro', elite: '💎 Fundo Elite', premium: '👑 Fundo Premium', master: '🚀 Fundo Master', lenda: '🔥 Fundo Lenda' };
+            c.innerHTML = Object.entries(fn).map(([id, name]) => {
+                const cur = fundoCardColors[id] || DEFAULT_FUNDO_COLORS[id];
+                const pre = COLOR_PRESETS.map(p => `<button class="color-preset-btn" style="background:${p.bg};border-color:${p.border}" onclick="setFundoColor('${id}','${p.bg.replace(/'/g, "\\'")}','${p.border}')" title="${p.name}">${p.name.split(' ')[0]}</button>`).join('');
+                return `<div style="margin-bottom:12px;padding:8px;background:rgba(255,255,255,0.02);border-radius:10px"><b>${name}</b> <span style="font-size:9px;color:#888">- Clique na cor:</span><div class="color-preset-grid">${pre}</div><div style="font-size:9px;color:#888;margin-top:3px">Atual: <span style="display:inline-block;width:20px;height:10px;background:${cur.bg};border:1px solid ${cur.border};border-radius:3px;vertical-align:middle"></span></div></div>`;
+            }).join('');
+        }
+
+        // ==================== UPDATE UI ====================
+        function updateUI() {
+            if (!currentUser) return;
+            document.getElementById('main-balance').textContent = (Number(currentUser.balance) || 0).toFixed(2);
+            document.getElementById('profile-name').textContent = currentUser.name || 'Usuário';
+            document.getElementById('profile-phone').textContent = currentUser.phone;
+            const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
+            document.getElementById('profile-vip').textContent = v ? `${v.icon} ${v.name}` : 'Sem VIP';
+            if (v && currentUser.vipStart) {
+                const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter);
+                document.getElementById('profile-vip-expiry').textContent = ei.text;
+                document.getElementById('profile-vip-expiry').style.color = ei.expired ? '#FF0000' : '#999';
+            } else {
+                document.getElementById('profile-vip-expiry').textContent = '';
+            }
+            updateBalanceStats();
+        }
+
+        async function updateBalanceStats() {
+            if (!currentUser) return;
+            const txs = await getTransactions(currentUser.phone);
+            const now = new Date();
+            const hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const ontem = hoje - 86400000;
+            let ganhoHoje = 0,
+                ganhoOntem = 0;
+            txs.forEach(t => {
+                const a = Number(t.amount) || 0;
+                const d = new Date(t.date).getTime();
+                if (['vip_return', 'referral_bonus', 'fund_complete'].includes(t.type)) {
+                    if (d >= hoje) ganhoHoje += a;
+                    if (d >= ontem && d < hoje) ganhoOntem += a;
+                }
+            });
+            document.getElementById('ganho-hoje').textContent = ganhoHoje.toFixed(2);
+            document.getElementById('ganho-ontem').textContent = ganhoOntem.toFixed(2);
+            document.getElementById('ganho-ano').textContent = (Number(currentUser.totalEarnings) || 0).toFixed(2);
+        }
+
+        function updateTimers() {
+            if (!currentUser) return;
+            const cRem = getCooldownRemaining(currentUser.lastCollectDate, COLETA_COOLDOWN),
+                wRem = getCooldownRemaining(currentUser.lastWithdrawDate, SAQUE_COOLDOWN);
+            ['collect-timer', 'withdraw-timer', 'profile-collect-timer', 'profile-withdraw-timer'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = formatTime(i % 2 === 0 ? cRem : wRem);
+            });
+            const cBar = document.getElementById('collect-timer-bar'),
+                wBar = document.getElementById('withdraw-timer-bar');
+            if (cBar) {
+                cBar.querySelector('span:first-child').textContent = cRem > 0 ? '⏰ Coleta:' : '✅ Coleta:';
+                cBar.classList.toggle('blocked', cRem > 0);
+            }
+            if (wBar) {
+                wBar.querySelector('span:first-child').textContent = wRem > 0 ? '⏰ Saque:' : '✅ Saque:';
+                wBar.classList.toggle('blocked', wRem > 0);
+            }
+            const btnC = document.getElementById('btn-collect-main'),
+                btnW = document.getElementById('btn-withdraw-main');
+            if (btnC) btnC.disabled = !canCollect();
+            if (btnW) btnW.disabled = !canWithdraw();
+            const st = document.getElementById('collect-status');
+            if (st) {
+                const v = VIP_CONFIG.find(x => x.id === currentUser?.vipLevel);
+                if (!v) st.innerHTML = '<span style="color:#FFA502">Ative um VIP para coletar</span>';
+                else if (v.isStarter) {
+                    if (!currentUser.vipStart) st.innerHTML = '<span style="color:#FFA502">Ative o Estagiário</span>';
+                    else {
+                        const ds = (new Date() - new Date(currentUser.vipStart)) / (1000 * 3600 * 24);
+                        if (ds >= ESTAGIARIO_DURATION) st.innerHTML = '<span style="color:#FF0000">⏰ Estágio finalizado. Ative um VIP!</span>';
+                        else if (cRem > 0) st.innerHTML = `<span style="color:#FFA502">⏰ Próxima: ${formatTime(cRem)}</span>`;
+                        else st.innerHTML = `<span style="color:#00B894">✅ MT ${v.daily.toFixed(2)} (Dia ${Math.floor(ds) + 1}/4)</span>`;
+                    }
+                } else if (cRem > 0) st.innerHTML = `<span style="color:#FF0000">⏰ Aguarde: ${formatTime(cRem)}</span>`;
+                else st.innerHTML = `<span style="color:#00B894">✅ MT ${v.daily.toFixed(2)}</span>`;
+            }
+        }
+
+        function startTimers() {
+            if (collectTimerInterval) clearInterval(collectTimerInterval);
+            if (withdrawTimerInterval) clearInterval(withdrawTimerInterval);
+            const f = async () => {
+                if (!currentUser || !isLoggedIn) return;
+                try {
+                    const fu = await getUser(currentUser.phone);
+                    if (fu) {
+                        currentUser.lastCollectDate = fu.lastCollectDate || null;
+                        currentUser.lastWithdrawDate = fu.lastWithdrawDate || null;
+                        currentUser.balance = Number(fu.balance) || 0;
+                        currentUser.vipLevel = fu.vipLevel !== undefined ? Number(fu.vipLevel) : null;
+                        currentUser.vipStart = fu.vipStart || null;
+                        currentUser.totalEarnings = Number(fu.totalEarnings) || 0;
+                    }
+                } catch (e) {}
+                updateTimers();
+            };
+            collectTimerInterval = setInterval(f, 1000);
+        }
+
+        // ==================== LOAD FUNCTIONS ====================
+        function loadVIPs() {
+            const c = document.getElementById('vip-groups');
+            if (!c) return;
+            const cvl = currentUser?.vipLevel;
+            if (!currentUser?.vipPurchased || typeof currentUser.vipPurchased !== 'object') {
+                if (currentUser) currentUser.vipPurchased = {};
+            }
+            c.innerHTML = VIP_CONFIG.map(v => {
+                const isActive = currentUser && currentUser.vipLevel === v.id;
+                const wasPurchased = currentUser?.vipPurchased?.[v.id];
+                let showButton = false;
+                if (v.isStarter) showButton = !currentUser?.starterUsed && (cvl === null || cvl === undefined);
+                else {
+                    const blocked = cvl !== null && cvl !== undefined && v.id <= cvl && !isActive;
+                    showButton = !blocked && !wasPurchased;
+                }
+                let statusHTML = '';
+                if (isActive) {
+                    if (v.isStarter && currentUser.vipStart) {
+                        const ds = (new Date() - new Date(currentUser.vipStart)) / (1000 * 3600 * 24);
+                        if (ds >= ESTAGIARIO_DURATION) statusHTML = '<div class="expired-badge">⏰ EXPIRADO • Ative um VIP</div>';
+                        else statusHTML = `<div class="active-badge">✅ ATIVO • Dia ${Math.floor(ds) + 1}/4</div>`;
+                    } else statusHTML = '<div class="active-badge">✅ ATIVO</div>';
+                }
+                return `<div class="vip-card-premium vip-card-bg-${v.id} ${v.classColor}"><div class="vip-card-header"><div class="vip-card-badge" style="background:${v.color}22;color:${v.color};border:2px solid ${v.color}44">${v.isStarter ? '🎓 GRÁTIS' : v.icon + ' ' + v.name}</div><div class="vip-icon-circle" style="background:${v.color}22;border:2px solid ${v.color}44">${v.icon}</div><div class="vip-card-title" style="color:${v.color}">${v.name}</div><div class="vip-card-subtitle">${v.isStarter ? 'Plano gratuito • 4 dias' : 'Investimento premium'}</div></div><div class="vip-card-body"><div class="vip-stats-row"><div class="vip-stat-box"><div class="vip-stat-label">💎 Diário</div><div class="vip-stat-value" style="color:${v.color}">MT ${v.daily}</div></div><div class="vip-stat-box"><div class="vip-stat-label">📊 ${v.isStarter ? 'Total' : 'Mensal'}</div><div class="vip-stat-value" style="color:${v.color}">MT ${v.isStarter ? v.totalReturn : v.monthly?.toLocaleString()}</div></div><div class="vip-stat-box"><div class="vip-stat-label">📅 ${v.isStarter ? 'Duração' : 'Saque'}</div><div class="vip-stat-value" style="color:${v.color}">${v.isStarter ? ESTAGIARIO_DURATION + 'd' : v.withdrawDay}</div></div><div class="vip-stat-box"><div class="vip-stat-label">${v.isStarter ? '🎯 Retorno' : '⏰ Validade'}</div><div class="vip-stat-value" style="color:${v.color}">${v.isStarter ? 'MT ' + v.totalReturn : '3 anos'}</div></div></div>${statusHTML}${showButton ? `<button onclick="investVIP(${v.id})" class="btn-vip-action" style="background:linear-gradient(135deg,${v.color},${v.color}cc)">🚀 ${v.isStarter ? 'ATIVAR GRÁTIS' : 'Ativar • MT ' + v.price.toLocaleString()}</button>` : ''}${wasPurchased && !isActive ? '<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;text-align:center;margin-top:8px;color:#b2bec3;font-size:12px">✅ Já ativado</div>' : ''}${!showButton && !isActive && !wasPurchased ? '<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:12px;text-align:center;margin-top:8px;color:#FFA502;font-size:12px">🔒 VIP superior</div>' : ''}</div></div>`;
+            }).join('');
+        }
+
+        function loadFunds() {
+            const c = document.getElementById('funds-list-tab');
+            if (!c) return;
+            c.innerHTML = FUNDS_CONFIG.map(f =>
+                `<div class="fundo-card-premium ${f.classBg} ${f.classColor}"><div class="fundo-card-header"><div class="fundo-title-section"><div class="fundo-icon-circle" style="background:${f.color}22;border:2px solid ${f.color}44">${f.icon}</div><div><div style="font-size:20px;font-weight:900;color:${f.color}">${f.name}</div><div style="font-size:11px;color:#b2bec3">Longo prazo</div></div></div><div style="padding:6px 14px;border-radius:18px;font-weight:900;font-size:13px;background:${f.color}22;color:${f.color};border:2px solid ${f.color}44">+${f.percent}%</div></div><div class="fundo-card-body"><div class="fundo-stats-grid"><div class="fundo-stat-item"><div class="fundo-stat-label">💰 Mínimo</div><div class="fundo-stat-value" style="color:${f.color}">MT ${f.min.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">💵 Base</div><div class="fundo-stat-value" style="color:${f.color}">MT ${f.base.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">📈 Retorno</div><div class="fundo-stat-value" style="color:#00B894">MT ${f.retorno.toLocaleString()}</div></div><div class="fundo-stat-item"><div class="fundo-stat-label">📅 Prazo</div><div class="fundo-stat-value" style="color:#e84393">${f.dias}d</div></div></div><button onclick="investFund(${f.id})" class="btn-fundo-action" style="background:linear-gradient(135deg,${f.color},${f.color}cc)">💰 Investir</button></div></div>`
+            ).join('');
+        }
+
+        function loadTarefas() {
+            const c = document.getElementById('tarefas-list');
+            if (!c) return;
+            c.innerHTML = TAREFAS_CONFIG.map(t =>
+                `<div class="tarefa-card"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:35px">${t.icon}</span><div><div style="font-weight:900;color:#FFD700;font-size:14px">${t.nome}</div><div style="font-size:11px;color:#aaa">${t.convidados} convidados</div></div></div><div style="font-weight:900;font-size:18px;color:#00B894">+${t.valor} MT</div></div>`
+            ).join('');
+        }
+
+        // ==================== AÇÕES DO USUÁRIO ====================
+        async function collectNow() {
+            if (!currentUser) return alert('Faça login!');
+            try {
+                const fu = await getUser(currentUser.phone);
+                if (!fu) return alert('Erro!');
+                currentUser = fu;
+                if (!canCollect()) {
+                    const r = getCooldownRemaining(currentUser.lastCollectDate, COLETA_COOLDOWN);
+                    if (r > 0) return alert(`⏰ Aguarde: ${formatTime(r)}`);
+                    if (currentUser.vipLevel === 0 && currentUser.vipStart) {
+                        if ((new Date() - new Date(currentUser.vipStart)) / (1000 * 3600 * 24) >= ESTAGIARIO_DURATION) return alert('⏰ Estágio finalizado!');
+                    }
+                    return alert('❌ Indisponível!');
+                }
+                const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
+                if (!v) return alert('Ative um VIP!');
+                const amount = v.daily;
+                currentUser.balance = (Number(currentUser.balance) || 0) + amount;
+                currentUser.totalEarnings = (Number(currentUser.totalEarnings) || 0) + amount;
+                currentUser.lastCollectDate = new Date().toISOString();
+                if (v.isStarter && currentUser.vipStart) {
+                    if ((Date.now() - new Date(currentUser.vipStart).getTime()) / 86400000 >= v.duration) currentUser.lastCollectDate = null;
+                }
+                await saveUser(currentUser);
+                await addTransaction({ phone: currentUser.phone, type: 'vip_return', amount, date: new Date().toISOString() });
+                updateUI();
+                updateTimers();
+                loadVIPs();
+                updateBalanceStats();
+                alert(`✅ Coletado!\n💰 MT ${amount.toFixed(2)}`);
+            } catch (e) { alert('Erro!'); }
+        }
+
+        async function investVIP(id) {
+            const v = VIP_CONFIG.find(x => x.id === id);
+            if (!v) return;
+            if (!currentUser.vipPurchased || typeof currentUser.vipPurchased !== 'object') currentUser.vipPurchased = {};
+            if (v.isStarter) {
+                if (currentUser.starterUsed) return alert('⚠️ Já usou!');
+                if (currentUser.vipLevel !== null && currentUser.vipLevel !== undefined) return alert('⚠️ Já tem VIP!');
+                currentUser.vipLevel = 0;
+                currentUser.vipStart = new Date().toISOString();
+                currentUser.vipPurchased[0] = new Date().toISOString();
+                currentUser.starterUsed = true;
+                currentUser.lastCollectDate = null;
+                currentUser.lastWithdrawDate = null;
+                await saveUser(currentUser);
+                updateUI();
+                updateTimers();
+                loadVIPs();
+                return alert(`✅ ESTAGIÁRIO!\n💰 Diário: MT ${v.daily}\n📅 ${ESTAGIARIO_DURATION} dias`);
+            }
+            if (currentUser.vipLevel !== null && currentUser.vipLevel !== undefined && id <= currentUser.vipLevel) return alert('⚠️ Compre VIP SUPERIOR!');
+            const bal = Number(currentUser.balance) || 0;
+            if (bal < v.price) return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nPreço: MT ${v.price.toLocaleString()}`);
+            currentUser.balance = bal - v.price;
+            currentUser.vipLevel = id;
+            currentUser.vipStart = new Date().toISOString();
+            currentUser.vipPurchased[id] = new Date().toISOString();
+            currentUser.lastCollectDate = null;
+            currentUser.lastWithdrawDate = null;
+            await saveUser(currentUser);
+            updateUI();
+            updateTimers();
+            loadVIPs();
+            alert(`✅ ${v.name} ATIVADO!\n💰 MT ${v.price.toLocaleString()}\n💎 Diário: MT ${v.daily}`);
+        }
+
+        async function investFund(id) {
+            const f = FUNDS_CONFIG.find(x => x.id === id);
+            if (!f) return;
+            const bal = Number(currentUser.balance) || 0;
+            if (bal < f.base) return alert(`⚠️ Saldo: MT ${bal.toFixed(2)}\nNecessário: MT ${f.base.toLocaleString()}`);
+            if (!confirm(`${f.name}?\n💰 MT ${f.base.toLocaleString()}\n📈 Retorno: MT ${f.retorno.toLocaleString()}\n📅 ${f.dias} dias`)) return;
+            currentUser.balance = bal - f.base;
+            if (!currentUser.investments || !Array.isArray(currentUser.investments)) currentUser.investments = [];
+            currentUser.investments.push({ fundId: id, name: f.name, base: f.base, totalReturn: f.retorno, completed: false, startDate: new Date().toISOString(), dias: f.dias });
+            await saveUser(currentUser);
+            await addTransaction({ phone: currentUser.phone, type: 'fund_investment', amount: f.base, fundName: f.name, date: new Date().toISOString() });
+            updateUI();
+            loadFunds();
+            alert(`✅ Investido!\n💰 MT ${f.base.toLocaleString()}`);
+        }
+
+        function openDepositModal() {
+            if (currentUser) {
+                document.getElementById('deposit-user-phone').value = currentUser.phone || '';
+                document.getElementById('deposit-user-name').value = currentUser.name || '';
+            }
+            document.getElementById('deposit-amount').value = '';
+            document.getElementById('deposit-ref').value = '';
+            document.getElementById('deposit-modal').classList.remove('hidden');
+            updatePaymentInfo();
+        }
+
+        async function updatePaymentInfo() {
+            const p = await getData('settings/payments');
+            const b = document.getElementById('payment-info-box');
+            if (currentPaymentMethod === 'mpesa') b.innerHTML = `<b>📱 M-Pesa:</b> ${p?.mpesa?.num || '851511841'} - <b>${p?.mpesa?.name || 'Benjamim Celeste'}</b>`;
+            else b.innerHTML = `<b>📱 e-Mola:</b> ${p?.emola?.num || '870514180'} - <b>${p?.emola?.name || 'Amelia Ricardo'}</b>`;
+        }
+
+        function selectPaymentMethod(m) {
+            currentPaymentMethod = m;
+            document.querySelectorAll('#payment-tabs .payment-tab').forEach((t, i) => {
+                t.style.background = (i === 0 && m === 'mpesa') || (i === 1 && m === 'emola') ? '#00B894' : '#444';
+            });
+            updatePaymentInfo();
+        }
+
+        async function confirmDeposit() {
+            const ph = document.getElementById('deposit-user-phone').value.trim(),
+                nm = document.getElementById('deposit-user-name').value.trim(),
+                am = parseFloat(document.getElementById('deposit-amount').value),
+                rf = document.getElementById('deposit-ref').value.trim(),
+                bt = document.getElementById('btn-confirm-deposit');
+            if (!ph || !nm || !am || am < 100 || !rf) return alert('⚠️ Preencha tudo!');
+            bt.disabled = true;
+            bt.textContent = '⏳...';
+            try {
+                await addTransaction({ phone: ph, name: nm, type: 'deposit_pending', amount: am, ref: rf, status: 'pending', date: new Date().toISOString() });
+                closeModal('deposit-modal');
+                alert('✅ Enviado!');
+            } catch (e) { alert('❌ Erro!');
+                bt.disabled = false;
+                bt.textContent = '✅ Enviar'; }
+        }
+
+        function openWithdrawModal() {
+            selectedWithdrawal = null;
+            loadWithdrawalButtons();
+            document.getElementById('withdraw-modal').classList.remove('hidden');
+            document.getElementById('selected-withdrawal').innerHTML = 'Selecione';
+            document.getElementById('withdraw-modal-status').innerHTML = canWithdraw() ? '<span style="color:#00B894">✅ Disponível</span>' : '<span style="color:#FF0000">⏰ Bloqueado</span>';
+        }
+
+        function loadWithdrawalButtons() {
+            const c = document.getElementById('withdrawal-buttons');
+            if (!c) return;
+            const w = canWithdraw();
+            c.innerHTML = W_VALS.map(v =>
+                `<button onclick="selectWithdrawal(${v})" class="withdrawal-btn ${selectedWithdrawal === v ? 'selected' : ''}" ${!w ? 'disabled style="opacity:0.4"' : ''}>${v >= 1000 ? 'MT ' + (v / 1000) + 'k' : 'MT ' + v}</button>`
+            ).join('');
+        }
+
+        function selectWithdrawal(v) {
+            selectedWithdrawal = v;
+            document.getElementById('selected-withdrawal').innerHTML = `<b>MT ${v.toLocaleString()}</b><br><span style="color:#00B894">Líq: MT ${(v * 0.9).toFixed(2)}</span>`;
+        }
+
+        async function confirmWithdrawal() {
+            if (!currentUser) return alert('Login!');
+            try {
+                const fu = await getUser(currentUser.phone);
+                if (!fu) return alert('Erro!');
+                currentUser = fu;
+                if (!canWithdraw()) {
+                    const r = getCooldownRemaining(currentUser.lastWithdrawDate, SAQUE_COOLDOWN);
+                    if (r > 0) return alert(`⏰ Aguarde: ${formatTime(r)}`);
+                    return alert('❌ Indisponível!');
+                }
+                const amt = selectedWithdrawal;
+                if (!amt) return alert('Selecione!');
+                const bal = Number(currentUser.balance) || 0;
+                if (amt > bal) return alert('Saldo insuficiente!');
+                const fee = amt * 0.1,
+                    net = amt - fee;
+                currentUser.balance = bal - amt;
+                currentUser.lastWithdrawDate = new Date().toISOString();
+                await saveUser(currentUser);
+                await addTransaction({ phone: currentUser.phone, name: currentUser.name, type: 'withdraw_pending', amount: amt, fee, net, status: 'pending', date: new Date().toISOString() });
+                closeModal('withdraw-modal');
+                updateUI();
+                updateTimers();
+                alert(`⏳ Solicitado!\n💰 MT ${amt.toLocaleString()}\n💸 MT ${net.toFixed(2)}`);
+            } catch (e) { alert('Erro!'); }
+        }
+
+        // ==================== NAVEGAÇÃO ====================
+        function switchTab(t) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
+            const te = document.getElementById(`tab-${t}`);
+            if (te) te.classList.remove('hidden');
+            document.querySelectorAll('.nav-item-3d').forEach(e => e.classList.remove('active'));
+            const ne = document.getElementById(`nav-${t}`);
+            if (ne) ne.classList.add('active');
+            if (t === 'vips') loadMyVIPs();
+            if (t === 'funds') loadFunds();
+            if (t === 'tarefas') loadTarefas();
+            if (t === 'referral') loadReferralTab();
+            if (t === 'history') { loadWithdrawalHistory();
+                loadDepositHistory();
+                loadProfitHistory(); }
+        }
+
+        function loadMyVIPs() {
+            const c = document.getElementById('my-vips');
+            if (!c) return;
+            if (currentUser?.vipLevel !== null && currentUser?.vipLevel !== undefined) {
+                const v = VIP_CONFIG.find(x => x.id === currentUser.vipLevel);
+                if (v) {
+                    const ei = getVIPExpiryCountdown(currentUser.vipStart, v.isStarter);
+                    c.innerHTML = `<div class="vip-card-premium vip-card-bg-${v.id} ${v.classColor}" style="margin:10px 0"><div class="vip-card-header"><div class="vip-card-badge" style="background:${v.color}22;color:${v.color};border:2px solid ${v.color}44">${v.icon} ${v.name}</div><div class="vip-icon-circle" style="background:${v.color}22;border:2px solid ${v.color}44">${v.icon}</div><div class="vip-card-title" style="color:${v.color}">${v.name}</div><div class="vip-card-subtitle">💎 MT ${v.daily}/dia</div></div><div class="vip-card-body"><div style="background:#1a1a4e;padding:12px;border-radius:12px;text-align:center;color:#FFD700;font-weight:700">${ei.text}</div>${ei.expired ? '<div class="expired-badge" style="margin-top:10px">⏰ EXPIRADO</div>' : '<div class="active-badge" style="margin-top:10px">✅ ATIVO</div>'}</div></div>`;
+                }
+            } else {
+                c.innerHTML = '<p style="text-align:center;color:#666;padding:30px">Nenhum VIP ativo</p>';
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            if (id === 'deposit-modal') {
+                const b = document.getElementById('btn-confirm-deposit');
+                if (b) { b.disabled = false;
+                    b.textContent = '✅ Enviar'; }
+            }
+        }
+
+        function switchLoginTab(m) {
+            loginMode = m;
+            const tl = document.getElementById('tab-login-btn'),
+                tr = document.getElementById('tab-register-btn');
+            tl.classList.toggle('active', m === 'login');
+            tr.classList.toggle('active', m === 'register');
+            tl.style.background = m === 'login' ? 'linear-gradient(135deg,#FF0000,#e84393)' : 'transparent';
+            tl.style.color = m === 'login' ? 'white' : '#b2bec3';
+            tr.style.background = m === 'register' ? 'linear-gradient(135deg,#FF0000,#e84393)' : 'transparent';
+            tr.style.color = m === 'register' ? 'white' : '#b2bec3';
+            document.getElementById('login-fields').classList.toggle('hidden', m !== 'login');
+            document.getElementById('register-fields').classList.toggle('hidden', m !== 'register');
+        }
+
+        // ==================== LOGIN/LOGOUT ====================
+        async function handleLogin() {
+            if (isLoggedIn) return;
+            let ph, pw, nm, cf;
+            if (loginMode === 'login') {
+                ph = document.getElementById('login-phone').value.trim();
+                pw = document.getElementById('login-password').value;
+            } else {
+                ph = document.getElementById('reg-phone').value.trim();
+                nm = document.getElementById('reg-name').value.trim();
+                pw = document.getElementById('reg-password').value;
+                cf = document.getElementById('reg-confirm').value;
+            }
+            if (!ph || !pw) return alert('⚠️ Preencha!');
+            ph = ph.replace(/\D/g, '');
+            try {
+                if (loginMode === 'register') {
+                    if (pw !== cf) return alert('⚠️ Senhas!');
+                    if (!nm) return alert('⚠️ Nome!');
+                    if (pw.length < 6) return alert('⚠️ 6+ caracteres!');
+                    if (await getUser(ph)) return alert('❌ Já registrado!');
+                    const params = new URLSearchParams(window.location.search),
+                        ref = params.get('ref') || '',
+                        dr = ref ? (() => { try { return atob(ref) } catch { return ref } })() : null;
+                    let rb = null;
+                    if (dr) {
+                        const ru = await getUser(dr);
+                        if (ru && ru.phone !== ph) rb = dr;
+                    }
+                    currentUser = {
+                        phone: ph,
+                        name: nm,
+                        password: pw,
+                        balance: 0,
+                        commission: 0,
+                        vipLevel: null,
+                        vipStart: null,
+                        vipPurchased: {},
+                        investments: [],
+                        referredBy: rb,
+                        referralBonus: 0,
+                        lastCollectDate: null,
+                        lastWithdrawDate: null,
+                        starterUsed: false,
+                        createdAt: new Date().toISOString(),
+                        totalEarnings: 0
+                    };
+                    await saveUser(currentUser);
+                } else {
+                    const u = await getUser(ph);
+                    if (!u) return alert('❌ Não encontrado!');
+                    if (u.password !== pw) return alert('❌ Senha!');
+                    currentUser = u;
+                }
+                isLoggedIn = true;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-screen').classList.remove('hidden');
+                initBanner();
+                refreshAll();
+                switchTab('home');
+                startTimers();
+
+                // Carrega anúncios e inicia popups
+                await carregarAnunciosFirebase();
+                initAnuncioBanner();
+                
+                // IMPORTANTE: Inicia os popups APÓS o login
+                setTimeout(() => {
+                    iniciarAlternanciaPopups();
+                }, 1000);
+
+            } catch (e) { alert('❌ ' + e.message); }
+        }
+
+        async function logout() {
+            isLoggedIn = false;
+            popupsIniciados = false;
+            if (collectTimerInterval) clearInterval(collectTimerInterval);
+            if (withdrawTimerInterval) clearInterval(withdrawTimerInterval);
+            if (alternanciaInterval) {
+                clearInterval(alternanciaInterval);
+                alternanciaInterval = null;
+            }
+            popupAlternancia = 0;
+            popupAviatorVisible = false;
+            popupMarvelVisible = false;
+            document.getElementById('aviatorPopup').classList.remove('visible');
+            document.getElementById('earplanePopup').classList.remove('visible');
+            currentUser = null;
+            document.getElementById('app-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            switchLoginTab('login');
+        }
+
+        async function refreshAll() {
+            updateUI();
+            updateTimers();
+            loadVIPs();
+            loadFunds();
+            loadReferralTab();
+            updateBalanceStats();
+        }
+
+        // ==================== REFERRAL ====================
+        async function loadReferralTab() {
+            if (!currentUser) return;
+            const rc = btoa(currentUser.phone).substring(0, 12);
+            document.getElementById('referral-link-text').textContent = location.origin + location.pathname + '?ref=' + rc;
+            const all = await getAllUsers(),
+                my = all.filter(u => u.referredBy === currentUser.phone),
+                vc = my.filter(u => u.vipLevel !== null && u.vipLevel !== undefined && u.vipLevel > 0).length;
+            document.getElementById('referral-count').textContent = my.length;
+            document.getElementById('referral-vip-count').textContent = vc;
+            document.getElementById('referral-total').textContent = (Number(currentUser.referralBonus) || 0).toFixed(2);
+            document.getElementById('referred-users-list').innerHTML = my.length ? my.map(u =>
+                `<div class="history-item">👤 ${u.name || '-'} 📱${u.phone} ${u.vipLevel > 0 ? '👑 VIP' : u.vipLevel === 0 ? '🎓 Estagiário' : ''}</div>`
+            ).join('') : '<p style="color:#666;padding:10px">Nenhum</p>';
+        }
+
+        function copyReferralLink() {
+            const rc = btoa(currentUser.phone).substring(0, 12);
+            navigator.clipboard?.writeText(location.origin + location.pathname + '?ref=' + rc).then(() => alert('📋 Copiado!')).catch(() => prompt('Copie:', location.origin + location.pathname + '?ref=' + rc));
+        }
+
+        function showNotifications() { alert('🔔 Nenhuma notificação.'); }
+
+        function showInstallInstructions() {
+            const d = document.getElementById('install-instructions'),
+                ua = navigator.userAgent;
+            let i = '';
+            if (/android/i.test(ua)) i = '<p><b>1️⃣</b> 3 pontinhos ⋮</p><p><b>2️⃣</b> Adicionar à tela inicial</p><p><b>3️⃣</b> Adicionar</p><p style="color:#00B894">✅ Pronto!</p>';
+            else if (/iPhone|iPad|iPod/i.test(ua)) i = '<p><b>1️⃣</b> Compartilhar 📤</p><p><b>2️⃣</b> Adicionar à Tela de Início</p><p><b>3️⃣</b> Adicionar</p><p style="color:#00B894">✅ Pronto!</p>';
+            else i = '<p>📱 Acesse pelo celular</p>';
+            d.innerHTML = i;
+            document.getElementById('install-modal').classList.remove('hidden');
+        }
+
+        async function openSupportWhatsapp() { const s = await getData('settings/support');
+            window.open(`https://wa.me/${s?.whatsapp || '258851511841'}`, '_blank'); }
+        async function openSupportGroup() { const s = await getData('settings/support'); if (s?.groupLink) window.open(s.groupLink, '_blank'); else alert('📱 Grupo não configurado.'); }
+
+        function resetPassword() {
+            const ph = document.getElementById('login-phone').value.trim();
+            if (!ph) return alert('Digite seu número!');
+            pushData('password_resets', { phone: ph, status: 'pending', date: new Date().toISOString() });
+            alert('✅ Solicitação enviada!');
+        }
+
+        // ==================== HISTÓRICO ====================
+        async function loadWithdrawalHistory() {
+            const c = document.getElementById('withdrawal-history');
+            if (!c) return;
+            const txs = await getTransactions(currentUser?.phone);
+            const w = txs?.filter(t => ['withdraw', 'withdraw_pending'].includes(t.type)).reverse() || [];
+            c.innerHTML = w.length ? w.map(t =>
+                `<div class="history-item">💸 MT ${Number(t.amount).toFixed(2)} | Líq: MT ${Number(t.net || t.amount * 0.9).toFixed(2)} | ${t.status === 'pending' ? '⏳' : '✅'}</div>`
+            ).join('') : '<p style="color:#666;padding:10px">Nenhum</p>';
+        }
+
+        async function loadDepositHistory() {
+            const c = document.getElementById('deposit-history');
+            if (!c) return;
+            const txs = await getTransactions(currentUser?.phone);
+            const d = txs?.filter(t => t.type === 'deposit_approved').reverse() || [];
+            c.innerHTML = d.length ? d.map(t =>
+                `<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)}</div>`
+            ).join('') : '<p style="color:#666;padding:10px">Nenhum</p>';
+        }
+
+        async function loadProfitHistory() {
+            const c = document.getElementById('profit-history');
+            if (!c) return;
+            const txs = await getTransactions(currentUser?.phone);
+            const p = txs?.filter(t => ['vip_return', 'fund_complete', 'referral_bonus', 'fund_investment'].includes(t.type)).slice(-10).reverse();
+            c.innerHTML = p.length ? p.map(t =>
+                `<div class="history-item">💰 MT ${Number(t.amount).toFixed(2)} | ${t.type === 'vip_return' ? 'Coleta' : t.type === 'referral_bonus' ? 'Comissão' : 'Fundo'}</div>`
+            ).join('') : '<p style="color:#666;padding:10px">Nenhum</p>';
+        }
+
+        // ==================== ADMIN ====================
+        async function loadAdminData() {
+            loadAdminVIPColors();
+            loadAdminFundoColors();
+            loadAdminEditVIPs();
+            loadAdminEditFunds();
+            carregarAdminAnuncios();
+
+            const all = await getAllUsers();
+            const uv = all.filter(u => (u.vipPurchased && Object.keys(u.vipPurchased).length > 0) || u.vipLevel !== null);
+            const vc = document.getElementById('admin-vips-comprados');
+            if (vc) vc.innerHTML = uv.length ? uv.map(u => {
+                const cv = VIP_CONFIG.find(v => v.id === u.vipLevel);
+                const pv = Object.entries(u.vipPurchased || {}).map(([id, date]) => {
+                    const v = VIP_CONFIG.find(x => x.id === parseInt(id));
+                    return v ? `${v.icon} ${v.name} (${new Date(date).toLocaleDateString()})` : '';
+                }).filter(Boolean).join('<br>');
+                return `<div class="pending-item" style="border-left:3px solid #FFD700"><b>👤 ${u.name || u.phone}</b> 📱${u.phone}<br><span style="color:#FFD700">Ativo:</span> ${cv ? cv.icon + ' ' + cv.name : 'Nenhum'}<br><span style="color:#6c5ce7">Comprados:</span><br>${pv || 'Nenhum'}</div>`;
+            }).join('') : '<p style="color:#666">Nenhum</p>';
+
+            const uf = all.filter(u => u.investments && u.investments.length > 0);
+            const fc = document.getElementById('admin-fundos-investidos');
+            if (fc) fc.innerHTML = uf.length ? uf.map(u => {
+                const fs = u.investments.map(inv => {
+                    const f = FUNDS_CONFIG.find(x => x.id === inv.fundId);
+                    if (!f) return '';
+                    const de = Math.floor((new Date() - new Date(inv.startDate)) / (1000 * 3600 * 24)),
+                        rem = Math.max(0, inv.dias - de);
+                    return `<div style="margin:3px 0;padding:5px;background:rgba(255,255,255,0.03);border-radius:5px">${f.icon} ${f.name}<br>💰 MT ${inv.base.toLocaleString()} | 📈 MT ${inv.totalReturn.toLocaleString()}<br>⏰ ${rem}d | ${inv.completed ? '✅' : '⏳'}</div>`;
+                }).join('');
+                return `<div class="pending-item" style="border-left:3px solid #3742FA"><b>👤 ${u.name || u.phone}</b> 📱${u.phone}<br><span style="color:#3742FA">Fundos:</span><br>${fs}</div>`;
+            }).join('') : '<p style="color:#666">Nenhum</p>';
+
+            await loadPending();
+            await loadPendingWithdrawals();
+            await loadAUsers();
+        }
+
+        async function loadAdminEditVIPs() {
+            const c = document.getElementById('admin-edit-vips');
+            if (!c) return;
+            c.innerHTML = VIP_CONFIG.map((v, i) =>
+                `<div class="pending-item"><b>${v.icon} ${v.name}</b> ${v.isStarter ? '(Grátis)' : 'MT ' + v.price}<br>💰 Diário: <input onchange="updateVIPConfig(${i},'daily',this.value)" value="${v.daily}" style="width:60px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT | Mensal: <input onchange="updateVIPConfig(${i},'monthly',this.value)" value="${v.monthly || 0}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT<br>Preço: <input onchange="updateVIPConfig(${i},'price',this.value)" value="${v.price}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT</div>`
+            ).join('') + '<button onclick="saveVIPConfig()" class="btn-modal-3d" style="background:#6c5ce7;font-size:11px;padding:8px;margin-top:5px">💾 Salvar VIPs</button>';
+        }
+
+        async function loadAdminEditFunds() {
+            const c = document.getElementById('admin-edit-funds');
+            if (!c) return;
+            c.innerHTML = FUNDS_CONFIG.map((f, i) =>
+                `<div class="pending-item"><b>${f.icon} ${f.name}</b> +${f.percent}%<br>💰 Base: <input onchange="updateFundConfig(${i},'base',this.value)" value="${f.base}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT | Retorno: <input onchange="updateFundConfig(${i},'retorno',this.value)" value="${f.retorno}" style="width:70px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> MT<br>Dias: <input onchange="updateFundConfig(${i},'dias',this.value)" value="${f.dias}" style="width:40px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px"> | %: <input onchange="updateFundConfig(${i},'percent',this.value)" value="${f.percent}" style="width:40px;background:#111;color:#fff;border:1px solid #444;border-radius:4px;padding:2px 4px;font-size:10px">%</div>`
+            ).join('') + '<button onclick="saveFundConfig()" class="btn-modal-3d" style="background:#00B894;font-size:11px;padding:8px;margin-top:5px">💾 Salvar Fundos</button>';
+        }
+
+        function updateVIPConfig(i, k, v) { const nv = parseFloat(v); if (!isNaN(nv) && nv >= 0) VIP_CONFIG[i][k] = nv; }
+        async function saveVIPConfig() { await setData('settings/vipConfig', VIP_CONFIG);
+            alert('✅ VIPs salvos!');
+            loadVIPs();
+            loadAdminEditVIPs(); }
+        function updateFundConfig(i, k, v) { const nv = parseFloat(v); if (!isNaN(nv) && nv >= 0) FUNDS_CONFIG[i][k] = nv; }
+        async function saveFundConfig() { await setData('settings/fundConfig', FUNDS_CONFIG);
+            alert('✅ Fundos salvos!');
+            loadFunds();
+            loadAdminEditFunds(); }
+        async function loadConfigs() { const vc = await getData('settings/vipConfig'); if (vc && Array.isArray(vc)) VIP_CONFIG = vc; const fc = await getData('settings/fundConfig'); if (fc && Array.isArray(fc)) FUNDS_CONFIG = fc; }
+
+        async function loadPending() {
+            const t = await getAllTransactions();
+            const p = t.filter(x => x.type === 'deposit_pending' && x.status === 'pending');
+            const c = document.getElementById('pending-deposits');
+            if (c) c.innerHTML = p.length ? p.map(x =>
+                `<div class="pending-item"><b>${x.name || '-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>🧾 ${x.ref || '-'}<br><button onclick="approveDeposit('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:3px 8px;border-radius:5px;margin-top:3px">✅ Aprovar</button> <button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:3px 8px;border-radius:5px">❌ Rejeitar</button></div>`
+            ).join('') : '<p style="color:#666">Nenhum</p>';
+        }
+
+        async function loadPendingWithdrawals() {
+            const t = await getAllTransactions();
+            const p = t.filter(x => x.type === 'withdraw_pending' && x.status === 'pending');
+            const c = document.getElementById('pending-withdrawals');
+            if (c) c.innerHTML = p.length ? p.map(x =>
+                `<div class="pending-item" style="border-left:3px solid #FF0000"><b>👤 ${x.name || '-'}</b> 📱${x.phone}<br>💰 MT ${Number(x.amount).toFixed(2)}<br>💸 <b style="color:#00B894">ENVIAR: MT ${Number(x.net).toFixed(2)}</b><br><button onclick="approveWithdrawal('${x.id}',${x.amount},'${x.phone}')" style="background:#00B894;color:white;border:none;padding:5px 10px;border-radius:5px;margin-top:5px">✅ APROVAR</button> <button onclick="rejectTransaction('${x.id}')" style="background:#FF0000;color:white;border:none;padding:5px 10px;border-radius:5px">❌ Rejeitar</button></div>`
+            ).join('') : '<p style="color:#666">Nenhum</p>';
+        }
+
+        async function rejectTransaction(id) {
+            const all = await getAllTransactions();
+            const tx = all.find(t => t.id === id);
+            if (tx && tx.type === 'withdraw_pending') {
+                if (!confirm(`Rejeitar MT ${Number(tx.amount).toFixed(2)}?`)) return;
+                const u = await getUser(tx.phone);
+                if (u) { u.balance = (Number(u.balance) || 0) + Number(tx.amount);
+                    u.lastWithdrawDate = null;
+                    await saveUser(u); }
+            } else {
+                if (!confirm('Rejeitar?')) return;
+            }
+            await updateTransaction(id, { status: 'rejected' });
+            await loadPending();
+            await loadPendingWithdrawals();
+        }
+
+        async function approveDeposit(id, amount, phone) {
+            const u = await getUser(phone);
+            if (u) {
+                u.balance = (Number(u.balance) || 0) + Number(amount);
+                if (u.referredBy) {
+                    const rf = await getUser(u.referredBy);
+                    if (rf) {
+                        const b = Number(amount) * 0.10;
+                        rf.commission = (Number(rf.commission) || 0) + b;
+                        rf.referralBonus = (Number(rf.referralBonus) || 0) + b;
+                        await saveUser(rf);
+                        await addTransaction({ phone: rf.phone, type: 'referral_bonus', amount: b, fromPhone: phone, date: new Date().toISOString() });
+                    }
+                }
+                await saveUser(u);
+                if (currentUser && currentUser.phone === u.phone) { currentUser = u;
+                    updateUI(); }
+            }
+            await updateTransaction(id, { status: 'approved', type: 'deposit_approved' });
+            await loadPending();
+            await loadAdminData();
+            alert('✅ Aprovado!');
+        }
+
+        async function approveWithdrawal(id, amount, phone) {
+            const fee = Number(amount) * 0.1,
+                net = Number(amount) - fee;
+            const u = await getUser(phone);
+            await updateTransaction(id, { status: 'approved', type: 'withdraw', fee, net });
+            await loadPendingWithdrawals();
+            await loadAdminData();
+            if (currentUser && currentUser.phone === phone) {
+                const uu = await getUser(phone);
+                if (uu) { currentUser = uu;
+                    updateUI(); }
+            }
+            alert(`✅ SAQUE APROVADO!\n👤 ${u ? u.name || phone : phone}\n💰 MT ${Number(amount).toFixed(2)}\n💸 ENVIAR: MT ${net.toFixed(2)}`);
+        }
+
+        async function searchUser() {
+            const ph = document.getElementById('search-user-phone').value.trim();
+            if (!ph) return;
+            const u = await getUser(ph);
+            document.getElementById('search-result').innerHTML = u ?
+                `<div class="pending-item"><b>${u.name || '-'}</b> 📱${u.phone}<br>💰 MT ${(Number(u.balance) || 0).toFixed(2)} | VIP ${u.vipLevel || '-'}<br><button onclick="editUserBalance('${u.phone}')" style="background:#FFA502;color:white;border:none;padding:3px 6px;border-radius:5px">💰 Editar</button> <button onclick="adminResetPassword('${u.phone}')" style="background:#3742FA;color:white;border:none;padding:3px 6px;border-radius:5px">🔑 Senha</button> <button onclick="deleteUserAccount('${u.phone}')" style="background:#FF0000;color:white;border:none;padding:3px 6px;border-radius:5px">🗑️ Excluir</button></div>` :
+                '<p style="color:#666">Não encontrado</p>';
+        }
+
+        async function editUserBalance(ph) {
+            const u = await getUser(ph);
+            if (!u) return;
+            const nb = prompt('Novo saldo:', (Number(u.balance) || 0));
+            if (nb !== null && !isNaN(parseFloat(nb))) { u.balance = parseFloat(nb);
+                await saveUser(u);
+                alert('✅ Atualizado!');
+                searchUser(); }
+        }
+
+        async function adminResetPassword(ph) {
+            const np = prompt('Nova senha:', '123456');
+            if (!np) return;
+            const u = await getUser(ph);
+            if (u) { u.password = np;
+                await saveUser(u); }
+            alert('✅ Senha: ' + np);
+        }
+
+        async function deleteUserAccount(ph) {
+            if (!confirm(`EXCLUIR ${ph}?`)) return;
+            if (!confirm('IRREVERSÍVEL!')) return;
+            await deleteData(`users/${ph}`);
+            document.getElementById('search-result').innerHTML = '<p style="color:#FF0000">🗑️ Excluído!</p>';
+            await loadAdminData();
+        }
+
+        async function loadAUsers() {
+            const u = await getAllUsers();
+            const c = document.getElementById('admin-users-list');
+            if (c) c.innerHTML = u.map(x =>
+                `<div class="pending-item"><b>${x.name || '-'}</b> 📱${x.phone}<br>💰 MT ${(Number(x.balance) || 0).toFixed(2)} | 👑 VIP ${x.vipLevel || '-'}</div>`
+            ).join('') || '<p style="color:#666">Nenhum</p>';
+        }
+
+        async function saveAdminKeys() {
+            const k1 = document.getElementById('admin-key1-input').value.trim();
+            if (!k1) return alert('⚠️ Chave 1 obrigatória!');
+            await setData('settings/adminKeys', { key1: k1, key2: document.getElementById('admin-key2-input').value.trim() || '' });
+            alert('✅ Salvo!');
+        }
+
+        async function getAdminKeys() { const k = await getData('settings/adminKeys'); return k || { key1: 'GENINS2024', key2: '' }; }
+
+        // ==================== BOTÕES DE FECHAR DOS POPUPS ====================
+        document.getElementById('popupCloseAviator').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('aviatorPopup').classList.remove('visible');
+            popupAviatorVisible = false;
+        });
+
+        document.getElementById('popupCloseMarvel').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('earplanePopup').classList.remove('visible');
+            popupMarvelVisible = false;
+        });
+
+        // ==================== INICIALIZAÇÃO ====================
+        window.addEventListener('DOMContentLoaded', async () => {
+            switchLoginTab('login');
+            loadTheme();
+            loadConfigs();
+            loadCardColors();
+
+            // Carrega anúncios do Firebase
+            await carregarAnunciosFirebase();
+
+            // Inicializa o banner
+            initAnuncioBanner();
+
+            setInterval(() => {
+                document.getElementById('fake-deposits').textContent = Math.floor(Math.random() * 500 + 100);
+                document.getElementById('fake-withdraws').textContent = Math.floor(Math.random() * 300 + 50);
+                document.getElementById('fake-members').textContent = (Math.random() * 30 + 70).toFixed(0) + 'k';
+                document.getElementById('online-users-count').textContent = Math.floor(Math.random() * (87000 - 1471) + 1471).toLocaleString();
+            }, 3000);
+
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden');
+            });
+
+            document.getElementById('admin-trigger')?.addEventListener('click', async () => {
+                adminClicks++;
+                if (adminClicks >= 5) {
+                    const p = prompt('🔐 Senha Admin:');
+                    const keys = await getAdminKeys();
+                    if (p === keys.key1 || p === keys.key2 || p === 'genins2024') {
+                        document.getElementById('admin-modal').classList.remove('hidden');
+                        document.getElementById('admin-key1-display').textContent = '••••••••';
+                        document.getElementById('admin-key2-display').textContent = keys.key2 ? '••••••••' : 'Não definida';
+                        await loadAdminData();
+                        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                        const ab = document.getElementById(`theme-${currentTheme}`);
+                        if (ab) ab.classList.add('active');
+                    } else {
+                        alert('❌ Senha incorreta!');
+                    }
+                    adminClicks = 0;
+                }
+            });
+
+            console.log('🚀 GENINS INVESTIMENT - Sistema pronto!');
+            console.log('📢 Anúncios carregados:', anunciosAtuais.length, 'banners,', popupsAtuais.length, 'popups');
+        });
     </script>
 </body>
 </html>
